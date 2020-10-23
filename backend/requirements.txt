@@ -8,3 +8,4 @@ email-validator
 databases[postgresql]
 SQLAlchemy
 alembic
+geoalchemy2
