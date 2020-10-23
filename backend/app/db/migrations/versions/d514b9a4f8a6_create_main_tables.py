@@ -79,7 +79,7 @@ def create_areas_monitored_table() -> None:
             BEFORE UPDATE
             ON areas_monitored
             FOR EACH ROW
-        EXECUTE PROCEDURE update_areas_monitoring_modtime();
+        EXECUTE PROCEDURE update_updated_at_column();
         """
     )
 

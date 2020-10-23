@@ -26,7 +26,7 @@ def postgres_container(docker: pydocker.APIClient) -> None:
     """
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     # pull image from docker
-    image = "postgres:12.1-alpine"
+    image = "kartoza/postgis:13.0"
     docker.pull(image)
 
     # create the new container using
