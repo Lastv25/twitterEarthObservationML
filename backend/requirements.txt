@@ -10,6 +10,10 @@ SQLAlchemy
 alembic
 geoalchemy2
 
+# auth
+pyjwt
+passlib[bcrypt]
+
 # dev
 pytest
 pytest-asyncio
