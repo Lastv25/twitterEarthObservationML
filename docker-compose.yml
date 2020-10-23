@@ -13,22 +13,22 @@ services:
       - ./backend/.env
     ports:
       - 8000:8000
+    restart: on-failure
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: kartoza/postgis:13.0
     volumes:
       - postgis_data:/var/lib/postgresql/data/
-    environment:
-      # If you need to create multiple database you can add coma separated databases eg gis,data
-      - POSTGRES_DB=gis
-      - POSTGRES_USER=docker
-      - POSTGRES_PASS=docker
-      - ALLOW_IP_RANGE=0.0.0.0/0
-      # Add extensions you need to be enabled by default in the DB. Default are the five specified below
-      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
+    env_file:
+      - ./backend/.env
     ports:
       - 5432:5432
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
+
 volumes:
     postgis_data:

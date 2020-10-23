@@ -2,4 +2,4 @@
 # Byte-compiled files
 __pycache__/
 # Environment files
-.env
+backend/.env
