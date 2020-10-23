@@ -2,6 +2,7 @@ import string
 from typing import Optional
 from pydantic import EmailStr, constr, validator
 from app.models.core import DateTimeModelMixin, IDModelMixin, CoreModel
+from app.models.token import AccessToken
 
 class UserBase(CoreModel):
     """
@@ -43,4 +44,4 @@ class UserInDB(IDModelMixin, DateTimeModelMixin, UserBase):
     salt: str
 
 class UserPublic(IDModelMixin, DateTimeModelMixin, UserBase):
-    pass
+    access_token: Optional[AccessToken]
