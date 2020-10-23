@@ -9,3 +9,11 @@ databases[postgresql]
 SQLAlchemy
 alembic
 geoalchemy2
+
+# dev
+pytest
+pytest-asyncio
+pytest-xdist
+httpx
+asgi-lifespan
+docker
