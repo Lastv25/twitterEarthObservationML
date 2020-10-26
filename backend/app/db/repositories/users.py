@@ -1,6 +1,6 @@
 from pydantic import EmailStr
 from fastapi import HTTPException
-from starlette.status import HTTP_400_BAD_REQUEST
+from starletteimport status
 from databases import Database
 from app.db.repositories.base import BaseRepository
 from app.models.user import UserCreate, UserUpdate, UserInDB
