@@ -1,6 +1,6 @@
 from pydantic import EmailStr
 from fastapi import HTTPException
-from starletteimport status
+from starlette import status
 from databases import Database
 from app.db.repositories.base import BaseRepository
 from app.models.user import UserCreate, UserUpdate, UserInDB
