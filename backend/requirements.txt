@@ -3,6 +3,7 @@ fastapi
 uvicorn
 pydantic
 email-validator
+python-multipart
 
 # db
 databases[postgresql]

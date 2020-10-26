@@ -19,13 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba18b7e3-c4da-4f32-a645-2ad3f613bccd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/db/repositories/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/db/repositories/users.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/services/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/services/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/services/authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/services/authentication.py" afterDir="false" />
-    </list>
+    <list default="true" id="ba18b7e3-c4da-4f32-a645-2ad3f613bccd" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
