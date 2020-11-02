@@ -11,7 +11,7 @@ import logging
 
 # we're appending the app directory to our path here so that we can import config easily
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[3]))
-from app.core.config import DATABASE_URL, POSTGRES_DB, POSTGRES_EXTENSIONS  # noqa
+from app.core.config import DATABASE_URL, POSTGRES_DB,DATABASE_URL_test, POSTGRES_EXTENSIONS  # noqa
 
 # Alembic Config object, which provides access to values within the .ini file
 config = alembic.context.config
@@ -36,9 +36,13 @@ def run_migrations_online() -> None:
         with default_engine.connect() as default_conn:
             default_conn.execute(f"DROP DATABASE IF EXISTS {POSTGRES_DB}{db_suffix}")
             default_conn.execute(f"CREATE DATABASE {POSTGRES_DB}{db_suffix}")
-            for extension in POSTGRES_EXTENSIONS.split(','):
-                default_conn.execute(f"CREATE EXTENSION IF NOT EXISTS {extension}")
+            default_conn.execute(f'alter database {POSTGRES_DB}{db_suffix} set search_path = "$user", public, topology ')
 
+        # connect to testing db
+        test_engine = create_engine(str(DATABASE_URL_test), isolation_level="AUTOCOMMIT")
+        with test_engine.connect() as test_conn:
+            for extension in POSTGRES_EXTENSIONS.split(','):
+                test_conn.execute(f"CREATE EXTENSION {extension}")
 
     connectable = config.attributes.get("connection", None)
     config.set_main_option("sqlalchemy.url", str(db_url))
