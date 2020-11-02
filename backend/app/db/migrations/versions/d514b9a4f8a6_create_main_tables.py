@@ -6,7 +6,7 @@ Create Date: 2020-10-23 09:22:02.619057
 from typing import Tuple
 from alembic import op
 import sqlalchemy as sa
-import geoalchemy2 as geo
+from geoalchemy2.types import Geometry
 
 # revision identifiers, used by Alembic
 revision = 'd514b9a4f8a6'
@@ -69,7 +69,7 @@ def create_areas_monitored_table() -> None:
         "areas_monitored",
         sa.Column("id", sa.Integer, primary_key=True),
         sa.Column("user_id", sa.Integer, nullable=False, index=True),
-        sa.Column("coordinates", geo.Geometry('POINT'), nullable=True),
+        sa.Column("coordinates", Geometry(geometry_type='POINT', srid=4326), nullable=True),
         sa.Column("notifications", sa.Boolean(), nullable=False, server_default="False"),
         *timestamps(),
     )

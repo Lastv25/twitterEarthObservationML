@@ -1,7 +1,8 @@
 from typing import Optional
 from enum import Enum
 from app.models.core import IDModelMixin, CoreModel
-import geoalchemy2 as geo
+from geoalchemy2.types import Geometry
+
 
 
 class AreasMonitoringType(str, Enum):
@@ -12,10 +13,10 @@ class AreasMonitoringBase(CoreModel):
     All common characteristics of our Areas monitoring resource
     """
     __tablename__ = 'areas_monitored'
-    coordinates: Optional[geo.Geometry('POINT')]
+    coordinates: Optional[Geometry(geometry_type='POINT')]
 
 class CleaningCreate(AreasMonitoringBase):
-    coordinates: geo.Geometry('POINT')
+    coordinates: Geometry(geometry_type='POINT')
 
 class CleaningUpdate(AreasMonitoringBase):
     pass
