@@ -38,6 +38,7 @@ def run_migrations_online() -> None:
             default_conn.execute(f"CREATE DATABASE {POSTGRES_DB}{db_suffix}")
             for extension in POSTGRES_EXTENSIONS.split(','):
                 default_conn.execute(f"CREATE EXTENSION IF NOT EXISTS {extension}")
+            default_conn.execute(f'SET search_path = "$user", public, topology')
 
 
     connectable = config.attributes.get("connection", None)
