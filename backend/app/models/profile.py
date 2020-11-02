@@ -4,6 +4,7 @@ from app.models.core import DateTimeModelMixin, IDModelMixin, CoreModel
 
 
 class ProfileBase(CoreModel):
+    __tablename__ = 'profile'
     full_name: Optional[str]
     collections_ids: Optional[str]
 

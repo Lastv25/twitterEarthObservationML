@@ -1,32 +1,27 @@
 from typing import Optional
 from enum import Enum
 from app.models.core import IDModelMixin, CoreModel
-
+import geoalchemy2 as geo
 
 
 class AreasMonitoringType(str, Enum):
     pass
 
-class CleaningBase(CoreModel):
+class AreasMonitoringBase(CoreModel):
     """
     All common characteristics of our Areas monitoring resource
     """
-    name: Optional[str]
-    description: Optional[str]
-    price: Optional[float]
-    cleaning_type: Optional[CleaningType] = "spot_clean"
+    __tablename__ = 'areas_monitored'
+    coordinates: Optional[geo.Geometry('POINT')]
 
-class CleaningCreate(CleaningBase):
-    name: str
-    price: float
+class CleaningCreate(AreasMonitoringBase):
+    coordinates: geo.Geometry('POINT')
 
-class CleaningUpdate(CleaningBase):
-    cleaning_type: Optional[CleaningType]
+class CleaningUpdate(AreasMonitoringBase):
+    pass
 
-class CleaningInDB(IDModelMixin, CleaningBase):
-    name: str
-    price: float
-    cleaning_type: CleaningType
+class CleaningInDB(IDModelMixin, AreasMonitoringBase):
+    pass
 
-class CleaningPublic(IDModelMixin, CleaningBase):
+class CleaningPublic(IDModelMixin, AreasMonitoringBase):
     pass

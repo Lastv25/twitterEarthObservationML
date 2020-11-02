@@ -10,6 +10,7 @@ class UserBase(CoreModel):
     """
     Leaving off password and salt from base model
     """
+    __tablename__ = 'user'
     email: Optional[EmailStr]
     username: Optional[str]
     email_verified: bool = False
