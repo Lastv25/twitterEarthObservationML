@@ -30,13 +30,13 @@ def postgres_container(docker: pydocker.APIClient) -> None:
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     # pull image from docker
     image = "kartoza/postgis:13.0"
-    docker.pull(image)
+    #docker.pull(image)
 
     # create the new container using
     # the same image used by our database
     container = docker.create_container(
         image=image,
-        name=f"test-postgres-{uuid.uuid4()}",
+        name=f"test-postgis-{uuid.uuid4()}",
         detach=True,
     )
     docker.start(container=container["Id"])

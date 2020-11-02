@@ -91,20 +91,9 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="595" y="214" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1603461744108">
+    <state x="595" y="214" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1604307000159">
       <screen x="0" y="23" width="1920" height="1032" />
     </state>
-    <state x="595" y="214" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.1032@0.23.1920.1032" timestamp="1603461744108" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main.py</url>
-          <line>8</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="595" y="214" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.23.1920.1032@0.23.1920.1032" timestamp="1604307000159" />
   </component>
 </project>
