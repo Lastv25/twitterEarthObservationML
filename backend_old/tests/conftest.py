@@ -9,10 +9,7 @@ from httpx import AsyncClient
 from databases import Database
 import alembic
 from alembic.config import Config
-from app.models.user import UserCreate, UserInDB
-from app.db.repositories.users import UsersRepository
-from app.core.config import SECRET_KEY, JWT_TOKEN_PREFIX
-from app.services import auth_service
+
 
 @pytest.fixture(scope="session")
 def docker() -> pydocker.APIClient:
@@ -36,7 +33,7 @@ def postgres_container(docker: pydocker.APIClient) -> None:
     # the same image used by our database
     container = docker.create_container(
         image=image,
-        name=f"test-postgis-{uuid.uuid4()}",
+        name=f"test-postgres-{uuid.uuid4()}",
         detach=True,
     )
     docker.start(container=container["Id"])
@@ -76,25 +73,3 @@ async def client(app: FastAPI) -> AsyncClient:
                 headers={"Content-Type": "application/json"}
         ) as client:
             yield client
-
-@pytest.fixture
-async def test_user(db: Database) -> UserInDB:
-    new_user = UserCreate(
-        email="lebron@james.io",
-        username="lebronjames",
-        password="heatcavslakers",
-    )
-    user_repo = UsersRepository(db)
-    existing_user = await user_repo.get_user_by_email(email=new_user.email)
-    if existing_user:
-        return existing_user
-    return await user_repo.register_new_user(new_user=new_user)
-
-@pytest.fixture
-def authorized_client(client: AsyncClient, test_user: UserInDB) -> AsyncClient:
-    access_token = auth_service.create_access_token_for_user(user=test_user, secret_key=str(SECRET_KEY))
-    client.headers = {
-        **client.headers,
-        "Authorization": f"{JWT_TOKEN_PREFIX} {access_token}",
-    }
-    return client
