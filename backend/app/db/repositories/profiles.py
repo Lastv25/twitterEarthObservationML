@@ -2,12 +2,12 @@ from app.db.repositories.base import BaseRepository
 from app.models.profile import ProfileCreate, ProfileUpdate, ProfileInDB
 
 CREATE_PROFILE_FOR_USER_QUERY = """
-    INSERT INTO profiles (full_name, phone_number, bio, image, user_id)
-    VALUES (:full_name, :phone_number, :bio, :image, :user_id)
-    RETURNING id, full_name, phone_number, bio, image, user_id, created_at, updated_at;
+    INSERT INTO profiles (full_name, phone_number, bio, image,collections, user_id)
+    VALUES (:full_name, :phone_number, :bio, :image,:collections, :user_id)
+    RETURNING id, full_name, phone_number, bio, image,collections, user_id, created_at, updated_at;
 """
 GET_PROFILE_BY_USER_ID_QUERY = """
-    SELECT id, full_name, phone_number, bio, image, user_id, created_at, updated_at
+    SELECT id, full_name, phone_number, bio, image,collections, user_id, created_at, updated_at
     FROM profiles
     WHERE user_id = :user_id;
 """

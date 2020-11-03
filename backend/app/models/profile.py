@@ -7,6 +7,7 @@ class ProfileBase(CoreModel):
     phone_number: Optional[constr(regex="^\d{1,3}-\d{1,3}?-\d{1,4}?$")]
     bio: Optional[str]
     image: Optional[HttpUrl]
+    collections: Optional[str]
 
 class ProfileCreate(ProfileBase):
     """
