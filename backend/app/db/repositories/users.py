@@ -6,6 +6,7 @@ from app.db.repositories.base import BaseRepository
 from app.models.user import UserCreate, UserUpdate, UserInDB
 from app.services import auth_service
 
+
 GET_USER_BY_EMAIL_QUERY = """
     SELECT id, username, email, email_verified, password, salt, is_active, is_superuser, created_at, updated_at
     FROM users
