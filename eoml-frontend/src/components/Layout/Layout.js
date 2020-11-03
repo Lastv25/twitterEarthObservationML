@@ -30,7 +30,7 @@ export default function Layout({ children }) {
     <React.Fragment>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Phresh Cleaners</title>
+        <title>Earth Monitoring</title>
         <link rel="canonical" href="https://phreshcleaners.com" />
       </Helmet>
       <ThemeProvider theme={customTheme}>

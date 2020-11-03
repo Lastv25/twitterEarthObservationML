@@ -1,29 +1,62 @@
-import React from "react"
+import React from 'react';
+import styled from "styled-components"
 import {
   EuiPage,
   EuiPageBody,
   EuiPageContent,
-  EuiFlexGroup,
-  EuiFlexItem,
-} from "@elastic/eui"
-import styled from "styled-components"
+  EuiPageContentBody,
+  EuiPageContentHeader,
+  EuiPageContentHeaderSection,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiPageSideBar,
+  EuiTitle,
+} from '@elastic/eui';
+
 const StyledEuiPage = styled(EuiPage)`
   flex: 1;
 `
 const StyledEuiPageContent = styled(EuiPageContent)`
   border-radius: 50%;
 `
+const StyledEuiPageContentBody = styled(EuiPageContentBody)`
+  max-width: 400px;
+  max-height: 400px;
+  & > img {
+    width: 100%;
+    border-radius: 50%;
+  }
+`
+
+
 export default function LandingPage(props) {
-  return (
-    <StyledEuiPage>
-      <EuiPageBody component="section">
-        <EuiFlexGroup>
-          <EuiFlexItem>
-            <StyledEuiPageContent horizontalPosition="center" verticalPosition="center">
-            </StyledEuiPageContent>
-          </EuiFlexItem>
-        </EuiFlexGroup>
-      </EuiPageBody>
-    </StyledEuiPage>
-  )
-}
+    return (
+      <StyledEuiPage>
+        <EuiPageSideBar>Filters for the map</EuiPageSideBar>
+        {/* The EUI docs site  already has a wrapping <main> tag, so we've changed this example to a <div> for accessibility. You likely don't need to copy the `component` prop for your own usage. */}
+        <EuiPageBody component="div">
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>Earth Monitoring App</h1>
+              </EuiTitle>
+            </EuiPageHeaderSection>
+            <EuiPageHeaderSection>Login button placement</EuiPageHeaderSection>
+          </EuiPageHeader>
+          <StyledEuiPageContent horizontalPosition="center" verticalPosition="center">
+            <EuiPageContentHeader>
+              <EuiPageContentHeaderSection>
+                <EuiTitle>
+                  <h2>Landing Page</h2>
+                </EuiTitle>
+              </EuiPageContentHeaderSection>
+              <EuiPageContentHeaderSection>
+                Content abilities
+              </EuiPageContentHeaderSection>
+            </EuiPageContentHeader>
+            <StyledEuiPageContentBody>Content body</StyledEuiPageContentBody>
+          </StyledEuiPageContent>
+        </EuiPageBody>
+      </StyledEuiPage>
+    )
+  }
