@@ -5,9 +5,11 @@ import {
   EuiForm,
   EuiSpacer,
   EuiRadioGroup,
+  EuiDatePicker,
+  EuiFormRow
 } from '@elastic/eui';
 
-
+import moment from 'moment';
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 
 const idPrefix = htmlIdGenerator()();
@@ -40,7 +42,13 @@ export default function DisasterForm (props) {
     const [radioIdSelected, setRadioIdSelected] = useState(`${idPrefix}0`);
 
     const onChange = (optionId) => {
-    setRadioIdSelected(optionId);
+        setRadioIdSelected(optionId);
+    };
+
+    const [startDate, setStartDate] = useState(moment());
+
+    const handleChange = (date) => {
+       setStartDate(date);
     };
   return (
     /* DisplayToggles wrapper for Docs only */
@@ -57,6 +65,16 @@ export default function DisasterForm (props) {
           children: <span>List of events that can currently be monitored through this application</span>,
         }}
       />
+
+      <EuiSpacer />
+
+      <EuiFormRow label="From date">
+        <EuiDatePicker selected={startDate} onChange={handleChange} />
+      </EuiFormRow>
+
+      <EuiFormRow label="To date">
+        <EuiDatePicker selected={startDate} onChange={handleChange} />
+      </EuiFormRow>
 
       <EuiSpacer />
 
