@@ -2,7 +2,6 @@ import React from "react"
 import { connect } from "react-redux"
 import {
   EuiAvatar,
-  EuiHorizontalRule,
   EuiIcon,
   EuiPage,
   EuiPageBody,
@@ -10,23 +9,17 @@ import {
   EuiPageContentBody,
   EuiPageHeader,
   EuiPageHeaderSection,
+  EuiPageContentHeader,
+  EuiPageContentHeaderSection,
   EuiTitle,
-  EuiText
+  EuiText,
+  EuiPageSideBar,
+  EuiButton,
+  EuiFlexItem,
 } from "@elastic/eui"
 import moment from "moment"
 import styled from "styled-components"
-const StyledEuiPage = styled(EuiPage)`
-  flex: 1;
-`
-const StyledEuiPageHeader = styled(EuiPageHeader)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem;
-  & h1 {
-    font-size: 3.5rem;
-  }
-`
+
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   display: flex;
   flex-direction: column;
@@ -36,18 +29,10 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   }
 `
 function ProfilePage({ user }) {
-  return (
-    <StyledEuiPage>
-      <EuiPageBody component="section">
-        <StyledEuiPageHeader>
-          <EuiPageHeaderSection>
-            <EuiTitle size="l">
-              <h1>Profile</h1>
-            </EuiTitle>
-          </EuiPageHeaderSection>
-        </StyledEuiPageHeader>
-        <EuiPageContent verticalPosition="center" horizontalPosition="center">
-          <StyledEuiPageContentBody>
+return (
+        <EuiPage>
+        <EuiPageSideBar>
+        <StyledEuiPageContentBody>
             <EuiAvatar
               size="xl"
               name={user.profile.full_name || user.username || "Anonymous"}
@@ -55,7 +40,7 @@ function ProfilePage({ user }) {
               imageUrl={user.profile.image}
             />
             <EuiTitle size="l">
-              <h2>@{user.username}</h2>
+              <h2>{user.username}</h2>
             </EuiTitle>
             <EuiText>
               <p>
@@ -65,23 +50,45 @@ function ProfilePage({ user }) {
                 <EuiIcon type="clock" /> member since {moment(user.created_at).format("MM-DD-YYYY")}
               </p>
               <p>
-                <EuiIcon type="alert" />{" "}
-                {user.profile.full_name ? user.profile.full_name : "Full name not specified"}
-              </p>
-              <p>
-                <EuiIcon type="number" />{" "}
-                {user.profile.phone_number ? user.profile.phone_number : "No phone number added"}
-              </p>
-              <EuiHorizontalRule />
-              <p>
-                <EuiIcon type="quote" />{" "}
-                {user.profile.bio ? user.profile.bio : "This user hasn't written a bio yet"}
+                <EuiIcon type="node" /> notifications {moment(user.created_at).format("MM-DD-YYYY")}
               </p>
             </EuiText>
           </StyledEuiPageContentBody>
-        </EuiPageContent>
-      </EuiPageBody>
-    </StyledEuiPage>
-  )
+        </EuiPageSideBar>
+        <EuiPageBody component="div">
+          <EuiPageHeader>
+            <EuiPageHeaderSection>
+              <EuiTitle size="l">
+                <h1>Please find in this page all your informations and collections</h1>
+              </EuiTitle>
+            </EuiPageHeaderSection>
+            <EuiPageHeaderSection>
+               <EuiFlexItem grow={false}>
+                  <EuiButton fill onClick={() => {}}>
+                      Modify Profile
+                  </EuiButton>
+               </EuiFlexItem>
+            </EuiPageHeaderSection>
+          </EuiPageHeader>
+          <EuiPageContent>
+            <EuiPageContentHeader>
+              <EuiPageContentHeaderSection>
+                <EuiTitle>
+                  <h2>Collections</h2>
+                </EuiTitle>
+              </EuiPageContentHeaderSection>
+              <EuiPageContentHeaderSection>
+                <EuiFlexItem grow={false}>
+                  <EuiButton color="secondary" fill onClick={() => {}}>
+                      New Collection
+                  </EuiButton>
+               </EuiFlexItem>
+              </EuiPageContentHeaderSection>
+            </EuiPageContentHeader>
+            <EuiPageContentBody>Content body</EuiPageContentBody>
+          </EuiPageContent>
+        </EuiPageBody>
+      </EuiPage>
+    )
 }
 export default connect((state) => ({ user: state.auth.user }))(ProfilePage)
