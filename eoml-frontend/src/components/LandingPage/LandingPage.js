@@ -43,6 +43,9 @@ export default function LandingPage(props) {
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>Login button placement</EuiPageHeaderSection>
           </EuiPageHeader>
+
+           <StyledEuiPageContentBody>Hello and welcome to our app. Here is a map of Natural disaters based on the filters form</StyledEuiPageContentBody>
+
           <StyledEuiPageContent horizontalPosition="center" verticalPosition="center">
             <EuiPageContentHeader>
               <EuiPageContentHeaderSection>
