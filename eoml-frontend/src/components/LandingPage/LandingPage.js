@@ -20,17 +20,6 @@ import { DisasterForm, MapComponent } from "../../components"
 const StyledEuiPage = styled(EuiPage)`
   flex: 1;
 `
-const StyledEuiPageContent = styled(EuiPageContent)`
-  border-radius: 50%;
-`
-const StyledEuiPageContentBody = styled(EuiPageContentBody)`
-  max-width: 400px;
-  max-height: 400px;
-  & > img {
-    width: 100%;
-    border-radius: 50%;
-  }
-`
 
 
 export default function LandingPage({ user, ...props }) {
