@@ -10,7 +10,10 @@ export { default as MapComponent } from "./Map/Map"
 
 
 export { default as LoginPage } from "./LoginPage/LoginPage"
+export { default as LoginForm } from "./LoginForm/LoginForm"
 
+export { default as RegistrationPage } from "./RegistrationPage/RegistrationPage"
+export { default as RegistrationForm } from "./RegistrationForm/RegistrationForm"
 
 export { default as ProfilePage } from "./ProfilePage/ProfilePage"
 
