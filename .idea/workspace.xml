@@ -20,8 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba18b7e3-c4da-4f32-a645-2ad3f613bccd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/LandingPage/LandingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/LandingPage/LandingPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/Map/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/Map/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/LoginPage/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/LoginPage/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/ProfilePage/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/ProfilePage/ProfilePage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
