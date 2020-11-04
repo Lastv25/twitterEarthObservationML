@@ -13,6 +13,9 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 
+import { DisasterForm } from "../../components"
+
+
 const StyledEuiPage = styled(EuiPage)`
   flex: 1;
 `
@@ -32,7 +35,12 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
 export default function LandingPage(props) {
     return (
       <StyledEuiPage>
-        <EuiPageSideBar>Filters for the map</EuiPageSideBar>
+        <EuiPageSideBar>
+            <EuiPageContent>
+                <h2>Filters for the map</h2>
+                <DisasterForm />
+            </EuiPageContent>
+        </EuiPageSideBar>
         {/* The EUI docs site  already has a wrapping <main> tag, so we've changed this example to a <div> for accessibility. You likely don't need to copy the `component` prop for your own usage. */}
         <EuiPageBody component="div">
           <EuiPageHeader>
