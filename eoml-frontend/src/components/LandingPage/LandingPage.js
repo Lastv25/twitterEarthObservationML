@@ -4,7 +4,6 @@ import {
   EuiPage,
   EuiPageBody,
   EuiPageContent,
-  EuiPageContentBody,
   EuiPageHeader,
   EuiPageHeaderSection,
   EuiPageSideBar,
