@@ -13,6 +13,7 @@ import {
 } from "@elastic/eui"
 import { Link } from "react-router-dom"
 import validation from "../../utils/validation"
+import { extractErrorMessages } from "../../utils/errors"
 import { htmlIdGenerator } from "@elastic/eui/lib/services"
 import styled from "styled-components"
 
@@ -32,7 +33,9 @@ function RegistrationForm({ authError, user, isLoading, isAuthenticated, registe
   })
   const [agreedToTerms, setAgreedToTerms] = React.useState(false)
   const [errors, setErrors] = React.useState({})
+  const [hasSubmitted, setHasSubmitted] = React.useState(false)
   const navigate = useNavigate()
+  const authErrorList = extractErrorMessages(authError)
 
   // if the user is already authenticated, redirect them to the "/profile" page
   React.useEffect(() => {
@@ -90,6 +93,7 @@ function RegistrationForm({ authError, user, isLoading, isAuthenticated, registe
       return
     }
 
+    setHasSubmitted(true)
     const action = await registerUser({
       username: form.username,
       email: form.email,
@@ -99,14 +103,24 @@ function RegistrationForm({ authError, user, isLoading, isAuthenticated, registe
       setForm((form) => ({ ...form, password: "", passwordConfirm: "" }))
     }
   }
+  const getFormErrors = () => {
+    const formErrors = []
+    if (errors.form) {
+      formErrors.push(errors.form)
+    }
+    if (hasSubmitted && authErrorList.length) {
+      return formErrors.concat(authErrorList)
+    }
+    return formErrors
+  }
 
   return (
     <RegistrationFormWrapper>
       <EuiForm
         component="form"
         onSubmit={handleSubmit}
-        isInvalid={Boolean(errors.form)}
-        error={[errors.form]}
+        isInvalid={Boolean(getFormErrors().length)}
+        error={getFormErrors()}
       >
         <EuiFormRow
           label="Email"
