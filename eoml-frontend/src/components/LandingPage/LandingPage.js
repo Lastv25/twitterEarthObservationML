@@ -13,7 +13,7 @@ import {
   EuiTitle,
 } from '@elastic/eui';
 
-import { DisasterForm } from "../../components"
+import { DisasterForm, MapComponent } from "../../components"
 
 
 const StyledEuiPage = styled(EuiPage)`
@@ -54,19 +54,9 @@ export default function LandingPage(props) {
 
            <StyledEuiPageContentBody>Hello and welcome to our app. Here is a map of Natural disaters based on the filters form</StyledEuiPageContentBody>
 
-          <StyledEuiPageContent horizontalPosition="center" verticalPosition="center">
-            <EuiPageContentHeader>
-              <EuiPageContentHeaderSection>
-                <EuiTitle>
-                  <h2>Landing Page</h2>
-                </EuiTitle>
-              </EuiPageContentHeaderSection>
-              <EuiPageContentHeaderSection>
-                Content abilities
-              </EuiPageContentHeaderSection>
-            </EuiPageContentHeader>
-            <StyledEuiPageContentBody>Content body</StyledEuiPageContentBody>
-          </StyledEuiPageContent>
+          <EuiPageContent>
+            <MapComponent />
+          </EuiPageContent>
         </EuiPageBody>
       </StyledEuiPage>
     )
