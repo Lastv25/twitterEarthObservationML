@@ -5,6 +5,15 @@ from app.models.collections import CollectionPublic
 router = APIRouter()
 
 @router.get("/", response_model=CollectionPublic, name="collections:get-collection-all")
-async def get_collectios_all():
+async def get_collections_all():
     pass
+
+@router.get("/{id}", response_model=CollectionPublic, name="collections:get-collection-by-id")
+async def get_collections_by_id():
+    pass
+
+@router.get("/{user-id}", response_model=CollectionPublic, name="collections:get-collection-by-user-id")
+async def get_collections_by_user_id():
+    pass
+
 
