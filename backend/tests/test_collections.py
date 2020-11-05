@@ -12,8 +12,5 @@ class TestProfilesRoutes:
     """
     async def test_routes_exist(self, app: FastAPI, client: AsyncClient, test_user: UserInDB) -> None:
         # Get collections by username
-        res = await client.get(app.url_path_for("collections:get-collection-by-id", username=test_user.username))
-        assert res.status_code != status.HTTP_404_NOT_FOUND
-        # Update own collection by id
-        res = await client.put(app.url_path_for("profiles:update-own-collection-by-id"), json={"collection_udpate": {}})
+        res = await client.get(app.url_path_for("collections:get-collection-all"))
         assert res.status_code != status.HTTP_404_NOT_FOUND
