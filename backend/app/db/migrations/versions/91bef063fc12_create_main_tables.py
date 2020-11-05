@@ -7,6 +7,7 @@ Create Date: 2020-11-03 10:12:29.828454
 from alembic import op
 import sqlalchemy as sa
 from typing import Tuple
+from geoalchemy2.types import Geometry
 
 # revision identifiers, used by Alembic
 revision = '91bef063fc12'
@@ -77,12 +78,36 @@ def create_profiles_table() -> None:
         EXECUTE PROCEDURE update_updated_at_column();
         """
     )
+def create_collections_table() -> None:
+    op.create_table(
+        "collections",
+        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("full_name", sa.Text, nullable=True),
+        sa.Column("disaster", sa.Text, nullable=True),
+        sa.Column("notification", sa.Boolean(), nullable=True, server_default="False"),
+        sa.Column("aoi", Geometry(geometry_type='POLYGON'), nullable=True),
+        sa.Column("parameters", sa.Text, nullable=True),
+        sa.Column("user_id", sa.Integer, sa.ForeignKey("users.id", ondelete="CASCADE")),
+        *timestamps(),
+    )
+    op.execute(
+        """
+        CREATE TRIGGER update_collections_modtime
+            BEFORE UPDATE
+            ON profiles
+            FOR EACH ROW
+        EXECUTE PROCEDURE update_updated_at_column();
+        """
+    )
+
 def upgrade() -> None:
     create_updated_at_trigger()
     create_users_table()
     create_profiles_table()
+    create_collections_table()
 
 def downgrade() -> None:
+    op.drop_table("collections")
     op.drop_table("profiles")
     op.drop_table("users")
     op.execute("DROP FUNCTION update_updated_at_column")
