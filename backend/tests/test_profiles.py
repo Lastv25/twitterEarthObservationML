@@ -2,7 +2,6 @@ import pytest
 from databases import Database
 from fastapi import FastAPI, status
 from httpx import AsyncClient
-from app.models.user import UserInDB
 from app.models.user import UserInDB, UserPublic
 from app.models.profile import ProfileInDB, ProfilePublic
 from app.db.repositories.profiles import ProfilesRepository
