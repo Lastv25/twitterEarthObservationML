@@ -5,7 +5,9 @@ from httpx import AsyncClient
 from app.models.user import UserInDB
 
 from app.db.repositories.collections import CollectionsRepository
-from app.models.collections import CollectionPublic, CollectionCreate
+from app.models.collections import CollectionPublic, CollectionCreate, CollectionInDB
+
+from typing import Dict,Union, List
 
 pytestmark = pytest.mark.asyncio
 
@@ -18,6 +20,24 @@ def new_collection():
         aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
         parameters="paramfun",
     )
+
+@pytest.fixture
+async def test_collection_list(db: Database, test_user2: UserInDB) -> List[CollectionInDB]:
+    collection_repo = CollectionsRepository(db)
+    return [
+        await collection_repo.create_collection_for_user(
+            collection_create=CollectionCreate(
+        full_name=f"test {i}",
+        disaster="hello",
+        notification=False,
+        aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
+        parameters="paramfun",
+        ),
+            requesting_user=test_user2,
+        )
+        for i in range(5)
+    ]
+
 
 class TestCollectionsRoutes:
     """
@@ -67,17 +87,25 @@ class TestCollectionCreate:
             assert res.status_code == status.HTTP_401_UNAUTHORIZED
 
 
-# class TestCollectionGetters:
-#
-#     async def test_get_all_collections_for_a_user(self, app: FastAPI, client: AsyncClient, db: Database) -> None:
-#         collection_repo = CollectionsRepository(db)
-#         new_user = {"email": "dwayne@johnson.io", "username": "therock", "password": "dwaynetherockjohnson"}
-#         res = await client.post(app.url_path_for("users:register-new-user"), json={"new_user": new_user})
-#         assert res.status_code == status.HTTP_201_CREATED
-#         new_collection = {"full_name": "thisisatest", "disaster": "creation"}
-#         create_collection = await client.post(app.url_path_for("collections:update-collection-for-user_by_id"), json={"new_collection": new_collection})
-#         assert create_collection.status_code == status.HTTP_201_CREATED
-#         new_collection2 = {"full_name": "thisisatest2", "disaster": "creation"}
-#         create_collection2 = await client.post(app.url_path_for("collections:update-collection-for-user_by_id"),
-#                                               json={"new_collection": new_collection2})
-#         assert create_collection2.status_code == status.HTTP_201_CREATED
+class TestCollectionGetters:
+    async def test_get_all_collections_returns_only_user_owned_collections(
+        self,
+        app: FastAPI,
+        authorized_client: AsyncClient,
+        test_user: UserInDB,
+        db: Database,
+        test_collection: CollectionInDB,
+        test_collection_list: List[CollectionInDB],
+    ) -> None:
+        res = await authorized_client.get(app.url_path_for("collections:get-all-collections-for-user"))
+        assert res.status_code == status.HTTP_200_OK
+        assert isinstance(res.json(), list)
+        assert len(res.json()) > 0
+        collections = [CollectionInDB(**l) for l in res.json()]
+        # check that a collections created by our user is returned
+        assert test_collection in collections
+        # test that all collections returned are owned by this user
+        for collection in collections:
+            assert collection.user_id == test_user.id
+        # assert all collections created by another user not included (redundant, but fine)
+        assert all(c not in collections for c in test_collection_list)

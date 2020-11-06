@@ -9,6 +9,8 @@ from httpx import AsyncClient
 from databases import Database
 import alembic
 from alembic.config import Config
+from app.models.collections import CollectionInDB, CollectionCreate
+from app.db.repositories.collections import CollectionsRepository
 from app.models.user import UserCreate, UserInDB
 from app.db.repositories.users import UsersRepository
 from app.core.config import SECRET_KEY, JWT_TOKEN_PREFIX
@@ -111,3 +113,15 @@ async def test_user2(db: Database) -> UserInDB:
     if existing_user:
         return existing_user
     return await user_repo.register_new_user(new_user=new_user)
+
+@pytest.fixture
+async def test_collection(db: Database, test_user: UserInDB) -> CollectionInDB:
+    collection_repo = CollectionsRepository(db)
+    new_collection = CollectionCreate(
+        full_name="fixture_test",
+        disaster="hello",
+        notification=False,
+        aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
+        parameters="paramfun",
+    )
+    return await collection_repo.create_collection_for_user(collection_create=new_collection, requesting_user=test_user)

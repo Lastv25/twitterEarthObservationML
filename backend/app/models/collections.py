@@ -34,9 +34,3 @@ class CollectionInDB(IDModelMixin, DateTimeModelMixin, CollectionBase):
 
 class CollectionPublic(CollectionInDB):
     pass
-
-class ListCollections(CoreModel):
-    """
-        Container object for Collections
-    """
-    collections: List[CollectionPublic]

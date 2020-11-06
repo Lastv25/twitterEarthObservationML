@@ -1,25 +1,25 @@
 from app.db.repositories.collections import CollectionsRepository
 from fastapi import Depends, APIRouter, HTTPException, Path, Body, status
-from app.models.collections import CollectionCreate, CollectionPublic, ListCollections
+from app.models.collections import CollectionCreate, CollectionPublic
 from app.api.dependencies.auth import get_current_active_user
 from app.api.dependencies.database import get_repository
 from app.models.user import UserInDB
 from starlette.status import HTTP_201_CREATED
+from typing import List
 
 router = APIRouter()
 
-@router.get("/", response_model=ListCollections, name="collections:get-collection-all")
+@router.get("/", response_model=List[CollectionPublic], name="collections:get-collection-all")
 async def get_collections_all():
     pass
 
 
-@router.get("/{user-id}/", response_model=ListCollections, name="collections:get-all-collections-for-user")
-async def get_collections_by_user_id(
+@router.get("/{user-id}/", response_model=List[CollectionPublic], name="collections:get-all-collections-for-user")
+async def list_all_user_collections(
     current_user: UserInDB = Depends(get_current_active_user),
-    collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository))
-) -> ListCollections:
-    user_collections = await collection_repo.get_all_collections_by_user_id(requesting_user=current_user)
-    return user_collections
+    collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository)),
+) -> List[CollectionPublic]:
+    return await collection_repo.list_all_user_collections(requesting_user=current_user)
 
 @router.get("/{user-id}/{collection-id}/", response_model=CollectionPublic, name="collections:get-collection-for-user-by-id")
 async def get_collections_by_id():
