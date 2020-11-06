@@ -4,6 +4,8 @@ from fastapi import FastAPI, status
 from httpx import AsyncClient
 from app.models.user import UserInDB
 
+from app.db.repositories.collections import CollectionsRepository
+
 pytestmark = pytest.mark.asyncio
 
 class TestCollectionsRoutes:
@@ -19,13 +21,13 @@ class TestCollectionsRoutes:
         assert res_create_new.status_code != status.HTTP_404_NOT_FOUND
 
 
-# class TestCollectionCreate:
-#     async def test_collection_created_for_user(self, app: FastAPI, client: AsyncClient, db: Database) -> None:
-#         profile_repo = CollectionRepository(db)
-#         new_user = {"email": "dwayne@johnson.io", "username": "therock", "password": "dwaynetherockjohnson"}
-#         res = await client.post(app.url_path_for("users:register-new-user"), json={"new_user": new_user})
-#         assert res.status_code == status.HTTP_201_CREATED
-#         created_user = UserPublic(**res.json())
-#         user_profile = await profile_repo.get_profile_by_user_id(user_id=created_user.id)
-#         assert user_profile is not None
-#         assert isinstance(user_profile, ProfileInDB)
+class TestCollectionCreate:
+    async def test_collection_created_for_user(self, app: FastAPI, client: AsyncClient, db: Database) -> None:
+        collection_repo = CollectionsRepository(db)
+        new_collection = {"full_name": "test_collection", "disaster": "wildfire", "user_id": "1"}
+        res = await client.post(app.url_path_for("users:register-new-user"), json={"new_collection": new_collection})
+        assert res.status_code == status.HTTP_201_CREATED
+        # created_user = UserPublic(**res.json())
+        # user_profile = await profile_repo.get_profile_by_user_id(user_id=created_user.id)
+        # assert user_profile is not None
+        # assert isinstance(user_profile, ProfileInDB)
