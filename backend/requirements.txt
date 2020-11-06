@@ -4,6 +4,7 @@ uvicorn
 pydantic
 email-validator
 python-multipart
+shapely
 
 # db
 databases[postgresql]
