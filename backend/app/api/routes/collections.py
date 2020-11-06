@@ -8,15 +8,15 @@ router = APIRouter()
 async def get_collections_all():
     pass
 
-@router.get("/{id}", response_model=CollectionPublic, name="collections:get-collection-by-id")
+@router.get("/{id}/", response_model=CollectionPublic, name="collections:get-collection-by-id")
 async def get_collections_by_id():
     pass
 
-@router.get("/{user-id}", response_model=CollectionPublic, name="collections:get-collection-by-user-id")
+@router.get("/{user-id}/", response_model=CollectionPublic, name="collections:get-collection-by-user-id")
 async def get_collections_by_user_id():
     pass
 
 
-@router.put("/{user-id}", response_model=CollectionPublic, name="collections:create-collection-for-user")
+@router.put("/{user-id}/", response_model=CollectionPublic, name="collections:create-collection-for-user")
 async def create_new_collection_for_user():
     pass
