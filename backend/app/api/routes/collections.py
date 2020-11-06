@@ -17,3 +17,6 @@ async def get_collections_by_user_id():
     pass
 
 
+@router.put("/{user-id}", response_model=CollectionPublic, name="collections:create-collection-for-user")
+async def create_new_collection_for_user():
+    pass
