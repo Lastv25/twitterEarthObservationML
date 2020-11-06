@@ -16,6 +16,12 @@ class TestCollectionsRoutes:
         # Get All collections
         res_get_all = await client.get(app.url_path_for("collections:get-collection-all"))
         assert res_get_all.status_code != status.HTTP_404_NOT_FOUND
+        # Get All collections for a user
+        res_get_all_user = await client.get(app.url_path_for("collections:get-all-collections-for-user"))
+        assert res_get_all_user.status_code != status.HTTP_404_NOT_FOUND
+        # Get a collection for a user by collection id
+        res_get_user_collec = await client.get(app.url_path_for("collections:get-collection-for-user-by-id"))
+        assert res_get_user_collec.status_code != status.HTTP_404_NOT_FOUND
         # Post new collection
         res_create_new = await client.put(app.url_path_for("collections:create-collection-for-user"))
         assert res_create_new.status_code != status.HTTP_404_NOT_FOUND
@@ -38,7 +44,7 @@ class TestCollectionCreate:
         assert create_collection is not None
 
 
-# class TestCollectionUpdate:
+# class TestCollectionGetters:
 #     async def test_collection_updated_for_user_by_id(self, app: FastAPI, client: AsyncClient, db: Database) -> None:
 #         collection_repo = CollectionsRepository(db)
 #         new_user = {"email": "dwayne@johnson.io", "username": "therock", "password": "dwaynetherockjohnson"}
