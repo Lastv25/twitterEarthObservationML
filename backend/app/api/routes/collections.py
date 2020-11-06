@@ -1,13 +1,13 @@
 from app.db.repositories.collections import CollectionsRepository
 from fastapi import Depends, APIRouter, HTTPException, Path, Body, status
-from app.models.collections import CollectionCreate, CollectionPublic
+from app.models.collections import CollectionCreate, CollectionPublic, ListCollections
 from app.api.dependencies.auth import get_current_active_user
 from app.api.dependencies.database import get_repository
 from app.models.user import UserInDB
 
 router = APIRouter()
 
-@router.get("/", response_model=CollectionPublic, name="collections:get-collection-all")
+@router.get("/", response_model=ListCollections, name="collections:get-collection-all")
 async def get_collections_all():
     pass
 

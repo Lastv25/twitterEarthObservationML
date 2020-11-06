@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import validator
 from app.models.core import DateTimeModelMixin, IDModelMixin, CoreModel
 from shapely.wkt import loads
@@ -36,3 +36,9 @@ class CollectionInDB(IDModelMixin, DateTimeModelMixin, CollectionBase):
 
 class CollectionPublic(CollectionBase):
     pass
+
+class ListCollections(CoreModel):
+    """
+        Container object for Collections
+    """
+    collections: List[CollectionPublic]
