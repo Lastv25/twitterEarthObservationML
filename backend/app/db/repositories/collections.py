@@ -6,11 +6,11 @@ from app.models.collections import CollectionCreate, CollectionInDB, ListCollect
 
 CREATE_COLLECTION_FOR_USER_QUERY = """
     INSERT INTO collections (full_name, disaster, notification, aoi,parameters, user_id)
-    VALUES (:full_name, :disaster, :notification, :aoi,parameters, :user_id)
+    VALUES (:full_name, :disaster, :notification, :aoi,:parameters, :user_id)
     RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
 """
 GET_ALL_COLLECTIONS_BY_USER_ID_QUERY = """
-    SELECT id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at
+    SELECT id, full_name, disaster, notification, aoi, parameters, user_id, created_at, updated_at
     FROM collections
     WHERE user_id = :user_id;
 """
@@ -19,10 +19,8 @@ GET_ALL_COLLECTIONS_BY_USER_ID_QUERY = """
 class CollectionsRepository(BaseRepository):
 
     async def create_collection_for_user(self, *, collection_create: CollectionCreate, requesting_user: UserInDB) -> CollectionInDB:
-        values_dict = collection_create.dict()
-        values_dict['user_id'] = UserInDB.profile.user_id
-        created_collection = await self.db.fetch_one(query=CREATE_COLLECTION_FOR_USER_QUERY, values=values_dict)
-        return created_collection
+        created_collection = await self.db.fetch_one(query=CREATE_COLLECTION_FOR_USER_QUERY, values={**collection_create.dict(), "user_id": requesting_user.id})
+        return CollectionInDB(**created_collection)
 
     async def get_all_collections_by_user_id(self, *, user_id: int) -> ListCollections:
         collections_records = await self.db.fetch_one(query=GET_ALL_COLLECTIONS_BY_USER_ID_QUERY, values={"user_id": user_id})

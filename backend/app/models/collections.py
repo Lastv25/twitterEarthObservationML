@@ -1,8 +1,7 @@
 from typing import Optional, List
 from pydantic import validator
 from app.models.core import DateTimeModelMixin, IDModelMixin, CoreModel
-from shapely.wkt import loads
-
+from shapely import wkt
 
 class CollectionBase(CoreModel):
     full_name: Optional[str]
@@ -11,19 +10,18 @@ class CollectionBase(CoreModel):
     aoi: Optional[str]
     parameters: Optional[str]
 
-    @validator('aoi')
-    def polygon_validator(cls,v):
-        try:
-            area = loads(v)
-        except:
-            raise ValueError('Area of interest is not a polygon')
-        return area
+    # @validator('aoi')
+    # def polygon_validator(cls,v):
+    #     if 'POLYGON' in v:
+    #         return v
+    #     else:
+    #         raise ValueError('Area of interest is not a polygon')
+
 
 class CollectionCreate(CollectionBase):
     """
     The only field required to create a collection is the users id
     """
-    user_id: int
 
 class CollectionUpdate(CollectionBase):
     """
@@ -32,9 +30,9 @@ class CollectionUpdate(CollectionBase):
     pass
 
 class CollectionInDB(IDModelMixin, DateTimeModelMixin, CollectionBase):
-    pass
+    user_id: int
 
-class CollectionPublic(CollectionBase):
+class CollectionPublic(CollectionInDB):
     pass
 
 class ListCollections(CoreModel):
