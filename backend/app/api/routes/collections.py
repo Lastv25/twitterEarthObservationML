@@ -1,17 +1,15 @@
 from app.db.repositories.collections import CollectionsRepository
 from fastapi import Depends, APIRouter, HTTPException, Path, Body, status
-from app.models.collections import CollectionCreate, CollectionPublic
+from app.models.collections import CollectionCreate, CollectionPublic, CollectionInDB
 from app.api.dependencies.auth import get_current_active_user
 from app.api.dependencies.database import get_repository
 from app.models.user import UserInDB
 from starlette.status import HTTP_201_CREATED
 from typing import List
 
-router = APIRouter()
+from app.api.dependencies.collections import get_collections_by_id_from_path
 
-@router.get("/", response_model=List[CollectionPublic], name="collections:get-collection-all")
-async def get_collections_all():
-    pass
+router = APIRouter()
 
 
 @router.get("/{user-id}/", response_model=List[CollectionPublic], name="collections:get-all-collections-for-user")
@@ -22,8 +20,8 @@ async def list_all_user_collections(
     return await collection_repo.list_all_user_collections(requesting_user=current_user)
 
 @router.get("/{user-id}/{collection-id}/", response_model=CollectionPublic, name="collections:get-collection-for-user-by-id")
-async def get_collections_by_id():
-    pass
+async def get_cleaning_by_id(collection: CollectionInDB = Depends(get_collections_by_id_from_path)) -> CollectionPublic:
+    return collection
 
 @router.post("/{user-id}/", response_model=CollectionPublic, name="collections:create-collection-for-user", status_code=HTTP_201_CREATED)
 async def create_new_collection_for_user(

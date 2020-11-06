@@ -44,9 +44,6 @@ class TestCollectionsRoutes:
     Ensure that no api route returns a 404
     """
     async def test_routes_exist(self, app: FastAPI, client: AsyncClient, test_user: UserInDB) -> None:
-        # Get All collections
-        res_get_all = await client.get(app.url_path_for("collections:get-collection-all"))
-        assert res_get_all.status_code != status.HTTP_404_NOT_FOUND
         # Get All collections for a user
         res_get_all_user = await client.get(app.url_path_for("collections:get-all-collections-for-user"))
         assert res_get_all_user.status_code != status.HTTP_404_NOT_FOUND
@@ -88,6 +85,29 @@ class TestCollectionCreate:
 
 
 class TestCollectionGetters:
+    async def test_get_collection_by_id(
+            self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB
+    ) -> None:
+        res = await authorized_client.get(
+            app.url_path_for("collections:get-collection-for-user-by-id", collection_id=test_collection.id))
+        assert res.status_code == status.HTTP_200_OK
+        collection = CollectionInDB(**res.json())
+        assert collection == test_collection
+
+    async def test_unauthorized_users_cant_access_cleanings(
+            self, app: FastAPI, client: AsyncClient, test_collection: CollectionInDB
+    ) -> None:
+        res = await client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=test_collection.id))
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED
+
+    @pytest.mark.parametrize(
+        "id, status_code", ((50000, 404), (-1, 422), (None, 422)),
+    )
+    async def test_wrong_id_returns_error(
+            self, app: FastAPI, authorized_client: AsyncClient, id: int, status_code: int
+    ) -> None:
+        res = await authorized_client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=id))
+        assert res.status_code == status_code
     async def test_get_all_collections_returns_only_user_owned_collections(
         self,
         app: FastAPI,

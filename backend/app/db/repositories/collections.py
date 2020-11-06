@@ -9,7 +9,12 @@ CREATE_COLLECTION_FOR_USER_QUERY = """
     VALUES (:full_name, :disaster, :notification, :aoi,:parameters, :user_id)
     RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
 """
-LIST_ALL_USER_CLEANINGS_QUERY = """
+GET_COLLECTION_BY_ID_QUERY = """
+    SELECT id, full_name, disaster, notification, aoi, parameters, user_id, created_at, updated_at
+    FROM collections
+    WHERE id = :id;
+"""
+LIST_ALL_USER_COLLECTIONS_QUERY = """
     SELECT id, full_name, disaster, notification, aoi, parameters, user_id, created_at, updated_at
     FROM collections
     WHERE user_id = :user_id;
@@ -22,8 +27,15 @@ class CollectionsRepository(BaseRepository):
         created_collection = await self.db.fetch_one(query=CREATE_COLLECTION_FOR_USER_QUERY, values={**collection_create.dict(), "user_id": requesting_user.id})
         return CollectionInDB(**created_collection)
 
+    async def get_collection_by_id(self, *, id: int, requesting_user: UserInDB) -> CollectionInDB:
+        # the request user parameter is asked for consistency
+        collection = await self.db.fetch_one(query=GET_COLLECTION_BY_ID_QUERY, values={"id": id})
+        if not collection:
+            return None
+        return CollectionInDB(**collection)
+
     async def list_all_user_collections(self, requesting_user: UserInDB) -> List[CollectionInDB]:
         cleaning_records = await self.db.fetch_all(
-            query=LIST_ALL_USER_CLEANINGS_QUERY, values={"user_id": requesting_user.id}
+            query=LIST_ALL_USER_COLLECTIONS_QUERY, values={"user_id": requesting_user.id}
         )
         return [CollectionInDB(**l) for l in cleaning_records]
