@@ -1,7 +1,9 @@
 from typing import Optional, List
+from enum import Enum
 from pydantic import validator
 from app.models.core import DateTimeModelMixin, IDModelMixin, CoreModel
 from shapely import wkt
+
 
 class CollectionBase(CoreModel):
     full_name: Optional[str]
@@ -23,11 +25,12 @@ class CollectionCreate(CollectionBase):
     The only field required to create a collection is the users id
     """
 
+
 class CollectionUpdate(CollectionBase):
     """
     Allow users to update any or no fields, as long as it's not user_id
     """
-    pass
+
 
 class CollectionInDB(IDModelMixin, DateTimeModelMixin, CollectionBase):
     user_id: int

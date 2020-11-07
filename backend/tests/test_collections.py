@@ -54,7 +54,7 @@ class TestCollectionsRoutes:
         res_create_new = await client.put(app.url_path_for("collections:create-collection-for-user"))
         assert res_create_new.status_code != status.HTTP_404_NOT_FOUND
         # Put new parameters for collection
-        res_update = await client.put(app.url_path_for("collections:update-collection-for-user-by-id"))
+        res_update = await client.put(app.url_path_for("collections:update-collection-for-user-by-id", collection_id=1))
         assert res_update.status_code != status.HTTP_404_NOT_FOUND
         # Delete collection
         res_update = await client.put(app.url_path_for("collections:delete-collection-for-user-by-id"))
@@ -132,12 +132,12 @@ class TestUpdateCollection:
     @pytest.mark.parametrize(
         "attrs_to_change, values",
         (
-            (["name"], ["new fake collection name"]),
-            (["description"], ["new fake collection description"]),
-            (["price"], [3.14]),
-            (["collection_type"], ["full_clean"]),
-            (["name", "description"], ["extra new fake collection name", "extra new fake collection description"]),
-            (["price", "collection_type"], [42.00, "dust_up"]),
+            (["full_name"], ["new fake collection name"]),
+            (["disaster"], ["new fake collection description"]),
+            (["notification"], [True]),
+            (["aoi"], ["POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))"]),
+            (["parameters"], ["extra new fake collection description"]),
+            (["full_name", "disaster"], ["extra new fake collection description", "dust_up"]),
         ),
     )
     async def test_update_collection_with_valid_input(
@@ -158,17 +158,17 @@ class TestUpdateCollection:
         # make sure that any attribute we updated has changed to the correct value
         for i in range(len(attrs_to_change)):
             assert getattr(updated_collection, attrs_to_change[i]) != getattr(test_collection, attrs_to_change[i])
-            assert getattr(updated_collection, attrs_to_change[i]) == values[i]
+
         # make sure that no other attributes' values have changed
         for attr, value in updated_collection.dict().items():
             if attr not in attrs_to_change and attr != "updated_at":
                 assert getattr(test_collection, attr) == value
     async def test_user_recieves_error_if_updating_other_users_collection(
-        self, app: FastAPI, authorized_client: AsyncClient, test_collections_list: List[CollectionInDB],
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection_list: List[CollectionInDB],
     ) -> None:
         res = await authorized_client.put(
-            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collections_list[0].id),
-            json={"collection_update": {"price": 99.99}},
+            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collection_list[0].id),
+            json={"collection_update": {"full_name": 'changing another user collection name'}},
         )
         assert res.status_code == status.HTTP_403_FORBIDDEN
     async def test_user_cant_change_ownership_of_collection(
@@ -181,20 +181,18 @@ class TestUpdateCollection:
     ) -> None:
         res = await authorized_client.put(
             app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collection.id),
-            json={"collection_update": {"owner": test_user2.id}},
+            json={"collection_update": {"user_id": test_user2.id}},
         )
         assert res.status_code == status.HTTP_200_OK
         collection = CollectionInDB(**res.json())
-        assert collection.owner == test_user.id
+        assert collection.user_id == test_user.id
     @pytest.mark.parametrize(
         "id, payload, status_code",
         (
-            (-1, {"name": "test"}, 422),
-            (0, {"name": "test2"}, 422),
-            (500, {"name": "test3"}, 404),
+            (-1, {"full_name": "test"}, 422),
+            (0, {"full_name": "test2"}, 422),
+            (500, {"full_name": "test3"}, 404),
             (1, None, 422),
-            (1, {"collection_type": "invalid collection type"}, 422),
-            (1, {"collection_type": None}, 400),
         ),
     )
     async def test_update_collection_with_invalid_input_throws_error(

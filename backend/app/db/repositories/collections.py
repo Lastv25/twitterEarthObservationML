@@ -24,7 +24,7 @@ UPDATE_COLLECTION_BY_ID_QUERY = """
     SET full_name         = :full_name,
         disaster  = :disaster,
         notification        = :notification,
-        aoi = :aoi
+        aoi = :aoi,
         parameters = :parameters
     WHERE id = :id AND user_id = :user_id
     RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
@@ -61,15 +61,15 @@ class CollectionsRepository(BaseRepository):
                 detail="Users are only able to update collections that they created.",
             )
         collection_update_params = collection.copy(update=collection_update.dict(exclude_unset=True))
-        if collection_update_params.cleaning_type is None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid collection type. Cannot be None."
-            )
+        # if collection_update_params.collection_type is None:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid collection type. Cannot be None."
+        #     )
         updated_collection = await self.db.fetch_one(
             query=UPDATE_COLLECTION_BY_ID_QUERY,
             values={
                 **collection_update_params.dict(exclude={"created_at", "updated_at"}),
-                "owner": requesting_user.id,
+                "user_id": requesting_user.id,
             },
         )
         return CollectionInDB(**updated_collection)
