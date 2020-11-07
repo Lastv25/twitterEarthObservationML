@@ -17,6 +17,7 @@ import {
   EuiButton,
   EuiFlexItem,
 } from "@elastic/eui"
+import { Link } from "react-router-dom"
 import moment from "moment"
 import styled from "styled-components"
 
@@ -79,9 +80,11 @@ return (
               </EuiPageContentHeaderSection>
               <EuiPageContentHeaderSection>
                 <EuiFlexItem grow={false}>
-                  <EuiButton color="secondary" fill onClick={() => {}}>
-                      New Collection
-                  </EuiButton>
+                    <Link to="/newcollection">
+                        <EuiButton color="secondary" fill>
+                            New Collection
+                       </EuiButton>
+                    </Link>
                </EuiFlexItem>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
