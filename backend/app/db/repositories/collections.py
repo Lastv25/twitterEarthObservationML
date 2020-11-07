@@ -29,6 +29,12 @@ UPDATE_COLLECTION_BY_ID_QUERY = """
     WHERE id = :id AND user_id = :user_id
     RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
 """
+DELETE_COLLECTION_BY_ID_QUERY = """
+    DELETE FROM collections
+    WHERE id = :id AND user_id = :user_id
+    RETURNING id;
+"""
+
 
 class CollectionsRepository(BaseRepository):
 
@@ -73,3 +79,17 @@ class CollectionsRepository(BaseRepository):
             },
         )
         return CollectionInDB(**updated_collection)
+
+    async def delete_collection_by_id(self, *, id: int, requesting_user: UserInDB) -> int:
+        collection = await self.get_collection_by_id(id=id, requesting_user=requesting_user)
+        if not collection:
+            return None
+        if collection.user_id != requesting_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Users are only able to delete collections that they created.",
+            )
+        deleted_id = await self.db.execute(
+            query=DELETE_COLLECTION_BY_ID_QUERY, values={"id": id, "user_id": requesting_user.id}
+        )
+        return deleted_id

@@ -54,6 +54,13 @@ async def update_cleaning_by_id(
     return updated_collection
 
 
-@router.delete("/{user-id}/{collection-id}", response_model=CollectionPublic, name="collections:delete-collection-for-user-by-id")
-async def update_collections_for_user_by_id():
-    pass
+@router.delete("/{user-id}/{collection_id}", response_model=int, name="collections:delete-collection-for-user-by-id")
+async def delete_collection_by_id(
+    collection_id: int = Path(..., ge=1),
+    current_user: UserInDB = Depends(get_current_active_user),
+    collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository)),
+) -> int:
+    deleted_id = await collection_repo.delete_collection_by_id(id=collection_id, requesting_user=current_user)
+    if not deleted_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No cleaning found with that id.")
+    return deleted_id

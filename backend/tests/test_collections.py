@@ -57,7 +57,7 @@ class TestCollectionsRoutes:
         res_update = await client.put(app.url_path_for("collections:update-collection-for-user-by-id", collection_id=1))
         assert res_update.status_code != status.HTTP_404_NOT_FOUND
         # Delete collection
-        res_update = await client.put(app.url_path_for("collections:delete-collection-for-user-by-id"))
+        res_update = await client.put(app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=1))
         assert res_update.status_code != status.HTTP_404_NOT_FOUND
 
 
@@ -210,14 +210,14 @@ class TestDeleteCollection:
         self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB
     ) -> None:
         res = await authorized_client.delete(
-            app.url_path_for("collections:delete-collection-by-id", collection_id=test_collection.id)
+            app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=test_collection.id)
         )
         assert res.status_code == status.HTTP_200_OK
     async def test_user_cant_delete_other_users_collection(
-        self, app: FastAPI, authorized_client: AsyncClient, test_collections_list: List[CollectionInDB],
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection_list: List[CollectionInDB],
     ) -> None:
         res = await authorized_client.delete(
-            app.url_path_for("collections:delete-collection-by-id", collection_id=test_collections_list[0].id)
+            app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=test_collection_list[0].id)
         )
         assert res.status_code == status.HTTP_403_FORBIDDEN
     @pytest.mark.parametrize(
@@ -226,5 +226,5 @@ class TestDeleteCollection:
     async def test_wrong_id_throws_error(
         self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB, id: int, status_code: int
     ) -> None:
-        res = await authorized_client.delete(app.url_path_for("collections:delete-collection-by-id", collection_id=id))
+        res = await authorized_client.delete(app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=id))
         assert res.status_code == status_code
