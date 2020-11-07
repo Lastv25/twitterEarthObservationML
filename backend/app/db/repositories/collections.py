@@ -19,7 +19,16 @@ LIST_ALL_USER_COLLECTIONS_QUERY = """
     FROM collections
     WHERE user_id = :user_id;
 """
-
+UPDATE_CLEANING_BY_ID_QUERY = """
+    UPDATE collections
+    SET full_name         = :full_name,
+        disaster  = :disaster,
+        notification        = :notification,
+        aoi = :aoi
+        parameters = :parameters
+    WHERE id = :id AND user_id = :user_id
+    RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
+"""
 
 class CollectionsRepository(BaseRepository):
 
