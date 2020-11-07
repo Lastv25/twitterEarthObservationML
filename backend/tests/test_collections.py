@@ -7,7 +7,7 @@ from app.models.user import UserInDB
 from app.db.repositories.collections import CollectionsRepository
 from app.models.collections import CollectionPublic, CollectionCreate, CollectionInDB
 
-from typing import Dict,Union, List
+from typing import Dict,Union, List, Optional
 
 pytestmark = pytest.mark.asyncio
 
@@ -126,3 +126,82 @@ class TestCollectionGetters:
             assert collection.user_id == test_user.id
         # assert all collections created by another user not included (redundant, but fine)
         assert all(c not in collections for c in test_collection_list)
+
+
+class TestUpdateCollection:
+    @pytest.mark.parametrize(
+        "attrs_to_change, values",
+        (
+            (["name"], ["new fake collection name"]),
+            (["description"], ["new fake collection description"]),
+            (["price"], [3.14]),
+            (["collection_type"], ["full_clean"]),
+            (["name", "description"], ["extra new fake collection name", "extra new fake collection description"]),
+            (["price", "collection_type"], [42.00, "dust_up"]),
+        ),
+    )
+    async def test_update_collection_with_valid_input(
+        self,
+        app: FastAPI,
+        authorized_client: AsyncClient,
+        test_collection: CollectionInDB,
+        attrs_to_change: List[str],
+        values: List[str],
+    ) -> None:
+        collection_update = {"collection_update": {attrs_to_change[i]: values[i] for i in range(len(attrs_to_change))}}
+        res = await authorized_client.put(
+            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collection.id), json=collection_update
+        )
+        assert res.status_code == status.HTTP_200_OK
+        updated_collection = CollectionInDB(**res.json())
+        assert updated_collection.id == test_collection.id  # make sure it's the same collection
+        # make sure that any attribute we updated has changed to the correct value
+        for i in range(len(attrs_to_change)):
+            assert getattr(updated_collection, attrs_to_change[i]) != getattr(test_collection, attrs_to_change[i])
+            assert getattr(updated_collection, attrs_to_change[i]) == values[i]
+        # make sure that no other attributes' values have changed
+        for attr, value in updated_collection.dict().items():
+            if attr not in attrs_to_change and attr != "updated_at":
+                assert getattr(test_collection, attr) == value
+    async def test_user_recieves_error_if_updating_other_users_collection(
+        self, app: FastAPI, authorized_client: AsyncClient, test_collections_list: List[CollectionInDB],
+    ) -> None:
+        res = await authorized_client.put(
+            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collections_list[0].id),
+            json={"collection_update": {"price": 99.99}},
+        )
+        assert res.status_code == status.HTTP_403_FORBIDDEN
+    async def test_user_cant_change_ownership_of_collection(
+        self,
+        app: FastAPI,
+        authorized_client: AsyncClient,
+        test_collection: CollectionInDB,
+        test_user: UserInDB,
+        test_user2: UserInDB,
+    ) -> None:
+        res = await authorized_client.put(
+            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=test_collection.id),
+            json={"collection_update": {"owner": test_user2.id}},
+        )
+        assert res.status_code == status.HTTP_200_OK
+        collection = CollectionInDB(**res.json())
+        assert collection.owner == test_user.id
+    @pytest.mark.parametrize(
+        "id, payload, status_code",
+        (
+            (-1, {"name": "test"}, 422),
+            (0, {"name": "test2"}, 422),
+            (500, {"name": "test3"}, 404),
+            (1, None, 422),
+            (1, {"collection_type": "invalid collection type"}, 422),
+            (1, {"collection_type": None}, 400),
+        ),
+    )
+    async def test_update_collection_with_invalid_input_throws_error(
+        self, app: FastAPI, authorized_client: AsyncClient, id: int, payload: Dict[str, Optional[str]], status_code: int
+    ) -> None:
+        collection_update = {"collection_update": payload}
+        res = await authorized_client.put(
+            app.url_path_for("collections:update-collection-for-user-by-id", collection_id=id), json=collection_update
+        )
+        assert res.status_code == status_code
