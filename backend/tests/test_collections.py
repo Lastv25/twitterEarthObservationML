@@ -48,7 +48,7 @@ class TestCollectionsRoutes:
         res_get_all_user = await client.get(app.url_path_for("collections:get-all-collections-for-user"))
         assert res_get_all_user.status_code != status.HTTP_404_NOT_FOUND
         # Get a collection for a user by collection id
-        res_get_user_collec = await client.get(app.url_path_for("collections:get-collection-for-user-by-id"))
+        res_get_user_collec = await client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=1))
         assert res_get_user_collec.status_code != status.HTTP_404_NOT_FOUND
         # Post new collection
         res_create_new = await client.put(app.url_path_for("collections:create-collection-for-user"))
@@ -75,7 +75,7 @@ class TestCollectionCreate:
         assert created_collection.notification == new_collection.notification
         assert created_collection.parameters == new_collection.parameters
 
-    async def test_unauthorized_user_unable_to_create_cleaning(
+    async def test_unauthorized_user_unable_to_create_collection(
             self, app: FastAPI, client: AsyncClient, new_collection: CollectionCreate
         ) -> None:
             res = await client.post(
@@ -86,25 +86,22 @@ class TestCollectionCreate:
 
 class TestCollectionGetters:
     async def test_get_collection_by_id(
-            self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB
     ) -> None:
-        res = await authorized_client.get(
-            app.url_path_for("collections:get-collection-for-user-by-id", collection_id=test_collection.id))
+        res = await authorized_client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=test_collection.id))
         assert res.status_code == status.HTTP_200_OK
         collection = CollectionInDB(**res.json())
         assert collection == test_collection
-
-    async def test_unauthorized_users_cant_access_cleanings(
-            self, app: FastAPI, client: AsyncClient, test_collection: CollectionInDB
+    async def test_unauthorized_users_cant_access_collection(
+        self, app: FastAPI, client: AsyncClient, test_collection: CollectionInDB
     ) -> None:
         res = await client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=test_collection.id))
         assert res.status_code == status.HTTP_401_UNAUTHORIZED
-
     @pytest.mark.parametrize(
         "id, status_code", ((50000, 404), (-1, 422), (None, 422)),
     )
     async def test_wrong_id_returns_error(
-            self, app: FastAPI, authorized_client: AsyncClient, id: int, status_code: int
+        self, app: FastAPI, authorized_client: AsyncClient, id: int, status_code: int
     ) -> None:
         res = await authorized_client.get(app.url_path_for("collections:get-collection-for-user-by-id", collection_id=id))
         assert res.status_code == status_code

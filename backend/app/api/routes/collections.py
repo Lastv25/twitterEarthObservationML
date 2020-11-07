@@ -19,8 +19,15 @@ async def list_all_user_collections(
 ) -> List[CollectionPublic]:
     return await collection_repo.list_all_user_collections(requesting_user=current_user)
 
-@router.get("/{user-id}/{collection-id}/", response_model=CollectionPublic, name="collections:get-collection-for-user-by-id")
-async def get_cleaning_by_id(collection: CollectionInDB = Depends(get_collections_by_id_from_path)) -> CollectionPublic:
+@router.get("/{user-id}/{collection_id}/", response_model=CollectionPublic, name="collections:get-collection-for-user-by-id")
+async def get_collections_by_id(
+    collection_id: int = Path(..., ge=1),
+    current_user: UserInDB = Depends(get_current_active_user),
+    collections_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository)),
+) -> CollectionPublic:
+    collection = await collections_repo.get_collection_by_id(id=collection_id, requesting_user=current_user)
+    if not collection:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No collection found with that id.")
     return collection
 
 @router.post("/{user-id}/", response_model=CollectionPublic, name="collections:create-collection-for-user", status_code=HTTP_201_CREATED)
