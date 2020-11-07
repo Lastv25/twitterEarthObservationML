@@ -1,8 +1,8 @@
 from app.db.repositories.base import BaseRepository
-from app.models.profile import ProfileCreate, ProfileUpdate, ProfileInDB
 from app.models.user import UserInDB
-from app.models.collections import CollectionCreate, CollectionInDB
+from app.models.collections import CollectionCreate, CollectionInDB, CollectionUpdate
 from typing import List
+from fastapi import HTTPException, status
 
 CREATE_COLLECTION_FOR_USER_QUERY = """
     INSERT INTO collections (full_name, disaster, notification, aoi,parameters, user_id)
@@ -19,7 +19,7 @@ LIST_ALL_USER_COLLECTIONS_QUERY = """
     FROM collections
     WHERE user_id = :user_id;
 """
-UPDATE_CLEANING_BY_ID_QUERY = """
+UPDATE_COLLECTION_BY_ID_QUERY = """
     UPDATE collections
     SET full_name         = :full_name,
         disaster  = :disaster,
@@ -48,3 +48,28 @@ class CollectionsRepository(BaseRepository):
             query=LIST_ALL_USER_COLLECTIONS_QUERY, values={"user_id": requesting_user.id}
         )
         return [CollectionInDB(**l) for l in cleaning_records]
+
+    async def update_collection(
+            self, *, id: int, collection_update: CollectionUpdate, requesting_user: UserInDB
+    ) -> CollectionInDB:
+        collection = await self.get_collection_by_id(id=id, requesting_user=requesting_user)
+        if not collection:
+            return None
+        if collection.user_id != requesting_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Users are only able to update collections that they created.",
+            )
+        collection_update_params = collection.copy(update=collection_update.dict(exclude_unset=True))
+        if collection_update_params.cleaning_type is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid collection type. Cannot be None."
+            )
+        updated_collection = await self.db.fetch_one(
+            query=UPDATE_COLLECTION_BY_ID_QUERY,
+            values={
+                **collection_update_params.dict(exclude={"created_at", "updated_at"}),
+                "owner": requesting_user.id,
+            },
+        )
+        return CollectionInDB(**updated_collection)
