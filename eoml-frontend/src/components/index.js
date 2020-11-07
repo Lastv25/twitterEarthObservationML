@@ -18,5 +18,8 @@ export { default as ProfilePage } from "./ProfilePage/ProfilePage"
 
 export { default as NewCollectionPage } from "./NewCollectionPage/NewCollectionPage"
 export { default as CollectionForm } from "./CollectionForm/CollectionForm"
+export { default as ScihubForm } from "./ScihubForm/ScihubForm"
+export { default as EgeosForm } from "./EgeosForm/EgeosForm"
+export { default as SwitchForm } from "./SwitchForm/SwitchForm"
 
 export { default as NotFoundPage } from "./NotFoundPage/NotFoundPage"

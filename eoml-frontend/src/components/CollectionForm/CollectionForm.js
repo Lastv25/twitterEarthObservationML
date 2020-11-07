@@ -4,49 +4,17 @@ import {
   EuiButton,
   EuiForm,
   EuiSpacer,
-  EuiRadioGroup,
   EuiDatePicker,
   EuiSelect,
-  EuiText,
   EuiFieldText,
   EuiFormRow
 } from '@elastic/eui';
 
 import moment from 'moment';
-import { htmlIdGenerator } from '@elastic/eui/lib/services';
-
-const idPrefix = htmlIdGenerator()();
+import { SwitchForm, ScihubForm, EgeosForm } from "../../components"
 
 
-export default function DisasterForm (props) {
-    const radios = [
-    {
-      id: `${idPrefix}0`,
-      label: 'Wildfires',
-    },
-    {
-      id: `${idPrefix}1`,
-      label: 'Earthquakes',
-    },
-    {
-      id: `${idPrefix}2`,
-      label: 'Hurricanes',
-    },
-    {
-      id: `${idPrefix}3`,
-      label: 'Floods',
-    },
-    {
-      id: `${idPrefix}4`,
-      label: 'Tornado',
-    },
-    ];
-
-    const [radioIdSelected, setRadioIdSelected] = useState(`${idPrefix}0`);
-
-    const onChange = (optionId) => {
-        setRadioIdSelected(optionId);
-    };
+export default function CollectionForm (props) {
 
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
@@ -56,6 +24,12 @@ export default function DisasterForm (props) {
     };
     const handleChange2 = (date) => {
        setEndDate(date);
+    };
+
+    const [activeComponent, setActiveComponent] = useState("questions")
+
+    const onSelectChange = (name) => {
+        setActiveComponent(name);
     };
   return (
     /* DisplayToggles wrapper for Docs only */
@@ -86,12 +60,23 @@ export default function DisasterForm (props) {
 
       <EuiFormRow label="Select a Data Platform">
         <EuiSelect
+          hasNoInitialSelection
+          onChange={(value) => onSelectChange(value)}
           options={[
             { value: 'scihub', text: 'Copernicus SciHub' },
             { value: 'egeoes', text: 'e-Geos' },
           ]}
         />
       </EuiFormRow>
+
+      <EuiSpacer />
+
+       <div>
+        {{
+          'scihub': <ScihubForm />,
+          'egeos': <EgeosForm />
+        }}[param]
+        </div>
 
       <EuiSpacer />
 
