@@ -8,6 +8,7 @@ import {
   EuiSelect,
   EuiFieldText,
   EuiFormRow,
+  EuiPopover,
   EuiSwitch
 } from '@elastic/eui';
 
@@ -38,6 +39,25 @@ export default function CollectionForm (props) {
     setIsSwitchChecked(!isSwitchChecked);
   };
 
+    const [isPopover2Open, setIsPopover2Open] = useState(false);
+
+    const onButton2Click = () => {
+        setIsPopover2Open(!isPopover2Open);
+    };
+
+    const closePopover2 = () => {
+        setIsPopover2Open(false);
+    };
+
+    const button2 = (
+        <EuiButton
+          iconSide="right"
+          fill
+          iconType="arrowRight"
+          onClick={onButton2Click}>
+          name of button
+        </EuiButton>
+      );
   return (
     /* DisplayToggles wrapper for Docs only */
     <EuiForm component="form">
@@ -78,27 +98,27 @@ export default function CollectionForm (props) {
 
       <EuiSpacer />
 
-        <EuiFormRow
-            label="Use a switch instead of a single checkbox and set 'hasChildLabel' to false"
-            hasChildLabel={false}>
-            <EuiSwitch
-              name="switch"
-              label="Should we do this?"
-              checked={isSwitchChecked}
-              onChange={onSwitchChange}
-            />
-        </EuiFormRow>
+        <EuiPopover
+            id="ScihubPopover"
+            anchorPosition="rightDown"
+            ownFocus
+            button={button2}
+            isOpen={isPopover2Open}
+            closePopover={closePopover2}>
 
-        <EuiFormRow
-            label="Use a switch instead of a single checkbox and set 'hasChildLabel' to false"
-            hasChildLabel={false}>
-            <EuiSwitch
-              name="switch"
-              label="Should we do this?"
-              checked={isSwitchChecked}
-              onChange={onSwitchChange}
-            />
-        </EuiFormRow>
+            <ScihubForm />
+          </EuiPopover>
+
+        <EuiPopover
+            id="EgeosPopover"
+            anchorPosition="rightDown"
+            ownFocus
+            button={button2}
+            isOpen={isPopover2Open}
+            closePopover={closePopover2}>
+            <div><EgeosForm /></div>
+          </EuiPopover>
+
 
       <EuiFormRow label="From date">
         <EuiDatePicker selected={startDate} onChange={handleChange} />
