@@ -7,7 +7,8 @@ import {
   EuiDatePicker,
   EuiSelect,
   EuiFieldText,
-  EuiFormRow
+  EuiFormRow,
+  EuiSwitch
 } from '@elastic/eui';
 
 import moment from 'moment';
@@ -15,6 +16,7 @@ import { SwitchForm, ScihubForm, EgeosForm } from "../../components"
 
 
 export default function CollectionForm (props) {
+    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
 
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
@@ -31,6 +33,11 @@ export default function CollectionForm (props) {
     const onSelectChange = (name) => {
         setActiveComponent(name);
     };
+
+    const onSwitchChange = () => {
+    setIsSwitchChecked(!isSwitchChecked);
+  };
+
   return (
     /* DisplayToggles wrapper for Docs only */
     <EuiForm component="form">
@@ -71,14 +78,27 @@ export default function CollectionForm (props) {
 
       <EuiSpacer />
 
-       <div>
-        {{
-          'scihub': <ScihubForm />,
-          'egeos': <EgeosForm />
-        }}[param]
-        </div>
+        <EuiFormRow
+            label="Use a switch instead of a single checkbox and set 'hasChildLabel' to false"
+            hasChildLabel={false}>
+            <EuiSwitch
+              name="switch"
+              label="Should we do this?"
+              checked={isSwitchChecked}
+              onChange={onSwitchChange}
+            />
+        </EuiFormRow>
 
-      <EuiSpacer />
+        <EuiFormRow
+            label="Use a switch instead of a single checkbox and set 'hasChildLabel' to false"
+            hasChildLabel={false}>
+            <EuiSwitch
+              name="switch"
+              label="Should we do this?"
+              checked={isSwitchChecked}
+              onChange={onSwitchChange}
+            />
+        </EuiFormRow>
 
       <EuiFormRow label="From date">
         <EuiDatePicker selected={startDate} onChange={handleChange} />
