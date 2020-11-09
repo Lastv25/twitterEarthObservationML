@@ -39,23 +39,39 @@ export default function CollectionForm (props) {
     setIsSwitchChecked(!isSwitchChecked);
   };
 
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
 
+    const onButtonClick = () => {
+        setIsPopoverOpen(!isPopoverOpen);
+    };
     const onButton2Click = () => {
         setIsPopover2Open(!isPopover2Open);
     };
 
+    const closePopover = () => {
+        setIsPopoverOpen(false);
+    };
     const closePopover2 = () => {
         setIsPopover2Open(false);
     };
 
+    const button = (
+        <EuiButton
+          iconSide="right"
+          fill
+          iconType="arrowRight"
+          onClick={onButtonClick}>
+          Schiub
+        </EuiButton>
+      );
     const button2 = (
         <EuiButton
           iconSide="right"
           fill
           iconType="arrowRight"
           onClick={onButton2Click}>
-          name of button
+          E-Geos
         </EuiButton>
       );
   return (
@@ -102,12 +118,14 @@ export default function CollectionForm (props) {
             id="ScihubPopover"
             anchorPosition="rightDown"
             ownFocus
-            button={button2}
-            isOpen={isPopover2Open}
-            closePopover={closePopover2}>
+            button={button}
+            isOpen={isPopoverOpen}
+            closePopover={closePopover}>
 
             <ScihubForm />
           </EuiPopover>
+
+        <EuiSpacer />
 
         <EuiPopover
             id="EgeosPopover"
@@ -119,6 +137,7 @@ export default function CollectionForm (props) {
             <div><EgeosForm /></div>
           </EuiPopover>
 
+      <EuiSpacer />
 
       <EuiFormRow label="From date">
         <EuiDatePicker selected={startDate} onChange={handleChange} />
