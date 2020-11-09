@@ -100,17 +100,9 @@ export default function CollectionForm (props) {
       </EuiFormRow>
 
       <EuiSpacer />
-
-      <EuiFormRow label="Select a Data Platform">
-        <EuiSelect
-          hasNoInitialSelection
-          onChange={(value) => onSelectChange(value)}
-          options={[
-            { value: 'scihub', text: 'Copernicus SciHub' },
-            { value: 'egeoes', text: 'e-Geos' },
-          ]}
-        />
-      </EuiFormRow>
+        <EuiFormRow label="Area of Interest" >
+            <EuiFieldText name="aoi" />
+          </EuiFormRow>
 
       <EuiSpacer />
 
