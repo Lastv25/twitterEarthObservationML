@@ -163,7 +163,7 @@ export default function CollectionForm (props) {
       </EuiFormRow>
       <EuiFormRow label="To date">
         <EuiDatePicker
-          isDisabled={isSwitchChecked}
+          disabled={!isSwitchChecked}
           showTimeSelect={false}
           selected={endDate}
           onChange={handleChange2}
