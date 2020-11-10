@@ -24,6 +24,12 @@ export default function CollectionForm (props) {
         aoi: "",
         parameters: ""
     })
+    const [Scihubform, setScihubForm] = React.useState({
+        parameters: ""
+    })
+    const [Egeosform, setEgeosForm] = React.useState({
+        parameters: ''
+    })
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
 
@@ -73,6 +79,7 @@ export default function CollectionForm (props) {
           E-Geos
         </EuiButton>
       );
+
   return (
     /* DisplayToggles wrapper for Docs only */
     <EuiForm component="form">
@@ -85,8 +92,9 @@ export default function CollectionForm (props) {
 
       <EuiSpacer />
 
-      <EuiFormRow label="Select a Disaster" name="disaster">
+      <EuiFormRow label="Select a Disaster">
         <EuiSelect
+          name="disaster"
           hasNoInitialSelection
           options={[
             { value: 'wildfires', text: 'Wildfires' },
@@ -115,7 +123,7 @@ export default function CollectionForm (props) {
             isOpen={isPopoverOpen}
             closePopover={closePopover}>
 
-            <ScihubForm />
+            <ScihubForm form={ScihubForm}/>
           </EuiPopover>
       </EuiFormRow>
 
@@ -128,7 +136,7 @@ export default function CollectionForm (props) {
         button={button2}
         isOpen={isPopover2Open}
         closePopover={closePopover2}>
-        <div><EgeosForm /></div>
+        <div><EgeosForm form={EgeosForm}/></div>
        </EuiPopover>
 
       <EuiSpacer />

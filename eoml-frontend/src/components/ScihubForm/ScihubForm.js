@@ -15,7 +15,7 @@ import { htmlIdGenerator } from '@elastic/eui/lib/services';
 const idPrefix = htmlIdGenerator()();
 
 
-export default function DisasterForm (props) {
+export default function ScihubForm ({form})  {
     const radios = [
     {
       id: `${idPrefix}0`,

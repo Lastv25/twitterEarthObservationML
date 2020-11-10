@@ -6,6 +6,9 @@ import {
   EuiSpacer,
   EuiRadioGroup,
   EuiDatePicker,
+  EuiSwitch,
+  EuiFieldText,
+  EuiRange,
   EuiFormRow
 } from '@elastic/eui';
 
@@ -15,7 +18,8 @@ import { htmlIdGenerator } from '@elastic/eui/lib/services';
 const idPrefix = htmlIdGenerator()();
 
 
-export default function DisasterForm (props) {
+export default function EgeosForm ({form}) {
+    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
     const radios = [
     {
       id: `${idPrefix}0`,
@@ -50,23 +54,32 @@ export default function DisasterForm (props) {
     const handleChange = (date) => {
        setStartDate(date);
     };
+    const onSwitchChange = () => {
+    setIsSwitchChecked(!isSwitchChecked);
+    };
   return (
-    /* DisplayToggles wrapper for Docs only */
-    <EuiForm component="form">
+
+    <EuiForm>
+      <EuiFormRow>
+        <EuiSwitch
+          id={htmlIdGenerator()()}
+          name="popswitch"
+          label="Isn't this popover form cool?"
+          checked={isSwitchChecked}
+          onChange={onSwitchChange}
+        />
+      </EuiFormRow>
+
+      <EuiFormRow label="A text field">
+        <EuiFieldText name="popfirst" />
+      </EuiFormRow>
+
+      <EuiFormRow label="Range" helpText="Some help text for the range">
+        <EuiRange min={0} max={100} name="poprange" />
+      </EuiFormRow>
 
       <EuiSpacer />
-
-      <EuiRadioGroup
-        options={radios}
-        idSelected={radioIdSelected}
-        onChange={(id) => onChange(id)}
-        name="radio group"
-        legend={{
-          children: <span>List of events that can currently be monitored through this application</span>,
-        }}
-      />
-
-
+      <EuiButton fullWidth>Save</EuiButton>
     </EuiForm>
   );
 };
