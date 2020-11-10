@@ -13,12 +13,17 @@ import {
 } from '@elastic/eui';
 
 import moment from 'moment';
-import { SwitchForm, ScihubForm, EgeosForm } from "../../components"
+import { ScihubForm, EgeosForm } from "../../components"
 
 
 export default function CollectionForm (props) {
-    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-
+    const [form, setForm] = React.useState({
+        full_name: "",
+        disaster: "",
+        notification: "",
+        aoi: "",
+        parameters: ""
+    })
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
 
@@ -29,18 +34,9 @@ export default function CollectionForm (props) {
        setEndDate(date);
     };
 
-    const [activeComponent, setActiveComponent] = useState("questions")
-
-    const onSelectChange = (name) => {
-        setActiveComponent(name);
-    };
-
-    const onSwitchChange = () => {
-    setIsSwitchChecked(!isSwitchChecked);
-  };
-
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
+    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
 
     const onButtonClick = () => {
         setIsPopoverOpen(!isPopoverOpen);
@@ -54,6 +50,9 @@ export default function CollectionForm (props) {
     };
     const closePopover2 = () => {
         setIsPopover2Open(false);
+    };
+    const onSwitchChange = () => {
+    setIsSwitchChecked(!isSwitchChecked);
     };
 
     const button = (
@@ -81,12 +80,12 @@ export default function CollectionForm (props) {
       <EuiSpacer />
 
       <EuiFormRow label="Collection Name" >
-        <EuiFieldText name="first" />
+        <EuiFieldText name="full_name" value={form.full_name}/>
       </EuiFormRow>
 
       <EuiSpacer />
 
-      <EuiFormRow label="Select a Disaster">
+      <EuiFormRow label="Select a Disaster" name="disaster">
         <EuiSelect
           hasNoInitialSelection
           options={[
@@ -96,16 +95,18 @@ export default function CollectionForm (props) {
             { value: 'Floods', text: 'Floods' },
             { value: 'Tornado', text: 'Tornado' },
           ]}
+//          value={form.disaster}
         />
       </EuiFormRow>
 
       <EuiSpacer />
         <EuiFormRow label="Area of Interest" >
-            <EuiFieldText name="aoi" />
+            <EuiFieldText name="aoi" value={form.aoi}/>
           </EuiFormRow>
 
       <EuiSpacer />
 
+      <EuiFormRow>
         <EuiPopover
             id="ScihubPopover"
             anchorPosition="rightDown"
@@ -116,18 +117,19 @@ export default function CollectionForm (props) {
 
             <ScihubForm />
           </EuiPopover>
+      </EuiFormRow>
 
-        <EuiSpacer />
+      <EuiSpacer />
 
-        <EuiPopover
-            id="EgeosPopover"
-            anchorPosition="rightDown"
-            ownFocus
-            button={button2}
-            isOpen={isPopover2Open}
-            closePopover={closePopover2}>
-            <div><EgeosForm /></div>
-          </EuiPopover>
+       <EuiPopover
+        id="EgeosPopover"
+        anchorPosition="rightDown"
+        ownFocus
+        button={button2}
+        isOpen={isPopover2Open}
+        closePopover={closePopover2}>
+        <div><EgeosForm /></div>
+       </EuiPopover>
 
       <EuiSpacer />
 
@@ -140,6 +142,17 @@ export default function CollectionForm (props) {
       </EuiFormRow>
 
       <EuiSpacer />
+
+      <EuiFormRow
+        label="Notification Switch"
+        hasChildLabel={false}>
+        <EuiSwitch
+          name="switch"
+          label="Should we do this?"
+          checked={isSwitchChecked}
+          onChange={onSwitchChange}
+        />
+      </EuiFormRow>
 
       <EuiButton type="submit" fill>
         Save filter
