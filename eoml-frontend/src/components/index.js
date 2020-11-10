@@ -5,7 +5,7 @@ export { default as ProtectedRoute } from "./ProtectedRoute/ProtectedRoute"
 
 export { default as LandingPage } from "./LandingPage/LandingPage"
 export { default as DisasterForm } from "./Disaster_filter/Disaster_form"
-export { default as MapComponent } from "./Map/Map"
+export { default as MapLanding } from "./Map/MapLanding"
 
 
 export { default as LoginPage } from "./LoginPage/LoginPage"
@@ -21,5 +21,6 @@ export { default as CollectionForm } from "./CollectionForm/CollectionForm"
 export { default as ScihubForm } from "./ScihubForm/ScihubForm"
 export { default as EgeosForm } from "./EgeosForm/EgeosForm"
 export { default as SwitchForm } from "./SwitchForm/SwitchForm"
+export { default as MapCollection } from "./Map/MapCollection"
 
 export { default as NotFoundPage } from "./NotFoundPage/NotFoundPage"
