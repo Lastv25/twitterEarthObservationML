@@ -13,7 +13,7 @@ import {
 } from '@elastic/eui';
 import { Link } from "react-router-dom"
 import loginIcon from "../../assets/img/loginIcon.svg"
-import { DisasterForm, MapComponent } from "../../components"
+import { DisasterForm, MapLanding } from "../../components"
 
 
 const StyledEuiPage = styled(EuiPage)`
@@ -54,7 +54,7 @@ export default function LandingPage({ user, ...props }) {
            <h2>Hello and welcome to our app. Here is a map of Natural disaters based on the filters form</h2>
 
           <EuiPageContent>
-            <MapComponent />
+            <MapLanding />
           </EuiPageContent>
         </EuiPageBody>
       </StyledEuiPage>
