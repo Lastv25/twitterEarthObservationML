@@ -95,7 +95,7 @@ export default function CollectionForm (props) {
       <EuiSpacer />
 
       <EuiFormRow label="Collection Name" >
-        <EuiFieldText name="full_name" value={form.full_name}/>
+        <EuiFieldText name="full_name" />
       </EuiFormRow>
 
       <EuiSpacer />
