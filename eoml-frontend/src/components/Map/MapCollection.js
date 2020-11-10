@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, TileLayer, FeatureGroup, Circle } from "react-leaflet";
+import { Map, TileLayer, FeatureGroup } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw"
 import "../../assets/css/map.css"
 
