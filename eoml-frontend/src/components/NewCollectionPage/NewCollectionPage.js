@@ -34,7 +34,7 @@ export default function NewCollectionPage({ user, ...props }) {
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
+              <EuiTitle>
                 <h1>New Collection Choice</h1>
               </EuiTitle>
             </EuiPageHeaderSection>

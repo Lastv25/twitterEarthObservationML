@@ -45,6 +45,7 @@ export default function CollectionForm (props) {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
     const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
 
     const onButtonClick = () => {
         setIsPopoverOpen(!isPopoverOpen);
@@ -60,7 +61,10 @@ export default function CollectionForm (props) {
         setIsPopover2Open(false);
     };
     const onSwitchChange = () => {
-    setIsSwitchChecked(!isSwitchChecked);
+        setIsSwitchChecked(!isSwitchChecked);
+    };
+    const onSwitchChange2 = () => {
+        setIsSwitchChecked2(!isSwitchChecked2);
     };
 
     const button = (
@@ -81,59 +85,7 @@ export default function CollectionForm (props) {
           E-Geos
         </EuiButton>
       );
-        const [recentlyUsedRanges, setRecentlyUsedRanges] = useState([]);
-      const [isLoading, setIsLoading] = useState(false);
-      const [start, setStart] = useState('now-30m');
-      const [end, setEnd] = useState('now');
-      const [isPaused, setIsPaused] = useState(true);
-      const [refreshInterval, setRefreshInterval] = useState();
 
-      const onTimeChange = ({ start, end }) => {
-        const recentlyUsedRange = recentlyUsedRanges.filter((recentlyUsedRange) => {
-          const isDuplicate =
-            recentlyUsedRange.start === start && recentlyUsedRange.end === end;
-          return !isDuplicate;
-        });
-        recentlyUsedRange.unshift({ start, end });
-        setStart(start);
-        setEnd(end);
-        setRecentlyUsedRanges(
-          recentlyUsedRange.length > 10
-            ? recentlyUsedRange.slice(0, 9)
-            : recentlyUsedRange
-        );
-        setIsLoading(true);
-        startLoading();
-      };
-
-      const onRefresh = ({ start, end, refreshInterval }) => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        }).then(() => {
-          console.log(start, end, refreshInterval);
-        });
-      };
-
-      const onStartInputChange = (e) => {
-        setStart(e.target.value);
-      };
-
-      const onEndInputChange = (e) => {
-        setEnd(e.target.value);
-      };
-
-      const startLoading = () => {
-        setTimeout(stopLoading, 1000);
-      };
-
-      const stopLoading = () => {
-        setIsLoading(false);
-      };
-
-      const onRefreshChange = ({ isPaused, refreshInterval }) => {
-        setIsPaused(isPaused);
-        setRefreshInterval(refreshInterval);
-      };
 
 
   return (
@@ -192,21 +144,31 @@ export default function CollectionForm (props) {
 
       <EuiSpacer />
 
-      <EuiText size='s'>
-        Monitoring time interval for your events and products
-      </EuiText>
-      <EuiSuperDatePicker
-        isLoading={isLoading}
-        start={start}
-        end={end}
-        onTimeChange={onTimeChange}
-        onRefresh={onRefresh}
-        isPaused={isPaused}
-        refreshInterval={refreshInterval}
-        onRefreshChange={onRefreshChange}
-        showUpdateButton={false}
-        recentlyUsedRanges={recentlyUsedRanges}
-      />
+      <EuiFormRow
+        label="Interval Switch"
+        hasChildLabel={false}>
+        <EuiSwitch
+          name="switch2"
+          label="Use time Interval"
+          checked={isSwitchChecked}
+          onChange={onSwitchChange}
+        />
+      </EuiFormRow>
+      <EuiFormRow label="Monitor From date">
+        <EuiDatePicker
+          showTimeSelect={false}
+          selected={startDate}
+          onChange={handleChange}
+        />
+      </EuiFormRow>
+      <EuiFormRow label="To date">
+        <EuiDatePicker
+          isDisabled={isSwitchChecked}
+          showTimeSelect={false}
+          selected={endDate}
+          onChange={handleChange2}
+        />
+      </EuiFormRow>
 
       <EuiSpacer />
 
@@ -216,10 +178,11 @@ export default function CollectionForm (props) {
         <EuiSwitch
           name="switch"
           label="Should we do this?"
-          checked={isSwitchChecked}
-          onChange={onSwitchChange}
+          checked={isSwitchChecked2}
+          onChange={onSwitchChange2}
         />
       </EuiFormRow>
+
 
       <EuiButton type="submit" fill>
         Save filter
