@@ -24,10 +24,11 @@ export default function CollectionForm (props) {
         aoi: "",
         parameters: ""
     })
-    const [Scihubform, setScihubForm] = React.useState({
+    const [scihubform, setScihubForm] = React.useState({
         parameters: ""
     })
-    const [Egeosform, setEgeosForm] = React.useState({
+    const [egeosform, setEgeosForm] = React.useState({
+        use_data: true,
         parameters: ''
     })
     const [startDate, setStartDate] = useState(moment());
@@ -123,7 +124,7 @@ export default function CollectionForm (props) {
             isOpen={isPopoverOpen}
             closePopover={closePopover}>
 
-            <ScihubForm form={ScihubForm}/>
+            <ScihubForm form={scihubform}/>
           </EuiPopover>
       </EuiFormRow>
 
@@ -136,7 +137,7 @@ export default function CollectionForm (props) {
         button={button2}
         isOpen={isPopover2Open}
         closePopover={closePopover2}>
-        <div><EgeosForm form={EgeosForm}/></div>
+        <div><EgeosForm form={egeosform}/></div>
        </EuiPopover>
 
       <EuiSpacer />

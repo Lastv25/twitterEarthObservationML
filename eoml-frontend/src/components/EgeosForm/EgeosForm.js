@@ -19,7 +19,7 @@ const idPrefix = htmlIdGenerator()();
 
 
 export default function EgeosForm ({form}) {
-    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+    const [isSwitchChecked, setIsSwitchChecked] = useState(form.use_data);
     const radios = [
     {
       id: `${idPrefix}0`,
@@ -55,7 +55,8 @@ export default function EgeosForm ({form}) {
        setStartDate(date);
     };
     const onSwitchChange = () => {
-    setIsSwitchChecked(!isSwitchChecked);
+        setIsSwitchChecked(!isSwitchChecked);
+        form.use_data = !form.use_data
     };
   return (
 
