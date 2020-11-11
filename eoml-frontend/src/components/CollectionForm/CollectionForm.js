@@ -22,7 +22,7 @@ export default function CollectionForm (props) {
     const [form, setForm] = React.useState({
         full_name: "",
         disaster: "",
-        notification: "",
+        notification: false,
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
@@ -49,7 +49,7 @@ export default function CollectionForm (props) {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
     const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.notification);
 
     const onButtonClick = () => {
         setIsPopoverOpen(!isPopoverOpen);
@@ -69,6 +69,7 @@ export default function CollectionForm (props) {
     };
     const onSwitchChange2 = () => {
         setIsSwitchChecked2(!isSwitchChecked2);
+        form.notification = !form.notification;
     };
 
     const button = (
@@ -90,6 +91,18 @@ export default function CollectionForm (props) {
         </EuiButton>
       );
 
+    const [valueFullName, setValueFullName] = useState(form.full_name);
+    const onChangeFullName = (e) => {
+      setValueFullName(e.target.value);
+      form.full_name = e.target.value
+    };
+
+
+    const [valueDisaster, setValueDisaster] = useState(form.disaster);
+    const onChangeDisaster = (e) => {
+        setValueDisaster(e.target.value);
+        form.disaster = e.target.value
+    };
 
 
   return (
@@ -99,7 +112,11 @@ export default function CollectionForm (props) {
       <EuiSpacer />
 
       <EuiFormRow label="Collection Name" >
-        <EuiFieldText name="full_name" />
+        <EuiFieldText
+         name="full_name"
+         value = {form.full_name}
+         onChange={(e) => onChangeFullName(e)}
+         />
       </EuiFormRow>
 
       <EuiSpacer />
@@ -107,7 +124,8 @@ export default function CollectionForm (props) {
       <EuiFormRow label="Select a Disaster">
         <EuiSelect
           name="disaster"
-          hasNoInitialSelection
+          value = {form.disaster}
+          onChange={(e) => onChangeDisaster(e)}
           options={[
             { value: 'wildfires', text: 'Wildfires' },
             { value: 'Earthquakes', text: 'Earthquakes' },
