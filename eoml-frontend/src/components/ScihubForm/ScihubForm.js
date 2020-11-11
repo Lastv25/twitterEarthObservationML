@@ -14,7 +14,6 @@ import {
   EuiFormRow
 } from '@elastic/eui';
 
-import moment from 'moment';
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 
 const idPrefix = htmlIdGenerator()();
@@ -22,22 +21,22 @@ const idPrefix = htmlIdGenerator()();
 
 export default function ScihubForm ({form})  {
 
-    const [isSwitchChecked, setIsSwitchChecked] = useState(form.switch_ingestion);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.switch_sensing);
-    const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.switch_mission1);
+    const [isSwitchChecked, setIsSwitchChecked] = useState(form.ingestion_parameter[0]);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.sensing_parameter[0]);
+    const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.mission1[0]);
     const [isSwitchChecked4, setIsSwitchChecked4] = useState(form.switch_mission2);
     const [isSwitchChecked5, setIsSwitchChecked5] = useState(form.switch_mission3);
     const onSwitchChange = () => {
         setIsSwitchChecked(!isSwitchChecked);
-        form.switch_ingestion = !form.switch_ingestion
+        form.ingestion_parameter[0] = !form.ingestion_parameter[0]
     };
     const onSwitchChange2 = () => {
         setIsSwitchChecked2(!isSwitchChecked2);
-        form.switch_sensing = !form.switch_sensing
+        form.sensing_parameter[0] = !form.sensing_parameter[0]
     };
     const onSwitchChange3 = () => {
         setIsSwitchChecked3(!isSwitchChecked3);
-        form.switch_mission1 = !form.switch_mission1
+        form.mission1[0] = !form.mission1[0]
     };
     const onSwitchChange4 = () => {
         setIsSwitchChecked4(!isSwitchChecked4);
@@ -48,11 +47,56 @@ export default function ScihubForm ({form})  {
         form.switch_mission3 = !form.switch_mission3
     };
 
-    const [startDate, setStartDate] = useState(moment());
-    const [endDate, setEndDate] = useState(moment().add(11, 'd'));
+    const [startingestionDate, setStartIngestionDate] = useState(form.ingestion_parameter[1]);
+    const [startsensingDate, setStartSensingDate] = useState(form.sensing_parameter[1]);
+    const [endingestionDate, setEndIngestionDate] = useState(form.ingestion_parameter[2]);
+    const [endsensingDate, setEndSensingDate] = useState(form.sensing_parameter[2]);
 
-    const handleChange = (date) => {
-       setStartDate(date);
+    const handleChangeIngestionStart = (date) => {
+       setStartIngestionDate(date);
+       form.ingestion_parameter[1] = date;
+    };
+    const handleChangeIngestionEnd = (date) => {
+       setEndIngestionDate(date);
+       form.ingestion_parameter[2] = date;
+    };
+    const handleChangeSensingStart = (date) => {
+       setStartSensingDate(date);
+       form.sensing_parameter[1] = date;
+    };
+    const handleChangeSensingEnd = (date) => {
+       setEndSensingDate(date);
+       form.sensing_parameter[2] = date;
+    };
+
+    const [valuePlatform, setValuePlatform] = useState(form.mission1[1]);
+    const onChangeM1Platform = (e) => {
+        setValuePlatform(e.target.value);
+        form.mission1[1] = e.target.value
+    };
+
+    const [valuePType, setValuePType] = useState(form.mission1[2]);
+    const onChangeM1PType = (e) => {
+        setValuePType(e.target.value);
+        form.mission1[2] = e.target.value
+    };
+
+    const [valuePolarisation, setValuePolarisation] = useState(form.mission1[3]);
+    const onChangeM1Polarisation = (e) => {
+        setValuePolarisation(e.target.value);
+        form.mission1[3] = e.target.value
+    };
+
+    const [valueSMode, setValueSMode] = useState(form.mission1[4]);
+    const onChangeM1SMode = (e) => {
+        setValueSMode(e.target.value);
+        form.mission1[4] = e.target.value
+    };
+
+    const [valueOrbitM1, setValueOrbitM1] = useState(form.mission1[5]);
+    const onChangeM1Orbit = (e) => {
+      setValueOrbitM1(e.target.value);
+      form.mission1[5] = e.target.value
     };
 
   return (
@@ -74,20 +118,20 @@ export default function ScihubForm ({form})  {
           startDateControl={
             <EuiDatePicker
               disabled={!isSwitchChecked}
-              selected={startDate}
-              onChange={handleChange}
-              startDate={startDate}
-              endDate={endDate}
+              selected={startingestionDate}
+              onChange={handleChangeIngestionStart}
+              startDate={startingestionDate}
+              endDate={endingestionDate}
               showTimeSelect
             />
           }
           endDateControl={
             <EuiDatePicker
               disabled={!isSwitchChecked}
-              selected={endDate}
-              onChange={handleChange}
-              startDate={startDate}
-              endDate={endDate}
+              selected={endingestionDate}
+              onChange={handleChangeIngestionEnd}
+              startDate={startingestionDate}
+              endDate={endingestionDate}
               showTimeSelect
             />
         }
@@ -112,20 +156,20 @@ export default function ScihubForm ({form})  {
           startDateControl={
             <EuiDatePicker
               disabled={!isSwitchChecked2}
-              selected={startDate}
-              onChange={handleChange}
-              startDate={startDate}
-              endDate={endDate}
+              selected={startsensingDate}
+              onChange={handleChangeSensingStart}
+              startDate={startsensingDate}
+              endDate={endsensingDate}
               showTimeSelect
             />
           }
           endDateControl={
             <EuiDatePicker
               disabled={!isSwitchChecked2}
-              selected={endDate}
-              onChange={handleChange}
-              startDate={startDate}
-              endDate={endDate}
+              selected={endsensingDate}
+              onChange={handleChangeSensingEnd}
+              startDate={startsensingDate}
+              endDate={endsensingDate}
               showTimeSelect
             />
         }
@@ -150,7 +194,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked3}
                   name="platform"
-                  hasNoInitialSelection
+                  value = {form.mission1[1]}
+                  onChange={(e) => onChangeM1Platform(e)}
                   options={[
                     { value: 's1a_', text: 'S1A_*' },
                     { value: 's1b_', text: 'S1B_*' },
@@ -163,7 +208,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                    disabled={!isSwitchChecked3}
                   name="product_type"
-                  hasNoInitialSelection
+                  value = {form.mission1[2]}
+                  onChange={(e) => onChangeM1PType(e)}
                   options={[
                     { value: 'slc', text: 'SLC' },
                     { value: 'grd', text: 'GRD' },
@@ -179,7 +225,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked3}
                   name="polarisation"
-                  hasNoInitialSelection
+                  value = {form.mission1[3]}
+                  onChange={(e) => onChangeM1Polarisation(e)}
                   options={[
                     { value: 'hh', text: 'HH' },
                     { value: 'vv', text: 'VV' },
@@ -196,7 +243,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked3}
                   name="sensor_mode"
-                  hasNoInitialSelection
+                  value = {form.mission1[4]}
+                  onChange={(e) => onChangeM1SMode(e)}
                   options={[
                     { value: 'sm', text: 'SM' },
                     { value: 'iw', text: 'IW' },
@@ -210,7 +258,11 @@ export default function ScihubForm ({form})  {
       <EuiFlexGroup>
         <EuiFlexItem>
             <EuiFormRow label="Orbit Number">
-              <EuiFieldText name="orbit_number"  disabled={!isSwitchChecked3}/>
+              <EuiFieldText name="orbit_number"
+                  disabled={!isSwitchChecked3}
+                  value={form.mission1[5]}
+                  onChange={(e) => onChangeM1Orbit(e)}
+                />
             </EuiFormRow>
         </EuiFlexItem>
 
