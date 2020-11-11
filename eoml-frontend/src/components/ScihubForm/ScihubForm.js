@@ -24,7 +24,7 @@ export default function ScihubForm ({form})  {
     const [isSwitchChecked, setIsSwitchChecked] = useState(form.ingestion_parameter[0]);
     const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.sensing_parameter[0]);
     const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.mission1[0]);
-    const [isSwitchChecked4, setIsSwitchChecked4] = useState(form.switch_mission2);
+    const [isSwitchChecked4, setIsSwitchChecked4] = useState(form.mission2[0]);
     const [isSwitchChecked5, setIsSwitchChecked5] = useState(form.switch_mission3);
     const onSwitchChange = () => {
         setIsSwitchChecked(!isSwitchChecked);
@@ -40,7 +40,7 @@ export default function ScihubForm ({form})  {
     };
     const onSwitchChange4 = () => {
         setIsSwitchChecked4(!isSwitchChecked4);
-        form.switch_mission2 = !form.switch_mission2
+        form.mission2[0] = !form.mission2[0]
     };
     const onSwitchChange5 = () => {
         setIsSwitchChecked5(!isSwitchChecked5);
@@ -99,6 +99,30 @@ export default function ScihubForm ({form})  {
       form.mission1[5] = e.target.value
     };
 
+
+    const [valueM2Platform, setValueM2Platform] = useState(form.mission2[1]);
+    const onChangeM2Platform = (e) => {
+        setValueM2Platform(e.target.value);
+        form.mission2[1] = e.target.value
+    };
+
+    const [valueM2PType, setValueM2PType] = useState(form.mission2[2]);
+    const onChangeM2PType = (e) => {
+        setValueM2PType(e.target.value);
+        form.mission2[2] = e.target.value
+    };
+
+    const [valueOrbitM2, setValueOrbitM2] = useState(form.mission2[3]);
+    const onChangeM2Orbit = (e) => {
+      setValueOrbitM2(e.target.value);
+      form.mission2[3] = e.target.value
+    };
+
+    const [valueCloudM1, setValueCloudM1] = useState(form.mission2[4]);
+    const onChangeM2Cloud = (e) => {
+      setValueCloudM1(e.target.value);
+      form.mission2[4] = e.target.value
+    };
   return (
     /* DisplayToggles wrapper for Docs only */
     <EuiForm component="form">
@@ -286,7 +310,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked4}
                   name="platform"
-                  hasNoInitialSelection
+                  value = {form.mission2[1]}
+                  onChange={(e) => onChangeM2Platform(e)}
                   options={[
                     { value: 's2a_', text: 'S2A_*' },
                     { value: 's2b_', text: 'S2B_*' },
@@ -299,7 +324,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                    disabled={!isSwitchChecked4}
                   name="product_type"
-                  hasNoInitialSelection
+                  value = {form.mission2[2]}
+                  onChange={(e) => onChangeM2PType(e)}
                   options={[
                     { value: 's2msi1c', text: 'S2MSI1C' },
                     { value: 's2msi2a', text: 'S2MSI2A' },
@@ -312,12 +338,20 @@ export default function ScihubForm ({form})  {
       <EuiFlexGroup>
         <EuiFlexItem>
             <EuiFormRow label="Orbit Number">
-              <EuiFieldText name="orbit_number"  disabled={!isSwitchChecked4}/>
+              <EuiFieldText name="orbit_number"
+              disabled={!isSwitchChecked4}
+              value = {form.mission2[3]}
+              onChange={(e) => onChangeM2Orbit(e)}
+              />
             </EuiFormRow>
         </EuiFlexItem>
         <EuiFlexItem>
             <EuiFormRow label="Cloud Cover">
-              <EuiFieldText name="cloud_cover"  disabled={!isSwitchChecked4}/>
+              <EuiFieldText name="cloud_cover"
+              disabled={!isSwitchChecked4}
+              value = {form.mission2[4]}
+              onChange={(e) => onChangeM2Cloud(e)}
+              />
             </EuiFormRow>
         </EuiFlexItem>
 
