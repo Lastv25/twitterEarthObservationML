@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
-  EuiButton,
   EuiForm,
   EuiSwitch,
   EuiSpacer,
@@ -16,7 +15,6 @@ import {
 
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
 
-const idPrefix = htmlIdGenerator()();
 
 
 export default function ScihubForm ({form})  {
