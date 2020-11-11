@@ -20,6 +20,15 @@ export default function MapComponent (props) {
                 circle: false,
                 circlemarker: false
               }}
+              onCreated={e => {
+                        console.log("eachLayer ", e.layer.toGeoJSON().geometry)
+                }}
+              onEdited={e => {
+                    e.layers.eachLayer(function(layer){
+                        console.log("eachLayer ", layer.toGeoJSON().geometry)
+                    }
+                    );
+                }}
               />
             </FeatureGroup>
         </Map>
