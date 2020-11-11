@@ -223,6 +223,49 @@ export default function ScihubForm ({form})  {
         />
       </EuiFormRow>
       <EuiSpacer />
+      <EuiFlexGroup>
+        <EuiFlexItem>
+            <EuiFormRow label="Platform">
+              <EuiSelect
+                  disabled={!isSwitchChecked4}
+                  name="platform"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 's2a_', text: 'S2A_*' },
+                    { value: 's2b_', text: 'S2B_*' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Product Type">
+              <EuiSelect
+                   disabled={!isSwitchChecked4}
+                  name="product_type"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 's2msi1c', text: 'S2MSI1C' },
+                    { value: 's2msi2a', text: 'S2MSI2A' },
+                    { value: 's2msi2ap', text: 'S2MSI2Ap' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+            <EuiFormRow label="Orbit Number">
+              <EuiFieldText name="orbit_number"  disabled={!isSwitchChecked4}/>
+            </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+            <EuiFormRow label="Cloud Cover">
+              <EuiFieldText name="cloud_cover"  disabled={!isSwitchChecked4}/>
+            </EuiFormRow>
+        </EuiFlexItem>
+
+      </EuiFlexGroup>
+      <EuiSpacer />
 
       <EuiFormRow
         hasChildLabel={false}>
@@ -233,7 +276,101 @@ export default function ScihubForm ({form})  {
           onChange={onSwitchChange5}
         />
       </EuiFormRow>
-
+      <EuiSpacer />
+      <EuiFlexGroup>
+        <EuiFlexItem>
+            <EuiFormRow label="Platform">
+              <EuiSelect
+                  disabled={!isSwitchChecked5}
+                  name="platform"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 's3a_', text: 'S3A_*' },
+                    { value: 's3b_', text: 'S3B_*' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Product Type">
+              <EuiSelect
+                   disabled={!isSwitchChecked5}
+                  name="product_type"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 'ol1efr', text: 'OL_1_EFR___' },
+                    { value: 'ol1err', text: 'OL_1_ERR___' },
+                    { value: 'ol2lfr', text: 'OL_2_LFR___' },
+                    { value: 'ol2lrr', text: 'OL_2_LRR___' },
+                    { value: 'sr1sra', text: 'SR_1_SRA___' },
+                    { value: 'sr1sraa', text: 'SR_1_SRA_A_' },
+                    { value: 'sr1srabs', text: 'SR_1_SRA_BS' },
+                    { value: 'sr2lan', text: 'SR_2_LAN___' },
+                    { value: 'sl1rbt', text: 'SL_1_RBT___' },
+                    { value: 'sl2lst', text: 'SL_2_LST___' },
+                    { value: 'sl2frp', text: 'SL_2_FRP___' },
+                    { value: 'sy2syn', text: 'SY_2_SYN___' },
+                    { value: 'sy2v10', text: 'SY_2_V10___' },
+                    { value: 'sy2vg1', text: 'SY_2_VG1___' },
+                    { value: 'sy2vgp', text: 'SY_2_VGP___' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+            <EuiFormRow label="Timeliness">
+              <EuiSelect
+                  disabled={!isSwitchChecked5}
+                  name="timeliness"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 'nrt', text: '"Near Real Time"' },
+                    { value: 'stc', text: '"Short Time Critical"' },
+                    { value: 'ntc', text: '"Non Time Critical"' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFormRow label="Instrument">
+              <EuiSelect
+                   disabled={!isSwitchChecked5}
+                  name="instrument"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 'olci', text: 'OLCI' },
+                    { value: 'sral', text: 'SRAL' },
+                    { value: 'slstr', text: 'SLSTR' },
+                    { value: 'synergy', text: 'SYNERGY' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+      </EuiFlexGroup>
+      <EuiFlexGroup>
+        <EuiFlexItem>
+            <EuiFormRow label="Product Level">
+              <EuiSelect
+                  disabled={!isSwitchChecked5}
+                  name="product_level"
+                  hasNoInitialSelection
+                  options={[
+                    { value: 'l1', text: 'L1' },
+                    { value: 'l2', text: 'L2' },
+                  ]}
+                />
+            </EuiFormRow>
+        </EuiFlexItem>
+        <EuiFlexItem>
+          <EuiFlexItem>
+            <EuiFormRow label="Relative Orbit">
+              <EuiFieldText name="relative_orbit"  disabled={!isSwitchChecked5}/>
+            </EuiFormRow>
+        </EuiFlexItem>
+        </EuiFlexItem>
+      </EuiFlexGroup>
     </EuiForm>
   );
 };

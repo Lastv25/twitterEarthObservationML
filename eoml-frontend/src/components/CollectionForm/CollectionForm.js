@@ -120,7 +120,7 @@ export default function CollectionForm (props) {
       <EuiFormRow>
         <EuiPopover
             id="ScihubPopover"
-            anchorPosition="rightDown"
+            anchorPosition="rightTop"
             ownFocus
             button={button}
             isOpen={isPopoverOpen}
