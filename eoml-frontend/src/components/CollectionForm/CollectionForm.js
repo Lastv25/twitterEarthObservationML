@@ -26,7 +26,11 @@ export default function CollectionForm (props) {
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
-        parameters: ""
+        switch_ingestion: false,
+        switch_sensing: false,
+        switch_mission1: false,
+        switch_mission2: false,
+        switch_mission3: false
     })
     const [egeosform, setEgeosForm] = React.useState({
         use_data: true,

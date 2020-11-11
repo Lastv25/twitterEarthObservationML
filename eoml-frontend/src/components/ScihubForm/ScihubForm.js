@@ -22,25 +22,30 @@ const idPrefix = htmlIdGenerator()();
 
 export default function ScihubForm ({form})  {
 
-    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
-    const [isSwitchChecked3, setIsSwitchChecked3] = useState(false);
-    const [isSwitchChecked4, setIsSwitchChecked4] = useState(false);
-    const [isSwitchChecked5, setIsSwitchChecked5] = useState(false);
+    const [isSwitchChecked, setIsSwitchChecked] = useState(form.switch_ingestion);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.switch_sensing);
+    const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.switch_mission1);
+    const [isSwitchChecked4, setIsSwitchChecked4] = useState(form.switch_mission2);
+    const [isSwitchChecked5, setIsSwitchChecked5] = useState(form.switch_mission3);
     const onSwitchChange = () => {
         setIsSwitchChecked(!isSwitchChecked);
+        form.switch_ingestion = !form.switch_ingestion
     };
     const onSwitchChange2 = () => {
         setIsSwitchChecked2(!isSwitchChecked2);
+        form.switch_sensing = !form.switch_sensing
     };
     const onSwitchChange3 = () => {
         setIsSwitchChecked3(!isSwitchChecked3);
+        form.switch_mission1 = !form.switch_mission1
     };
     const onSwitchChange4 = () => {
         setIsSwitchChecked4(!isSwitchChecked4);
+        form.switch_mission2 = !form.switch_mission2
     };
     const onSwitchChange5 = () => {
         setIsSwitchChecked5(!isSwitchChecked5);
+        form.switch_mission3 = !form.switch_mission3
     };
 
     const [startDate, setStartDate] = useState(moment());
