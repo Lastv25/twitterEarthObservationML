@@ -25,7 +25,7 @@ export default function ScihubForm ({form})  {
     const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.sensing_parameter[0]);
     const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.mission1[0]);
     const [isSwitchChecked4, setIsSwitchChecked4] = useState(form.mission2[0]);
-    const [isSwitchChecked5, setIsSwitchChecked5] = useState(form.switch_mission3);
+    const [isSwitchChecked5, setIsSwitchChecked5] = useState(form.mission3[0]);
     const onSwitchChange = () => {
         setIsSwitchChecked(!isSwitchChecked);
         form.ingestion_parameter[0] = !form.ingestion_parameter[0]
@@ -44,7 +44,7 @@ export default function ScihubForm ({form})  {
     };
     const onSwitchChange5 = () => {
         setIsSwitchChecked5(!isSwitchChecked5);
-        form.switch_mission3 = !form.switch_mission3
+        form.mission3[0] = !form.mission3[0]
     };
 
     const [startingestionDate, setStartIngestionDate] = useState(form.ingestion_parameter[1]);
@@ -118,10 +118,47 @@ export default function ScihubForm ({form})  {
       form.mission2[3] = e.target.value
     };
 
-    const [valueCloudM1, setValueCloudM1] = useState(form.mission2[4]);
+    const [valueCloudM2, setValueCloudM2] = useState(form.mission2[4]);
     const onChangeM2Cloud = (e) => {
-      setValueCloudM1(e.target.value);
+      setValueCloudM2(e.target.value);
       form.mission2[4] = e.target.value
+    };
+
+    const [valueM3Platform, setValueM3Platform] = useState(form.mission3[1]);
+    const onChangeM3Platform = (e) => {
+        setValueM3Platform(e.target.value);
+        form.mission3[1] = e.target.value
+    };
+
+    const [valueM3PType, setValueM3PType] = useState(form.mission3[2]);
+    const onChangeM3PType = (e) => {
+      setValueM3PType(e.target.value);
+      form.mission3[2] = e.target.value
+    };
+
+
+    const [valueM3Timeliness, setValueM3Timeliness] = useState(form.mission3[3]);
+    const onChangeM3Timeliness = (e) => {
+        setValueM3Timeliness(e.target.value);
+        form.mission3[3] = e.target.value
+    };
+
+    const [valueM3Instrument, setValueM3Instrument] = useState(form.mission3[4]);
+    const onChangeM3Instrument = (e) => {
+        setValueM3Instrument(e.target.value);
+        form.mission3[4] = e.target.value
+    };
+
+    const [valueM3Level, setValueM3Level] = useState(form.mission3[5]);
+    const onChangeM3Level = (e) => {
+      setValueM3Level(e.target.value);
+      form.mission3[5] = e.target.value
+    };
+
+    const [valueM3Orbit, setValueM3Orbit] = useState(form.mission3[6]);
+    const onChangeM3Orbit = (e) => {
+      setValueM3Orbit(e.target.value);
+      form.mission3[6] = e.target.value
     };
   return (
     /* DisplayToggles wrapper for Docs only */
@@ -374,7 +411,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked5}
                   name="platform"
-                  hasNoInitialSelection
+                  value = {form.mission3[1]}
+                  onChange={(e) => onChangeM3Platform(e)}
                   options={[
                     { value: 's3a_', text: 'S3A_*' },
                     { value: 's3b_', text: 'S3B_*' },
@@ -385,9 +423,10 @@ export default function ScihubForm ({form})  {
         <EuiFlexItem>
           <EuiFormRow label="Product Type">
               <EuiSelect
-                   disabled={!isSwitchChecked5}
+                  disabled={!isSwitchChecked5}
                   name="product_type"
-                  hasNoInitialSelection
+                  value = {form.mission3[2]}
+                  onChange={(e) => onChangeM3PType(e)}
                   options={[
                     { value: 'ol1efr', text: 'OL_1_EFR___' },
                     { value: 'ol1err', text: 'OL_1_ERR___' },
@@ -415,7 +454,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked5}
                   name="timeliness"
-                  hasNoInitialSelection
+                  value = {form.mission3[3]}
+                  onChange={(e) => onChangeM3Timeliness(e)}
                   options={[
                     { value: 'nrt', text: '"Near Real Time"' },
                     { value: 'stc', text: '"Short Time Critical"' },
@@ -429,7 +469,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                    disabled={!isSwitchChecked5}
                   name="instrument"
-                  hasNoInitialSelection
+                  value = {form.mission3[4]}
+                  onChange={(e) => onChangeM3Instrument(e)}
                   options={[
                     { value: 'olci', text: 'OLCI' },
                     { value: 'sral', text: 'SRAL' },
@@ -446,7 +487,8 @@ export default function ScihubForm ({form})  {
               <EuiSelect
                   disabled={!isSwitchChecked5}
                   name="product_level"
-                  hasNoInitialSelection
+                  value = {form.mission3[5]}
+                  onChange={(e) => onChangeM3Level(e)}
                   options={[
                     { value: 'l1', text: 'L1' },
                     { value: 'l2', text: 'L2' },
@@ -457,7 +499,11 @@ export default function ScihubForm ({form})  {
         <EuiFlexItem>
           <EuiFlexItem>
             <EuiFormRow label="Relative Orbit">
-              <EuiFieldText name="relative_orbit"  disabled={!isSwitchChecked5}/>
+              <EuiFieldText name="relative_orbit"
+              disabled={!isSwitchChecked5}
+              value = {form.mission3[6]}
+              onChange={(e) => onChangeM3Orbit(e)}
+              />
             </EuiFormRow>
         </EuiFlexItem>
         </EuiFlexItem>

@@ -26,11 +26,11 @@ export default function CollectionForm (props) {
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
-        switch_mission3: false,
         ingestion_parameter: [false, moment(), moment().add(11, 'd')],
         sensing_parameter: [false, moment(), moment().add(11, 'd')],
         mission1: [false, "", "", "", "", ""],
-        mission2: [false, "", "", "", ""]
+        mission2: [false, "", "", "", ""],
+        mission3: [false, "", "", "", "", "", ""]
     })
     const [egeosform, setEgeosForm] = React.useState({
         use_data: true,
@@ -138,7 +138,7 @@ export default function CollectionForm (props) {
 
        <EuiPopover
         id="EgeosPopover"
-        anchorPosition="rightDown"
+        anchorPosition="rightUp"
         ownFocus
         button={button2}
         isOpen={isPopover2Open}
