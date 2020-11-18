@@ -30,6 +30,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
+        platform: 'scihub',
         ingestion_parameter: [false, moment(), moment().add(11, 'd')],
         sensing_parameter: [false, moment(), moment().add(11, 'd')],
         mission1: [false, "", "", "", "", ""],
@@ -37,6 +38,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         mission3: [false, "", "", "", "", "", ""]
     })
     const [egeosform, setEgeosForm] = React.useState({
+        platform: 'egeos',
         use_data: true,
         parameters: ''
     })
