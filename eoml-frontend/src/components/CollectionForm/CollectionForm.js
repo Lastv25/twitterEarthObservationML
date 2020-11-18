@@ -25,7 +25,7 @@ import { Actions as collectionsActions } from "../../redux/collections"
 function CollectionForm ({user, collectionError, isLoading,createCollection}) {
     const [form, setForm] = React.useState({
         full_name: "",
-        disaster: "",
+        disaster: "wildfires",
         notification: false,
         parameters: ""
     })
