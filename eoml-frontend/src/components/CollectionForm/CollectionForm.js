@@ -14,14 +14,16 @@ import {
 } from '@elastic/eui';
 
 import moment from 'moment';
+import { useNavigate } from "react-router-dom"
 import { ScihubForm, EgeosForm } from "../../components"
 import { extractErrorMessages } from "../../utils/errors"
 import validation from "../../utils/validation"
+import { Actions as collectionsActions } from "../../redux/collections"
 
 
 
 function CollectionForm ({user, collectionError, isLoading,
-    createCollection = async () => console.log("fake create collection submission")}
+    createCollection}
     ) {
     const [form, setForm] = React.useState({
         full_name: "",
@@ -42,6 +44,7 @@ function CollectionForm ({user, collectionError, isLoading,
     })
     const [errors, setErrors] = React.useState({})
     const [hasSubmitted, setHasSubmitted] = React.useState(false)
+    const navigate = useNavigate()
     const collectionErrorList = extractErrorMessages(collectionError)
 
     const validateInput = (label, value) => {
@@ -119,8 +122,24 @@ function CollectionForm ({user, collectionError, isLoading,
         // validate inputs before submitting
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
 
-    }
+        setHasSubmitted(true)
+        const res = await createCollection({ new_collection: { ...form } })
+        if (res?.success) {
+              navigate(`/profile`)
+              // redirect user to his profile page
+            }
 
+    }
+    const getFormErrors = () => {
+        const formErrors = []
+        if (errors.form) {
+          formErrors.push(errors.form)
+        }
+        if (hasSubmitted && collectionErrorList.length) {
+          return formErrors.concat(collectionErrorList)
+        }
+        return formErrors
+      }
   return (
     /* DisplayToggles wrapper for Docs only */
     <EuiForm component="form" onSubmit={handleSubmit}>
@@ -228,4 +247,10 @@ function CollectionForm ({user, collectionError, isLoading,
     </EuiForm>
   );
 }
-export default connect()(CollectionForm)
+export default connect(state => ({
+  user: state.auth.user,
+  collectionError: state.coll.error,
+  isLoading: state.coll.isLoading,
+}), {
+  createCollection: collectionsActions.createCollectionJob
+})(CollectionForm)
