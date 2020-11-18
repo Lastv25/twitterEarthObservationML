@@ -15,12 +15,13 @@ import {
   EuiText,
   EuiPageSideBar,
   EuiButton,
+  EuiSpacer,
   EuiFlexItem,
 } from "@elastic/eui"
 import { Link } from "react-router-dom"
 import moment from "moment"
 import styled from "styled-components"
-import { CollectionView } from "../../components"
+import { CollectionCard } from "../../components"
 import { Actions as collectionsActions } from "../../redux/collections"
 
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
@@ -31,11 +32,19 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
     margin-bottom: 1rem;
   }
 `
-function ProfilePage({user, collectionError, isLoading,fetchCollections }) {
+function ProfilePage({user, coll, collectionError, isLoading,fetchCollections }) {
 
     React.useEffect(() => {
           fetchCollections()
       }, [fetchCollections])
+
+    const coll_data = Array.from(coll)
+    const collections_data=coll_data.map((data,id)=>{
+    return <div key={id}>
+      <CollectionCard collection_id={data.id} name={data.full_name} disaster={data.disaster} notification={data.notification}/>
+      <EuiSpacer />
+    </div>
+  })
 
 return (
         <EuiPage>
@@ -57,9 +66,6 @@ return (
               <p>
                 <EuiIcon type="clock" /> member since {moment(user.created_at).format("MM-DD-YYYY")}
               </p>
-              <p>
-                <EuiIcon type="node" /> notifications {moment(user.created_at).format("MM-DD-YYYY")}
-              </p>
             </EuiText>
           </StyledEuiPageContentBody>
         </EuiPageSideBar>
@@ -67,7 +73,7 @@ return (
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle size="l">
-                <h1>Please find in this page all your informations and collections</h1>
+                <h1>Personal Space</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
@@ -95,7 +101,11 @@ return (
                </EuiFlexItem>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
-            <CollectionView />
+            <EuiText grow={false}>
+                <p>To modify or delete a collection please click on the collection card.</p>
+            </EuiText>
+            <EuiSpacer />
+            {collections_data}
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
@@ -103,6 +113,7 @@ return (
 }
 export default connect((state) => ({
   user: state.auth.user,
+  coll: state.coll.data,
   collectionError: state.coll.error,
   isLoading: state.coll.isLoading,
 }), {

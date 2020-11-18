@@ -25,7 +25,7 @@ import { Actions as collectionsActions } from "../../redux/collections"
 function CollectionForm ({user, collectionError, isLoading,createCollection}) {
     const [form, setForm] = React.useState({
         full_name: "",
-        disaster: "wildfires",
+        disaster: "Wildfires",
         notification: false,
         parameters: ""
     })
@@ -162,7 +162,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
           value = {form.disaster}
           onChange={(e) => onInputChange(e.target.name, e.target.value)}
           options={[
-            { value: 'wildfires', text: 'Wildfires' },
+            { value: 'Wildfires', text: 'Wildfires' },
             { value: 'Earthquakes', text: 'Earthquakes' },
             { value: 'Hurricanes', text: 'Hurricanes' },
             { value: 'Floods', text: 'Floods' },

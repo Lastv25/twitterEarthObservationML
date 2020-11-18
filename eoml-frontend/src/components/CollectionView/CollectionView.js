@@ -1,8 +1,5 @@
 import React from "react"
 
-
-export default function CollectionView(props) {
-  return (
-    <h3> Hi </h3>
-  )
+export default function NotFoundPage(){
+  return <h1>Collection Modif and delete Page</h1>
 }
