@@ -6,6 +6,9 @@ export const CREATE_COLLECTION = "@@collections/CREATE_COLLECTION"
 export const CREATE_COLLECTION_SUCCESS = "@@collections/CREATE_COLLECTION_SUCCESS"
 export const CREATE_COLLECTION_FAILURE = "@@collections/CREATE_COLLECTION_FAILURE"
 
+export const FETCH_COLLECTIONS = "@@collections/FETCH_COLLECTIONS"
+export const FETCH_COLLECTIONS_SUCCESS = "@@collections/FETCH_COLLECTIONS_SUCCESS"
+export const FETCH_COLLECTIONS_FAILURE = "@@collections/FETCH_COLLECTIONS_FAILURE"
 
 export default function collectionsReducer(state = initialState.collections, action = {}) {
   switch (action.type) {
@@ -30,6 +33,25 @@ export default function collectionsReducer(state = initialState.collections, act
         isLoading: false,
         error: action.error,
       }
+    case FETCH_COLLECTIONS:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case FETCH_COLLECTIONS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        data: action.data
+      }
+    case FETCH_COLLECTIONS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+        data: {}
+      }
     default:
       return state
   }
@@ -47,6 +69,22 @@ Actions.createCollection = ({ new_collection }) => {
     },
     options: {
       data: { new_collection },
+      params: {},
+    },
+  })
+}
+
+Actions.fetchCollections = () => {
+  return apiClient({
+    url: `/collections/me/`,
+    method: `GET`,
+    types: {
+      REQUEST: FETCH_COLLECTIONS,
+      SUCCESS: FETCH_COLLECTIONS_SUCCESS,
+      FAILURE: FETCH_COLLECTIONS_FAILURE,
+    },
+    options: {
+      data: {},
       params: {},
     },
   })
