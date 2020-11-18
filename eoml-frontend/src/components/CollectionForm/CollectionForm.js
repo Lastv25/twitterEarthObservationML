@@ -10,8 +10,6 @@ import {
   EuiFieldText,
   EuiFormRow,
   EuiPopover,
-  EuiText,
-  EuiSuperDatePicker,
   EuiSwitch
 } from '@elastic/eui';
 
@@ -115,10 +113,17 @@ function CollectionForm ({user, collectionError, isLoading,
         </EuiButton>
       );
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        // validate inputs before submitting
+        Object.keys(form).forEach((label) => validateInput(label, form[label]))
+
+    }
 
   return (
     /* DisplayToggles wrapper for Docs only */
-    <EuiForm component="form">
+    <EuiForm component="form" onSubmit={handleSubmit}>
 
       <EuiSpacer />
 
