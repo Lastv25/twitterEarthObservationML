@@ -117,7 +117,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        form.parameters = scihubform + egeosform
+        form.parameters = JSON.stringify(scihubform) + JSON.stringify(egeosform)
 
         // validate inputs before submitting
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
