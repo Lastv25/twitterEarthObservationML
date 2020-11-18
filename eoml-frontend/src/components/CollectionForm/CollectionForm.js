@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux"
 
 import {
   EuiButton,
@@ -16,9 +17,13 @@ import {
 
 import moment from 'moment';
 import { ScihubForm, EgeosForm } from "../../components"
+import { extractErrorMessages } from "../../utils/errors"
 
 
-export default function CollectionForm (props) {
+
+function CollectionForm ({user, collectionError, isLoading,
+    createCollection = async () => console.log("fake create collection submission")}
+    ) {
     const [form, setForm] = React.useState({
         full_name: "",
         disaster: "",
@@ -36,6 +41,10 @@ export default function CollectionForm (props) {
         use_data: true,
         parameters: ''
     })
+    const [errors, setErrors] = React.useState({})
+    const [hasSubmitted, setHasSubmitted] = React.useState(false)
+
+
     const [startDate, setStartDate] = useState(moment());
     const [endDate, setEndDate] = useState(moment());
 
@@ -206,9 +215,10 @@ export default function CollectionForm (props) {
       </EuiFormRow>
 
 
-      <EuiButton type="submit" fill>
+      <EuiButton type="submit" isLoading={isLoading} fill>
         Save filter
       </EuiButton>
     </EuiForm>
   );
-};
+}
+export default connect()(CollectionForm)
