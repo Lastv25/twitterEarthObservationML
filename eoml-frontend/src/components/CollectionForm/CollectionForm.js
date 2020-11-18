@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from "react-redux"
-import { Actions as collectionActions } from "../../redux/collections"
 
 import {
   EuiButton,
@@ -20,7 +18,7 @@ import moment from 'moment';
 import { ScihubForm, EgeosForm } from "../../components"
 
 
-function CollectionForm (props) {
+export default function CollectionForm (props) {
     const [form, setForm] = React.useState({
         full_name: "",
         disaster: "",
@@ -144,7 +142,7 @@ function CollectionForm (props) {
       <EuiFormRow>
         <EuiPopover
             id="ScihubPopover"
-            anchorPosition="rightUp"
+            anchorPosition="rightTop"
             ownFocus
             button={button}
             isOpen={isPopoverOpen}
@@ -214,11 +212,3 @@ function CollectionForm (props) {
     </EuiForm>
   );
 };
-
-export default connect(state => ({
-  user: state.auth.user,
-  collectionError: state.collections.error,
-  isLoading: state.collections.isLoading,
-}), {
-  createCollection: collectionActions.createCollection
-})(CollectionForm)
