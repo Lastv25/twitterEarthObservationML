@@ -15,6 +15,7 @@ export { default as RegistrationPage } from "./RegistrationPage/RegistrationPage
 export { default as RegistrationForm } from "./RegistrationForm/RegistrationForm"
 
 export { default as ProfilePage } from "./ProfilePage/ProfilePage"
+export { default as CollectionView } from "./CollectionView/CollectionView"
 
 export { default as NewCollectionPage } from "./NewCollectionPage/NewCollectionPage"
 export { default as CollectionForm } from "./CollectionForm/CollectionForm"

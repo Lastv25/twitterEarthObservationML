@@ -7,7 +7,6 @@ export default {
   collections: {
     isLoading: false,
     error: null,
-    data: {},
-    currentCollection: null
+    data: {}
   }
 }

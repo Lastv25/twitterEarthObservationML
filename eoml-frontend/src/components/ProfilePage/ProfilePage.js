@@ -20,6 +20,7 @@ import {
 import { Link } from "react-router-dom"
 import moment from "moment"
 import styled from "styled-components"
+import { CollectionView } from "../../components"
 
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   display: flex;
@@ -88,7 +89,7 @@ return (
                </EuiFlexItem>
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
-            <EuiPageContentBody>Content body</EuiPageContentBody>
+            <CollectionView />
           </EuiPageContent>
         </EuiPageBody>
       </EuiPage>
