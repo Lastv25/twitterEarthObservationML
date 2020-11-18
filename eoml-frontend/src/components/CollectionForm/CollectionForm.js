@@ -22,9 +22,7 @@ import { Actions as collectionsActions } from "../../redux/collections"
 
 
 
-function CollectionForm ({user, collectionError, isLoading,
-    createCollection}
-    ) {
+function CollectionForm ({user, collectionError, isLoading,createCollection}) {
     const [form, setForm] = React.useState({
         full_name: "",
         disaster: "",
@@ -118,6 +116,8 @@ function CollectionForm ({user, collectionError, isLoading,
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        form.parameters = scihubform + egeosform
 
         // validate inputs before submitting
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
@@ -252,5 +252,5 @@ export default connect(state => ({
   collectionError: state.coll.error,
   isLoading: state.coll.isLoading,
 }), {
-  createCollection: collectionsActions.createCollectionJob
+  createCollection: collectionsActions.createCollection
 })(CollectionForm)

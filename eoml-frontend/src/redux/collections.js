@@ -38,7 +38,7 @@ export const Actions = {}
 
 Actions.createCollection = ({ new_collection }) => {
   return apiClient({
-    url: `/collections/`,
+    url: `/collections/me/`,
     method: `POST`,
     types: {
       REQUEST: CREATE_COLLECTION,
