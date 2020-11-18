@@ -18,6 +18,7 @@ import {
 import moment from 'moment';
 import { ScihubForm, EgeosForm } from "../../components"
 import { extractErrorMessages } from "../../utils/errors"
+import validation from "../../utils/validation"
 
 
 
@@ -43,6 +44,20 @@ function CollectionForm ({user, collectionError, isLoading,
     })
     const [errors, setErrors] = React.useState({})
     const [hasSubmitted, setHasSubmitted] = React.useState(false)
+    const collectionErrorList = extractErrorMessages(collectionError)
+
+    const validateInput = (label, value) => {
+    // grab validation function and run it on input if it exists
+    // if it doesn't exists, just assume the input is valid
+    const isValid = validation?.[label] ? validation?.[label]?.(value) : true
+    // set an error if the validation function did NOT return true
+    setErrors((errors) => ({ ...errors, [label]: !isValid }))
+    }
+
+    const onInputChange = (label, value) => {
+        validateInput(label, value)
+        setForm((state) => ({ ...state, [label]: value }))
+      }
 
 
     const [startDate, setStartDate] = useState(moment());
@@ -100,19 +115,6 @@ function CollectionForm ({user, collectionError, isLoading,
         </EuiButton>
       );
 
-    const [valueFullName, setValueFullName] = useState(form.full_name);
-    const onChangeFullName = (e) => {
-      setValueFullName(e.target.value);
-      form.full_name = e.target.value
-    };
-
-
-    const [valueDisaster, setValueDisaster] = useState(form.disaster);
-    const onChangeDisaster = (e) => {
-        setValueDisaster(e.target.value);
-        form.disaster = e.target.value
-    };
-
 
   return (
     /* DisplayToggles wrapper for Docs only */
@@ -124,7 +126,7 @@ function CollectionForm ({user, collectionError, isLoading,
         <EuiFieldText
          name="full_name"
          value = {form.full_name}
-         onChange={(e) => onChangeFullName(e)}
+         onChange={(e) => onInputChange(e.target.name, e.target.value)}
          />
       </EuiFormRow>
 
@@ -134,7 +136,7 @@ function CollectionForm ({user, collectionError, isLoading,
         <EuiSelect
           name="disaster"
           value = {form.disaster}
-          onChange={(e) => onChangeDisaster(e)}
+          onChange={(e) => onInputChange(e.target.name, e.target.value)}
           options={[
             { value: 'wildfires', text: 'Wildfires' },
             { value: 'Earthquakes', text: 'Earthquakes' },
