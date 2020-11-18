@@ -21,6 +21,7 @@ import { Link } from "react-router-dom"
 import moment from "moment"
 import styled from "styled-components"
 import { CollectionView } from "../../components"
+import { Actions as collectionsActions } from "../../redux/collections"
 
 const StyledEuiPageContentBody = styled(EuiPageContentBody)`
   display: flex;
@@ -30,7 +31,12 @@ const StyledEuiPageContentBody = styled(EuiPageContentBody)`
     margin-bottom: 1rem;
   }
 `
-function ProfilePage({ user }) {
+function ProfilePage({user, collectionError, isLoading,fetchCollections }) {
+
+    React.useEffect(() => {
+          fetchCollections()
+      }, [fetchCollections])
+
 return (
         <EuiPage>
         <EuiPageSideBar>
@@ -95,4 +101,10 @@ return (
       </EuiPage>
     )
 }
-export default connect((state) => ({ user: state.auth.user }))(ProfilePage)
+export default connect((state) => ({
+  user: state.auth.user,
+  collectionError: state.coll.error,
+  isLoading: state.coll.isLoading,
+}), {
+  fetchCollections: collectionsActions.fetchCollections
+})(ProfilePage)
