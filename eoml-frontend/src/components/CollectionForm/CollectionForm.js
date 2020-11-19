@@ -10,12 +10,15 @@ import {
   EuiFieldText,
   EuiFormRow,
   EuiPopover,
+  EuiFlexGroup,
+  EuiPanel,
+  EuiFlexItem,
   EuiSwitch
 } from '@elastic/eui';
 
 import moment from 'moment';
 import { useNavigate } from "react-router-dom"
-import { ScihubForm, EgeosForm } from "../../components"
+import { ScihubForm, EgeosForm, MapCollection } from "../../components"
 import { extractErrorMessages } from "../../utils/errors"
 import validation from "../../utils/validation"
 import { Actions as collectionsActions } from "../../redux/collections"
@@ -143,110 +146,120 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         return formErrors
       }
   return (
-    /* DisplayToggles wrapper for Docs only */
-    <EuiForm component="form" onSubmit={handleSubmit}>
+      <EuiFlexGroup>
+        <EuiFlexItem grow={false}>
+            <EuiPanel>
 
-      <EuiSpacer />
+            <EuiForm component="form" onSubmit={handleSubmit}>
 
-      <EuiFormRow label="Collection Name" >
-        <EuiFieldText
-         name="full_name"
-         value = {form.full_name}
-         onChange={(e) => onInputChange(e.target.name, e.target.value)}
-         />
-      </EuiFormRow>
+              <EuiSpacer />
 
-      <EuiSpacer />
+              <EuiFormRow label="Collection Name" >
+                <EuiFieldText
+                 name="full_name"
+                 value = {form.full_name}
+                 onChange={(e) => onInputChange(e.target.name, e.target.value)}
+                 />
+              </EuiFormRow>
 
-      <EuiFormRow label="Select a Disaster">
-        <EuiSelect
-          name="disaster"
-          value = {form.disaster}
-          onChange={(e) => onInputChange(e.target.name, e.target.value)}
-          options={[
-            { value: 'Wildfires', text: 'Wildfires' },
-            { value: 'Earthquakes', text: 'Earthquakes' },
-            { value: 'Hurricanes', text: 'Hurricanes' },
-            { value: 'Floods', text: 'Floods' },
-            { value: 'Tornado', text: 'Tornado' },
-          ]}
-//          value={form.disaster}
-        />
-      </EuiFormRow>
+              <EuiSpacer />
 
-      <EuiSpacer />
+              <EuiFormRow label="Select a Disaster">
+                <EuiSelect
+                  name="disaster"
+                  value = {form.disaster}
+                  onChange={(e) => onInputChange(e.target.name, e.target.value)}
+                  options={[
+                    { value: 'Wildfires', text: 'Wildfires' },
+                    { value: 'Earthquakes', text: 'Earthquakes' },
+                    { value: 'Hurricanes', text: 'Hurricanes' },
+                    { value: 'Floods', text: 'Floods' },
+                    { value: 'Tornado', text: 'Tornado' },
+                  ]}
+                />
+              </EuiFormRow>
 
-      <EuiFormRow>
-        <EuiPopover
-            id="ScihubPopover"
-            anchorPosition="rightTop"
-            ownFocus
-            button={button}
-            isOpen={isPopoverOpen}
-            closePopover={closePopover}>
+              <EuiSpacer />
 
-            <ScihubForm form={scihubform}/>
-          </EuiPopover>
-      </EuiFormRow>
+              <EuiFormRow>
+                <EuiPopover
+                    id="ScihubPopover"
+                    anchorPosition="rightTop"
+                    ownFocus
+                    button={button}
+                    isOpen={isPopoverOpen}
+                    closePopover={closePopover}>
 
-      <EuiSpacer />
+                    <ScihubForm form={scihubform}/>
+                  </EuiPopover>
+              </EuiFormRow>
 
-       <EuiPopover
-        id="EgeosPopover"
-        anchorPosition="rightUp"
-        ownFocus
-        button={button2}
-        isOpen={isPopover2Open}
-        closePopover={closePopover2}>
-        <div><EgeosForm form={egeosform}/></div>
-       </EuiPopover>
+              <EuiSpacer />
 
-      <EuiSpacer />
+               <EuiPopover
+                id="EgeosPopover"
+                anchorPosition="rightUp"
+                ownFocus
+                button={button2}
+                isOpen={isPopover2Open}
+                closePopover={closePopover2}>
+                <div><EgeosForm form={egeosform}/></div>
+               </EuiPopover>
 
-      <EuiFormRow
-        label="Interval Switch"
-        hasChildLabel={false}>
-        <EuiSwitch
-          name="switch2"
-          label="Use time Interval"
-          checked={isSwitchChecked}
-          onChange={onSwitchChange}
-        />
-      </EuiFormRow>
-      <EuiFormRow label="Monitor From date">
-        <EuiDatePicker
-          showTimeSelect={false}
-          selected={startDate}
-          onChange={handleChange}
-        />
-      </EuiFormRow>
-      <EuiFormRow label="To date">
-        <EuiDatePicker
-          disabled={!isSwitchChecked}
-          showTimeSelect={false}
-          selected={endDate}
-          onChange={handleChange2}
-        />
-      </EuiFormRow>
+              <EuiSpacer />
 
-      <EuiSpacer />
+              <EuiFormRow
+                label="Interval Switch"
+                hasChildLabel={false}>
+                <EuiSwitch
+                  name="switch2"
+                  label="Use time Interval"
+                  checked={isSwitchChecked}
+                  onChange={onSwitchChange}
+                />
+              </EuiFormRow>
+              <EuiFormRow label="Monitor From date">
+                <EuiDatePicker
+                  showTimeSelect={false}
+                  selected={startDate}
+                  onChange={handleChange}
+                />
+              </EuiFormRow>
+              <EuiFormRow label="To date">
+                <EuiDatePicker
+                  disabled={!isSwitchChecked}
+                  showTimeSelect={false}
+                  selected={endDate}
+                  onChange={handleChange2}
+                />
+              </EuiFormRow>
 
-      <EuiFormRow
-        label="Notification Switch"
-        hasChildLabel={false}>
-        <EuiSwitch
-          name="switch"
-          label="Should we do this?"
-          checked={isSwitchChecked2}
-          onChange={onSwitchChange2}
-        />
-      </EuiFormRow>
+              <EuiSpacer />
+
+              <EuiFormRow
+                label="Notification Switch"
+                hasChildLabel={false}>
+                <EuiSwitch
+                  name="switch"
+                  label="Should we do this?"
+                  checked={isSwitchChecked2}
+                  onChange={onSwitchChange2}
+                />
+              </EuiFormRow>
 
 
-      <EuiButton type="submit" isLoading={isLoading} fill>
-        Save filter
-      </EuiButton>
-    </EuiForm>
+              <EuiButton type="submit" isLoading={isLoading} fill>
+                Save filter
+              </EuiButton>
+            </EuiForm>
+           </EuiPanel>
+      </EuiFlexItem>
+      <EuiFlexItem>
+       <EuiPanel>
+        <MapCollection />
+       </EuiPanel>
+      </EuiFlexItem>
+    </EuiFlexGroup>
   );
 }
 export default connect(state => ({

@@ -13,7 +13,7 @@ import {
 } from '@elastic/eui';
 import { Link } from "react-router-dom"
 import loginIcon from "../../assets/img/loginIcon.svg"
-import { CollectionForm, MapCollection } from "../../components"
+import { CollectionForm } from "../../components"
 
 
 const StyledEuiPage = styled(EuiPage)`
@@ -24,12 +24,6 @@ const StyledEuiPage = styled(EuiPage)`
 export default function NewCollectionPage({ user, ...props }) {
     return (
       <StyledEuiPage>
-        <EuiPageSideBar>
-            <EuiPageContent>
-                <h2>Collection Parameters</h2>
-                <CollectionForm />
-            </EuiPageContent>
-        </EuiPageSideBar>
 
         <EuiPageBody component="div">
           <EuiPageHeader>
@@ -52,7 +46,7 @@ export default function NewCollectionPage({ user, ...props }) {
           </EuiPageHeader>
 
           <EuiPageContent>
-            <MapCollection />
+            <CollectionForm />
           </EuiPageContent>
         </EuiPageBody>
       </StyledEuiPage>
