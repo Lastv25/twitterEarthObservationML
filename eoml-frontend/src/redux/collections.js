@@ -10,6 +10,12 @@ export const FETCH_COLLECTIONS = "@@collections/FETCH_COLLECTIONS"
 export const FETCH_COLLECTIONS_SUCCESS = "@@collections/FETCH_COLLECTIONS_SUCCESS"
 export const FETCH_COLLECTIONS_FAILURE = "@@collections/FETCH_COLLECTIONS_FAILURE"
 
+export const FETCH_COLLECTIONS_BY_ID = "@@collections/FETCH_COLLECTIONS_BY_ID"
+export const FETCH_COLLECTIONS_BY_ID_SUCCESS = "@@collections/FETCH_COLLECTIONS_BY_ID_SUCCESS"
+export const FETCH_COLLECTIONS_BY_ID_FAILURE = "@@collections/FETCH_COLLECTIONS_BY_ID_FAILURE"
+
+export const CLEAR_CURRENT_COLLECTION = "@@collections/CLEAR_CURRENT_COLLECTION"
+
 export default function collectionsReducer(state = initialState.collections, action = {}) {
   switch (action.type) {
     case CREATE_COLLECTION:
@@ -52,6 +58,30 @@ export default function collectionsReducer(state = initialState.collections, act
         error: action.error,
         data: {}
       }
+    case FETCH_COLLECTIONS_BY_ID:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case FETCH_COLLECTIONS_BY_ID_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        current_collection: action.data
+      }
+    case FETCH_COLLECTIONS_BY_ID_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+        current_collection: {}
+      }
+    case CLEAR_CURRENT_COLLECTION:
+      return {
+        ...state,
+        current_collection: null
+      }
     default:
       return state
   }
@@ -82,6 +112,24 @@ Actions.fetchCollections = () => {
       REQUEST: FETCH_COLLECTIONS,
       SUCCESS: FETCH_COLLECTIONS_SUCCESS,
       FAILURE: FETCH_COLLECTIONS_FAILURE,
+    },
+    options: {
+      data: {},
+      params: {},
+    },
+  })
+}
+
+Actions.clearCurrentCollection = () => ({ type: CLEAR_CURRENT_COLLECTION })
+
+Actions.fetchCollectionsbyId = ({ collection_id }) => {
+  return apiClient({
+    url: `/collections/me/${collection_id}`,
+    method: `GET`,
+    types: {
+      REQUEST: FETCH_COLLECTIONS_BY_ID,
+      SUCCESS: FETCH_COLLECTIONS_BY_ID_SUCCESS,
+      FAILURE: FETCH_COLLECTIONS_BY_ID_FAILURE,
     },
     options: {
       data: {},
