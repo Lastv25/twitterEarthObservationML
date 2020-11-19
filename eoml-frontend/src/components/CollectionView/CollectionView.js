@@ -29,7 +29,8 @@ function CollectionView ({
       collectionError,
       currentCollection,
       fetchCollectionById,
-      clearCurrentCollection
+      clearCurrentCollection,
+      deleteCurrentCollection
     }) {
 
     const { collection_id } = useParams()
@@ -77,6 +78,14 @@ function CollectionView ({
     const onClickUpdate = () => {
         navigate(`/collection/${collection_id}/update`)
     }
+    const onClickDelete = async (e) => {
+        const res = await deleteCurrentCollection({ collection_id })
+        console.log(res)
+        if (res?.success) {
+              navigate(`/profile`)
+              // redirect user to his profile page
+            }
+    }
     const buttonUpdate = (
         <EuiButton
             size="s"
@@ -91,7 +100,7 @@ function CollectionView ({
             size="s"
             fill
             color="danger"
-            onClick={() => {}}>
+            onClick={onClickDelete}>
             Delete
         </EuiButton>
       );
@@ -177,6 +186,7 @@ export default connect(
   }),
   {
     fetchCollectionById: collectionActions.fetchCollectionById,
-    clearCurrentCollection: collectionActions.clearCurrentCollection
+    clearCurrentCollection: collectionActions.clearCurrentCollection,
+    deleteCurrentCollection: collectionActions.deleteCollectionById
   }
 )(CollectionView)
