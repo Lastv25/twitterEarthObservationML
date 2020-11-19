@@ -19,9 +19,10 @@ import {
 } from '@elastic/eui';
 
 import { connect } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Actions as collectionActions } from "../../redux/collections"
 import { NotFoundPage } from "../../components"
+
 
 function CollectionView ({
       isLoading,
@@ -32,6 +33,7 @@ function CollectionView ({
     }) {
 
     const { collection_id } = useParams()
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         if (collection_id) {
@@ -43,6 +45,8 @@ function CollectionView ({
 
     if (isLoading) return <EuiLoadingSpinner size="xl" />
     if (!currentCollection) return <EuiLoadingSpinner size="xl" />
+
+
 
     const title = (() => {
             if (currentCollection.full_name) {
@@ -60,14 +64,53 @@ function CollectionView ({
             }
     })();
 
+
+    const buttonBack = (
+        <EuiButton
+            size="s"
+            fill
+            onClick={() => navigate(-1)}>
+            Back
+        </EuiButton>
+      );
+
+    const onClickUpdate = () => {
+        navigate(`/collection/${collection_id}/update`)
+    }
+    const buttonUpdate = (
+        <EuiButton
+            size="s"
+            fill
+            onClick={onClickUpdate}>
+            Update
+        </EuiButton>
+      );
+
+    const buttonDelete = (
+        <EuiButton
+            size="s"
+            fill
+            color="danger"
+            onClick={() => {}}>
+            Delete
+        </EuiButton>
+      );
+
     return (
       <EuiPage>
         <EuiPageBody component="div">
           <EuiPageHeader>
             <EuiPageHeaderSection>
-              <EuiTitle size="l">
-                <h1>Collection Update and Delete Page</h1>
-              </EuiTitle>
+                    <EuiFlexItem>
+                      <EuiTitle size="l">
+                        <h1>Collection Update and Delete Page</h1>
+                      </EuiTitle>
+                    </EuiFlexItem>
+            </EuiPageHeaderSection>
+            <EuiPageHeaderSection>
+                    <EuiFlexItem grow={false}>
+                        {buttonBack}
+                    </EuiFlexItem>
             </EuiPageHeaderSection>
           </EuiPageHeader>
           <EuiPageContent>
@@ -97,12 +140,12 @@ function CollectionView ({
                         <EuiPanel>
                             <EuiFlexGroup>
                                 <EuiFlexItem>
-                                    <EuiButton size="s" fill onClick={() => {}}> Modify</EuiButton>
+                                    {buttonUpdate}
                                 </EuiFlexItem>
                             </EuiFlexGroup>
                             <EuiFlexGroup>
                                 <EuiFlexItem>
-                                    <EuiButton color="danger" size="s" fill onClick={() => {}}> Delete</EuiButton>
+                                    {buttonDelete}
                                 </EuiFlexItem>
                             </EuiFlexGroup>
                         </EuiPanel>
