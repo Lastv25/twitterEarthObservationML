@@ -17,7 +17,7 @@ def new_collection():
         full_name="test",
         disaster="hello",
         notification=False,
-        aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
+        aoi='{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}',
         parameters="paramfun",
     )
 
@@ -30,7 +30,7 @@ async def test_collection_list(db: Database, test_user2: UserInDB) -> List[Colle
         full_name=f"test {i}",
         disaster="hello",
         notification=False,
-        aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
+        aoi='{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}',
         parameters="paramfun",
         ),
             requesting_user=test_user2,
@@ -135,7 +135,7 @@ class TestUpdateCollection:
             (["full_name"], ["new fake collection name"]),
             (["disaster"], ["new fake collection description"]),
             (["notification"], [True]),
-            (["aoi"], ["POLYGON((0 0, 2 0, 2 2, 0 2, 0 0))"]),
+            (["aoi"], ['{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}']),
             (["parameters"], ["extra new fake collection description"]),
             (["full_name", "disaster"], ["extra new fake collection description", "dust_up"]),
         ),

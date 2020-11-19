@@ -121,7 +121,7 @@ async def test_collection(db: Database, test_user: UserInDB) -> CollectionInDB:
         full_name="fixture_test",
         disaster="hello",
         notification=False,
-        aoi="POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))",
+        aoi='{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}',
         parameters="paramfun",
     )
     return await collection_repo.create_collection_for_user(collection_create=new_collection, requesting_user=test_user)
