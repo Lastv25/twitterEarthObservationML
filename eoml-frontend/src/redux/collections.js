@@ -122,9 +122,9 @@ Actions.fetchCollections = () => {
 
 Actions.clearCurrentCollection = () => ({ type: CLEAR_CURRENT_COLLECTION })
 
-Actions.fetchCollectionbyId = ({ collection_id }) => {
+Actions.fetchCollectionById = ({ collection_id }) => {
   return apiClient({
-    url: `/collections/me/${collection_id}`,
+    url: `/collections/me/${collection_id}/`,
     method: `GET`,
     types: {
       REQUEST: FETCH_COLLECTIONS_BY_ID,
