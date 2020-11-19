@@ -38,9 +38,9 @@ export default function CollectionCard({collection_id, name, disaster, notificat
   })();
   const title = (() => {
     if (name) {
-        return name;
+        return name+" (collection id:"+collection_id+")";
     } else {
-      return "No Name Defined";
+      return "No Name Defined"+" (collection id:"+collection_id+")";
     }
     })();
 
@@ -53,7 +53,7 @@ export default function CollectionCard({collection_id, name, disaster, notificat
     })();
 
   const navigate = useNavigate()
-  const onClick = (collection_id) => {
+  const onClick = () => {
         navigate(`/collection/${collection_id}`)
     }
   return (
