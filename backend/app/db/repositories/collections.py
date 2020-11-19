@@ -7,15 +7,15 @@ from fastapi import HTTPException, status
 CREATE_COLLECTION_FOR_USER_QUERY = """
     INSERT INTO collections (full_name, disaster, notification, aoi,parameters, user_id)
     VALUES (:full_name, :disaster, :notification, ST_GeomFromGeoJSON(:aoi),:parameters, :user_id)
-    RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
+    RETURNING id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at;
 """
 GET_COLLECTION_BY_ID_QUERY = """
-    SELECT id, full_name, disaster, notification, aoi, parameters, user_id, created_at, updated_at
+    SELECT id, full_name, disaster, notification,  ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
     FROM collections
     WHERE id = :id;
 """
 LIST_ALL_USER_COLLECTIONS_QUERY = """
-    SELECT id, full_name, disaster, notification, aoi, parameters, user_id, created_at, updated_at
+    SELECT id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
     FROM collections
     WHERE user_id = :user_id;
 """
