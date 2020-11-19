@@ -16,6 +16,10 @@ export const FETCH_COLLECTIONS_BY_ID_FAILURE = "@@collections/FETCH_COLLECTIONS_
 
 export const CLEAR_CURRENT_COLLECTION = "@@collections/CLEAR_CURRENT_COLLECTION"
 
+export const DELETE_CURRENT_COLLECTION = "@@collections/DELETE_CURRENT_COLLECTION"
+export const DELETE_CURRENT_COLLECTION_SUCCESS = "@@collections/DELETE_CURRENT_COLLECTION_SUCCESS"
+export const DELETE_CURRENT_COLLECTION_FAILURE = "@@collections/DELETE_CURRENT_COLLECTION_FAILURE"
+
 export default function collectionsReducer(state = initialState.collections, action = {}) {
   switch (action.type) {
     case CREATE_COLLECTION:
@@ -77,6 +81,25 @@ export default function collectionsReducer(state = initialState.collections, act
         error: action.error,
         current_collection: {}
       }
+    case DELETE_CURRENT_COLLECTION:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case DELETE_CURRENT_COLLECTION_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        current_collection: null
+      }
+    case DELETE_CURRENT_COLLECTION_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+        current_collection: action.data
+      }
     case CLEAR_CURRENT_COLLECTION:
       return {
         ...state,
@@ -133,6 +156,22 @@ Actions.fetchCollectionById = ({ collection_id }) => {
     },
     options: {
       data: {},
+      params: {},
+    },
+  })
+}
+
+Actions.deleteCollectionById = ({ collection_id }) => {
+  return apiClient({
+    url: `/collections/me/${collection_id}`,
+    method: `DELETE`,
+    types: {
+      REQUEST: DELETE_CURRENT_COLLECTION,
+      SUCCESS: DELETE_CURRENT_COLLECTION_SUCCESS,
+      FAILURE: DELETE_CURRENT_COLLECTION_FAILURE,
+    },
+    options: {
+      data: { collection_id },
       params: {},
     },
   })
