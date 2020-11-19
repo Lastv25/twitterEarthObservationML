@@ -30,7 +30,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         full_name: "",
         disaster: "Wildfires",
         notification: false,
-        aoi: '{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}',
+        aoi: { "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]},
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
@@ -132,6 +132,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
 
         setHasSubmitted(true)
         const res = await createCollection({ new_collection: { ...form } })
+        console.log(res)
         if (res?.success) {
               navigate(`/profile`)
               // redirect user to his profile page
