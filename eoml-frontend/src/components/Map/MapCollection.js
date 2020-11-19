@@ -4,8 +4,8 @@ import { EditControl } from "react-leaflet-draw"
 import "../../assets/css/map.css"
 
 
-export default function MapComponent ({aoi}) {
-    console.log(aoi)
+export default function MapComponent ({form}) {
+
     return (
         <Map center={[0, 0]} zoom={3}>
           <TileLayer
@@ -22,12 +22,11 @@ export default function MapComponent ({aoi}) {
                 circlemarker: false
               }}
               onCreated={e => {
-                        console.log("eachLayer ", e.layer.toGeoJSON().geometry)
+                        form.aoi = e.layer.toGeoJSON().geometry;
                 }}
               onEdited={e => {
                     e.layers.eachLayer(function(layer){
-                        console.log("eachLayer ", layer.toGeoJSON().geometry)
-
+                        form.aoi = e.layer.toGeoJSON().geometry;
                     }
                     );
                 }}

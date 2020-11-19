@@ -30,7 +30,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         full_name: "",
         disaster: "Wildfires",
         notification: false,
-        aoi: "",
+        aoi: '{ "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]}',
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
@@ -121,8 +121,10 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
       );
 
     const handleSubmit = async (e) => {
+
         e.preventDefault()
 
+        form.aoi = JSON.stringify(form.aoi)
         form.parameters = JSON.stringify(scihubform) + JSON.stringify(egeosform)
 
         // validate inputs before submitting
@@ -257,7 +259,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
       </EuiFlexItem>
       <EuiFlexItem>
        <EuiPanel>
-        <MapCollection aoi={form.aoi}/>
+        <MapCollection form={form}/>
        </EuiPanel>
       </EuiFlexItem>
     </EuiFlexGroup>
