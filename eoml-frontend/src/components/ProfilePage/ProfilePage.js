@@ -41,7 +41,7 @@ function ProfilePage({user, coll, collectionError, isLoading,fetchCollections })
     const coll_data = Array.from(coll)
     const collections_data=coll_data.map((data,id)=>{
     return <div key={id}>
-      <CollectionCard collection_id={data.id} name={data.full_name} disaster={data.disaster} notification={data.notification}/>
+      <CollectionCard collection_id={data.id} name={data.full_name} disaster={data.disaster} notification={data.notification} aoi={data.aoi}/>
       <EuiSpacer />
     </div>
   })

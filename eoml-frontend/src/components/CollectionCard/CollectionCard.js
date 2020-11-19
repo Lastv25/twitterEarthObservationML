@@ -20,7 +20,7 @@ import Twister from "../../assets/img/twister.svg"
 import { useNavigate } from "react-router-dom"
 
 
-export default function CollectionCard({collection_id, name, disaster, notification}) {
+export default function CollectionCard({collection_id, name, disaster, notification,  aoi}) {
 
   const icon = (() => {
     switch(disaster){
@@ -46,7 +46,7 @@ export default function CollectionCard({collection_id, name, disaster, notificat
 
   const description = (() => {
     if (disaster) {
-        return "Disaster: " + disaster + " Area Of Interest: "+ " Notification: "+ notification;
+        return "Disaster: " + disaster + " Area Of Interest: ["+ JSON.parse(aoi).coordinates+"] Notification: "+ notification;
     } else {
       return "No Disaster Defined";
     }
