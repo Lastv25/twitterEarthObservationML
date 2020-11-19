@@ -10,6 +10,9 @@ import {
   EuiPageHeader,
   EuiPageHeaderSection,
   EuiTitle,
+  EuiFlexItem,
+  EuiFlexGroup,
+  EuiPanel
 } from '@elastic/eui';
 
 export default () => (
@@ -30,7 +33,32 @@ export default () => (
             </EuiTitle>
           </EuiPageContentHeaderSection>
         </EuiPageContentHeader>
-        <EuiPageContentBody>Content body</EuiPageContentBody>
+        <EuiPageContentBody>
+            <EuiFlexGroup>
+                <EuiFlexItem>
+                    <EuiPanel>
+                    Collection Main Settings
+                    </EuiPanel>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                    <EuiPanel>
+                    Collection Buttons for update and Deletion
+                    </EuiPanel>
+                </EuiFlexItem>
+            </EuiFlexGroup>
+            <EuiFlexGroup>
+                <EuiFlexItem>
+                    <EuiPanel>
+                    Product List
+                    </EuiPanel>
+                </EuiFlexItem>
+                <EuiFlexItem>
+                    <EuiPanel>
+                    Download Buttons
+                    </EuiPanel>
+                </EuiFlexItem>
+            </EuiFlexGroup>
+        </EuiPageContentBody>
       </EuiPageContent>
     </EuiPageBody>
   </EuiPage>
