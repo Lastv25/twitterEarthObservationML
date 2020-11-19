@@ -21,8 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ba18b7e3-c4da-4f32-a645-2ad3f613bccd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tests/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/tests/test_collections.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tests/test_collections.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/routes/collections.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/routes/collections.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/api/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/api/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionView/CollectionView.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionView/CollectionView.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eoml-frontend/src/redux/collections.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/redux/collections.js" afterDir="false" />
     </list>

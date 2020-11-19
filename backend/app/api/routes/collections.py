@@ -7,7 +7,6 @@ from app.models.user import UserInDB
 from starlette.status import HTTP_201_CREATED
 from typing import List
 
-from app.api.dependencies.collections import get_collections_by_id_from_path
 
 router = APIRouter()
 
