@@ -30,6 +30,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         full_name: "",
         disaster: "Wildfires",
         notification: false,
+        aoi: "",
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
@@ -184,7 +185,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
               <EuiFormRow>
                 <EuiPopover
                     id="ScihubPopover"
-                    anchorPosition="rightTop"
+                    anchorPosition="rightUp"
                     ownFocus
                     button={button}
                     isOpen={isPopoverOpen}
@@ -256,7 +257,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
       </EuiFlexItem>
       <EuiFlexItem>
        <EuiPanel>
-        <MapCollection />
+        <MapCollection aoi={form.aoi}/>
        </EuiPanel>
       </EuiFlexItem>
     </EuiFlexGroup>

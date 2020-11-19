@@ -4,7 +4,8 @@ import { EditControl } from "react-leaflet-draw"
 import "../../assets/css/map.css"
 
 
-export default function MapComponent (props) {
+export default function MapComponent ({aoi}) {
+    console.log(aoi)
     return (
         <Map center={[0, 0]} zoom={3}>
           <TileLayer
@@ -26,6 +27,7 @@ export default function MapComponent (props) {
               onEdited={e => {
                     e.layers.eachLayer(function(layer){
                         console.log("eachLayer ", layer.toGeoJSON().geometry)
+
                     }
                     );
                 }}
