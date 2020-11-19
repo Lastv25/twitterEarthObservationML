@@ -3,16 +3,16 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.core import config, tasks
 from app.api.routes import router as api_router
+from starlette.responses import JSONResponse, Response, UJSONResponse
 
 def get_application():
     app = FastAPI(title=config.PROJECT_NAME, version=config.VERSION)
 
     app.add_middleware(
         CORSMiddleware,
-        #allow_origins=["*"],
-        allow_origin_regex='https?://.*',
+        allow_origins=[str(origin) for origin in config.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
-        allow_methods=["DELETE", "GET", "POST", "PUT"],
+        allow_methods=["*"],
         allow_headers=["*"],
     )
 
