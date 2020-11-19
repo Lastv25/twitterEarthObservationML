@@ -132,7 +132,7 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
 
         setHasSubmitted(true)
         const res = await createCollection({ new_collection: { ...form } })
-        console.log(res)
+
         if (res?.success) {
               navigate(`/profile`)
               // redirect user to his profile page
