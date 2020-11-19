@@ -6,7 +6,7 @@ from fastapi import HTTPException, status
 
 CREATE_COLLECTION_FOR_USER_QUERY = """
     INSERT INTO collections (full_name, disaster, notification, aoi,parameters, user_id)
-    VALUES (:full_name, :disaster, :notification, :aoi,:parameters, :user_id)
+    VALUES (:full_name, :disaster, :notification, ST_GeomFromGeoJSON(:aoi),:parameters, :user_id)
     RETURNING id, full_name, disaster, notification, aoi,parameters, user_id, created_at, updated_at;
 """
 GET_COLLECTION_BY_ID_QUERY = """
