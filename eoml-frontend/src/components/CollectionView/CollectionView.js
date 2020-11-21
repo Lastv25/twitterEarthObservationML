@@ -79,8 +79,11 @@ function CollectionView ({
         navigate(`/collection/${collection_id}/update`)
     }
     const onClickDelete = async (e) => {
+        console.log("collection_id value when calling Delete button:"+ collection_id)
         const res = await deleteCurrentCollection({ collection_id })
+        console.log("Response when calling Delete button:")
         console.log(res)
+
         if (res?.success) {
               navigate(`/profile`)
               // redirect user to his profile page

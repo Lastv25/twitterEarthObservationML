@@ -91,7 +91,7 @@ export default function collectionsReducer(state = initialState.collections, act
         ...state,
         isLoading: false,
         error: null,
-        current_collection: null
+        current_collection: null,
       }
     case DELETE_CURRENT_COLLECTION_FAILURE:
       return {
