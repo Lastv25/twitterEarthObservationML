@@ -31,10 +31,9 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         disaster: "Wildfires",
         notification: false,
         aoi: { "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]},
-        parameters: ""
+        parameters: { "platform": { "scihub":{} , "egeos":{}} }
     })
     const [scihubform, setScihubForm] = React.useState({
-        platform: 'scihub',
         ingestion_parameter: [false, moment(), moment().add(11, 'd')],
         sensing_parameter: [false, moment(), moment().add(11, 'd')],
         mission1: [false, "", "", "", "", ""],
@@ -42,7 +41,6 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         mission3: [false, "", "", "", "", "", ""]
     })
     const [egeosform, setEgeosForm] = React.useState({
-        platform: 'egeos',
         use_data: true,
         parameters: ''
     })
@@ -125,7 +123,9 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         e.preventDefault()
 
         form.aoi = JSON.stringify(form.aoi)
-        form.parameters = JSON.stringify(scihubform) + JSON.stringify(egeosform)
+        form.parameters.platform.scihub = scihubform
+        form.parameters.platform.egeos =  egeosform
+        form.parameters = JSON.stringify(form.parameters)
 
         // validate inputs before submitting
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
