@@ -26,7 +26,7 @@ import { Actions as collectionsActions } from "../../redux/collections"
 
 
 
-function CollectionForm ({isLoading, current_collection, user, collectionError, fetchCollectionById}) {
+function CollectionForm ({isLoading, current_collection, user, collectionError, fetchCollectionById, updateCollection}) {
 
     const [form, setForm] = React.useState({
         full_name: "",
@@ -74,15 +74,7 @@ function CollectionForm ({isLoading, current_collection, user, collectionError, 
     };
 
     if (isLoading) return <EuiLoadingSpinner size="xl" />
-    if (!current_collection){
-        return <EuiLoadingSpinner size="xl" />
-    } else if (current_collection){
-        form.full_name = current_collection.full_name;
-        form.disaster = current_collection.disaster;
-        form.notification = current_collection.notification;
-        form.aoi = current_collection.aoi;
-        form.parameters = JSON.parse(current_collection.parameters);
-    }
+    if (!current_collection) return <EuiLoadingSpinner size="xl" />
 
     const collectionErrorList = extractErrorMessages(collectionError)
 
@@ -157,12 +149,12 @@ function CollectionForm ({isLoading, current_collection, user, collectionError, 
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
 
         setHasSubmitted(true)
-        //const res = await createCollection({ new_collection: { ...form } })
+        const res = await updateCollection({ new_collection: { ...form } })
 
-//        if (res?.success) {
-//              navigate(`/profile`)
-//              // redirect user to his profile page
-//            }
+        if (res?.success) {
+              navigate(`/profile`)
+              // redirect user to his profile page
+            }
 
     }
     const getFormErrors = () => {
@@ -298,5 +290,6 @@ export default connect(state => ({
   user: state.auth.user,
   collectionError: state.coll.error,
 }), {
-  fetchCollectionById: collectionsActions.fetchCollectionById
+  fetchCollectionById: collectionsActions.fetchCollectionById,
+  updateCollection: collectionsActions.updateCollection
 })(CollectionForm)
