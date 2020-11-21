@@ -6,6 +6,10 @@ export const CREATE_COLLECTION = "@@collections/CREATE_COLLECTION"
 export const CREATE_COLLECTION_SUCCESS = "@@collections/CREATE_COLLECTION_SUCCESS"
 export const CREATE_COLLECTION_FAILURE = "@@collections/CREATE_COLLECTION_FAILURE"
 
+export const UPDATE_COLLECTION = "@@collections/UPDATE_COLLECTION"
+export const UPDATE_COLLECTION_SUCCESS = "@@collections/UPDATE_COLLECTION_SUCCESS"
+export const UPDATE_COLLECTION_FAILURE = "@@collections/UPDATE_COLLECTION_FAILURE"
+
 export const FETCH_COLLECTIONS = "@@collections/FETCH_COLLECTIONS"
 export const FETCH_COLLECTIONS_SUCCESS = "@@collections/FETCH_COLLECTIONS_SUCCESS"
 export const FETCH_COLLECTIONS_FAILURE = "@@collections/FETCH_COLLECTIONS_FAILURE"
@@ -38,6 +42,27 @@ export default function collectionsReducer(state = initialState.collections, act
         },
       }
     case CREATE_COLLECTION_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      }
+    case UPDATE_COLLECTION:
+      return {
+        ...state,
+        isLoading: true,
+      }
+    case UPDATE_COLLECTION_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        data: {
+          ...state.data,
+          [action.data.id]: action.data,
+        },
+      }
+    case UPDATE_COLLECTION_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -119,6 +144,22 @@ Actions.createCollection = ({ new_collection }) => {
       REQUEST: CREATE_COLLECTION,
       SUCCESS: CREATE_COLLECTION_SUCCESS,
       FAILURE: CREATE_COLLECTION_FAILURE,
+    },
+    options: {
+      data: { new_collection },
+      params: {},
+    },
+  })
+}
+
+Actions.updateCollection = ({ new_collection }) => {
+  return apiClient({
+    url: `/collections/me/`,
+    method: `PUT`,
+    types: {
+      REQUEST: UPDATE_COLLECTION,
+      SUCCESS: UPDATE_COLLECTION_SUCCESS,
+      FAILURE: UPDATE_COLLECTION_FAILURE,
     },
     options: {
       data: { new_collection },
