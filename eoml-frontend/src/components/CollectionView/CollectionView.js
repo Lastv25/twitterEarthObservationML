@@ -40,7 +40,6 @@ function CollectionView ({
         if (collection_id) {
           fetchCollectionById({ collection_id })
         }
-        return () => clearCurrentCollection()
       }, [collection_id, fetchCollectionById, clearCurrentCollection])
 
 
@@ -65,12 +64,16 @@ function CollectionView ({
             }
     })();
 
+    const onClickBack = () => {
+        clearCurrentCollection()
+        navigate(-1)
+    }
 
     const buttonBack = (
         <EuiButton
             size="s"
             fill
-            onClick={() => navigate(-1)}>
+            onClick={onClickBack}>
             Back
         </EuiButton>
       );
