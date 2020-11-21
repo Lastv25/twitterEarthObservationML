@@ -13,7 +13,7 @@ import {
 } from '@elastic/eui';
 import { Link } from "react-router-dom"
 import loginIcon from "../../assets/img/loginIcon.svg"
-import { CollectionForm } from "../../components"
+import { UpdateCollectionForm } from "../../components"
 
 
 const StyledEuiPage = styled(EuiPage)`
@@ -29,7 +29,7 @@ export default function NewCollectionPage({ user, ...props }) {
           <EuiPageHeader>
             <EuiPageHeaderSection>
               <EuiTitle>
-                <h1>New Collection Choice</h1>
+                <h1>Update Collection Filters</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
             <EuiPageHeaderSection>
@@ -46,7 +46,7 @@ export default function NewCollectionPage({ user, ...props }) {
           </EuiPageHeader>
 
           <EuiPageContent>
-            <CollectionForm />
+            <UpdateCollectionForm />
           </EuiPageContent>
         </EuiPageBody>
       </StyledEuiPage>

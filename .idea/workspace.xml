@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ba18b7e3-c4da-4f32-a645-2ad3f613bccd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm/CollectionForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm/CollectionForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm/UpdateCollectionForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm/UpdateCollectionForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eoml-frontend/src/components/NewCollectionPage/UpdateCollectionPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/eoml-frontend/src/components/NewCollectionPage/UpdateCollectionPage.js" afterDir="false" />
     </list>

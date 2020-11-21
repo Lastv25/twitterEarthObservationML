@@ -13,11 +13,12 @@ import {
   EuiFlexGroup,
   EuiPanel,
   EuiFlexItem,
+  EuiLoadingSpinner,
   EuiSwitch
 } from '@elastic/eui';
 
 import moment from 'moment';
-import { useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { ScihubForm, EgeosForm, MapCollection } from "../../components"
 import { extractErrorMessages } from "../../utils/errors"
 import validation from "../../utils/validation"
@@ -25,12 +26,13 @@ import { Actions as collectionsActions } from "../../redux/collections"
 
 
 
-function CollectionForm ({user, collectionError, isLoading,createCollection}) {
+function CollectionForm ({isLoading, current_collection, user, collectionError, fetchCollectionById}) {
+
     const [form, setForm] = React.useState({
         full_name: "",
-        disaster: "Wildfires",
+        disaster: "Wilfire",
         notification: false,
-        aoi: { "type": "Polygon","coordinates": [[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]]},
+        aoi: "",
         parameters: ""
     })
     const [scihubform, setScihubForm] = React.useState({
@@ -46,9 +48,42 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         use_data: true,
         parameters: ''
     })
+
+
+    const { collection_id } = useParams()
+    const navigate = useNavigate()
     const [errors, setErrors] = React.useState({})
     const [hasSubmitted, setHasSubmitted] = React.useState(false)
-    const navigate = useNavigate()
+    const [startDate, setStartDate] = useState(moment());
+    const [endDate, setEndDate] = useState(moment());
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const [isPopover2Open, setIsPopover2Open] = useState(false);
+    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
+
+    React.useEffect(() => {
+        if (current_collection == null) {
+            if (collection_id){
+              fetchCollectionById({ collection_id })
+            }
+        }
+    }, [collection_id, fetchCollectionById])
+
+    const StateValues = () => {
+        setScihubForm(current_collection.platform.scihub);
+    };
+
+    if (isLoading) return <EuiLoadingSpinner size="xl" />
+    if (!current_collection){
+        return <EuiLoadingSpinner size="xl" />
+    } else if (current_collection){
+        form.full_name = current_collection.full_name;
+        form.disaster = current_collection.disaster;
+        form.notification = current_collection.notification;
+        form.aoi = current_collection.aoi;
+        form.parameters = JSON.parse(current_collection.parameters);
+    }
+
     const collectionErrorList = extractErrorMessages(collectionError)
 
     const validateInput = (label, value) => {
@@ -64,21 +99,12 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         setForm((state) => ({ ...state, [label]: value }))
       }
 
-
-    const [startDate, setStartDate] = useState(moment());
-    const [endDate, setEndDate] = useState(moment());
-
     const handleChange = (date) => {
        setStartDate(date);
     };
     const handleChange2 = (date) => {
        setEndDate(date);
     };
-
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-    const [isPopover2Open, setIsPopover2Open] = useState(false);
-    const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.notification);
 
     const onButtonClick = () => {
         setIsPopoverOpen(!isPopoverOpen);
@@ -131,12 +157,12 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
 
         setHasSubmitted(true)
-        const res = await createCollection({ new_collection: { ...form } })
+        //const res = await createCollection({ new_collection: { ...form } })
 
-        if (res?.success) {
-              navigate(`/profile`)
-              // redirect user to his profile page
-            }
+//        if (res?.success) {
+//              navigate(`/profile`)
+//              // redirect user to his profile page
+//            }
 
     }
     const getFormErrors = () => {
@@ -267,9 +293,10 @@ function CollectionForm ({user, collectionError, isLoading,createCollection}) {
   );
 }
 export default connect(state => ({
+  isLoading: state.coll.isLoading,
+  current_collection:state.coll.current_collection,
   user: state.auth.user,
   collectionError: state.coll.error,
-  isLoading: state.coll.isLoading,
 }), {
-  createCollection: collectionsActions.createCollection
+  fetchCollectionById: collectionsActions.fetchCollectionById
 })(CollectionForm)
