@@ -20,6 +20,8 @@ import moment from 'moment';
 
 export default function ScihubForm ({form})  {
 
+    console.log(form)
+
     const [isSwitchChecked, setIsSwitchChecked] = useState(form.ingestion_parameter[0]);
     const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.sensing_parameter[0]);
     const [isSwitchChecked3, setIsSwitchChecked3] = useState(form.mission1[0]);
