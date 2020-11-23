@@ -10,12 +10,12 @@ CREATE_COLLECTION_FOR_USER_QUERY = """
     RETURNING id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at;
 """
 GET_COLLECTION_BY_ID_QUERY = """
-    SELECT id, full_name, disaster, notification,  ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
+    SELECT id, full_name, disaster, notification,  ST_AsGeoJSON(aoi) as aoi, parameters::json, user_id, created_at, updated_at
     FROM collections
     WHERE deleted= false AND id = :id;
 """
 LIST_ALL_USER_COLLECTIONS_QUERY = """
-    SELECT id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
+    SELECT id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters::json, user_id, created_at, updated_at
     FROM collections
     WHERE deleted= false AND user_id = :user_id;
 """
