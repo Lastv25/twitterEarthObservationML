@@ -87,6 +87,7 @@ def create_collections_table() -> None:
         sa.Column("notification", sa.Boolean(), nullable=True, server_default="False"),
         sa.Column("aoi", Geometry(geometry_type='POLYGON'), nullable=True),
         sa.Column("parameters", sa.Text, nullable=True),
+        sa.Column("deleted", sa.Boolean(), nullable=True, server_default="False"),
         sa.Column("user_id", sa.Integer, sa.ForeignKey("users.id", ondelete="CASCADE")),
         *timestamps(),
     )

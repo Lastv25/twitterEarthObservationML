@@ -63,3 +63,12 @@ async def delete_collection_by_id(
     if not deleted_id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No cleaning found with that id.")
     return deleted_id
+
+
+@router.post("/me/{collection_id}/delete", response_model=int, name="collections:post-delete-collection-for-user-by-id")
+async def delete_collection_by_id(
+    collection_id: int = Path(..., ge=1),
+    current_user: UserInDB = Depends(get_current_active_user),
+    collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository)),
+) -> int:
+    pass

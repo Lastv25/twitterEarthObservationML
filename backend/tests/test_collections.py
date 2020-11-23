@@ -59,6 +59,9 @@ class TestCollectionsRoutes:
         # Delete collection
         res_update = await client.put(app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=1))
         assert res_update.status_code != status.HTTP_404_NOT_FOUND
+        # Post delete id collection
+        res_update = await client.put(app.url_path_for("collections:post-delete-collection-for-user-by-id", collection_id=1))
+        assert res_update.status_code != status.HTTP_404_NOT_FOUND
 
 
 class TestCollectionCreate:
