@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector, connect } from "react-redux"
 
 import {
   EuiButton,
@@ -23,22 +23,23 @@ import { ScihubForm, EgeosForm, MapCollection } from "../../components"
 import { extractErrorMessages } from "../../utils/errors"
 import validation from "../../utils/validation"
 import { Actions as collectionsActions } from "../../redux/collections"
+import { Actions as currentcollectionActions } from "../../redux/current_collection"
 
 
 
-//function CollectionForm ({isLoading, current_collection, user, collectionError, fetchCollectionById, updateCollection}) {
-export default function CollectionForm () {
+function CollectionForm ({isLoading, form, user, collectionError, fetchCollectionById, updateCollection}) {
+//export default function CollectionForm () {
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
-    const isLoading = useSelector(state => state.coll.isLoading);
-    const collectionError = useSelector(state => state.coll.error);
+    //const isLoading = useSelector(state => state.coll.isLoading);
+    //const collectionError = useSelector(state => state.coll.error);
 
-    const form = useSelector(state => state.coll.current_collection);
+    //const form = useSelector(state => state.coll.current_collection);
 
-    const scihubform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.scihub);
+    //const egeosform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.egeos);
 
-    const egeosform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.egeos);
+    //const scihubform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.scihub);
 
     const { collection_id } = useParams()
     const navigate = useNavigate()
@@ -49,17 +50,13 @@ export default function CollectionForm () {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
     const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.notification);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
 
     React.useEffect(() => {
-        if (form == null) {
-            if (collection_id){
-              console.log('reload current')
-              dispatch(collectionsActions.fetchCollectionById({ collection_id }))
-            }
+        if (collection_id) {
+          fetchCollectionById({ collection_id })
         }
-    }, [collection_id])
-
+      }, [collection_id, fetchCollectionById])
 
 
     if (isLoading) return <EuiLoadingSpinner size="xl" />
@@ -143,12 +140,12 @@ export default function CollectionForm () {
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
 
         setHasSubmitted(true)
-        const res = await dispatch(collectionsActions.updateCollection({ new_collection: { ...form } }))
-
-        if (res?.success) {
-              navigate(`/profile`)
-              // redirect user to his profile page
-            }
+//        const res = await dispatch(collectionsActions.updateCollection({ new_collection: { ...form } }))
+//
+//        if (res?.success) {
+//              navigate(`/profile`)
+//              // redirect user to his profile page
+//            }
 
     }
     const getFormErrors = () => {
@@ -206,7 +203,7 @@ export default function CollectionForm () {
                     isOpen={isPopoverOpen}
                     closePopover={closePopover}>
 
-                    <ScihubForm form={scihubform}/>
+                    <ScihubForm />
                   </EuiPopover>
               </EuiFormRow>
 
@@ -219,7 +216,7 @@ export default function CollectionForm () {
                 button={button2}
                 isOpen={isPopover2Open}
                 closePopover={closePopover2}>
-                <div><EgeosForm form={egeosform}/></div>
+                <div><EgeosForm/></div>
                </EuiPopover>
 
               <EuiSpacer />
@@ -278,12 +275,12 @@ export default function CollectionForm () {
     </EuiFlexGroup>
   );
 }
-//export default connect(state => ({
-//  isLoading: state.coll.isLoading,
-//  current_collection:state.coll.current_collection,
-//  user: state.auth.user,
-//  collectionError: state.coll.error,
-//}), {
-//  fetchCollectionById: collectionsActions.fetchCollectionById,
-//  updateCollection: collectionsActions.updateCollection
-//})(CollectionForm)
+export default connect(state => ({
+  isLoading: state.coll.isLoading,
+  form:state.coll.current_collection,
+  user: state.auth.user,
+  collectionError: state.coll.error,
+}), {
+  fetchCollectionById: collectionsActions.fetchCollectionById,
+  updateCollection: collectionsActions.updateCollection
+})(CollectionForm)
