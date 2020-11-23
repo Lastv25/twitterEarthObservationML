@@ -32,17 +32,6 @@ export default function NewCollectionPage({ user, ...props }) {
                 <h1>Update Collection Filters</h1>
               </EuiTitle>
             </EuiPageHeaderSection>
-            <EuiPageHeaderSection>
-                <EuiHeaderSectionItemButton aria-label="User avatar">
-                    {user?.profile ? (
-                        <EuiAvatar size="l" name={user.profile.full_name} imageUrl={user.profile.image} />
-                    ) : (
-                        <Link to="/login">
-                            <EuiAvatar size="l" color="#1E90FF" name="user" imageUrl={loginIcon} />
-                        </Link>
-                    )}
-                </EuiHeaderSectionItemButton>
-            </EuiPageHeaderSection>
           </EuiPageHeader>
 
           <EuiPageContent>
