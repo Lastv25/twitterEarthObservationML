@@ -27,7 +27,7 @@ import { Actions as currentcollectionActions } from "../../redux/current_collect
 
 
 
-function CollectionForm ({isLoading, form, user, collectionError, fetchCollectionById, updateCollection}) {
+function CollectionForm ({isLoading, form, user, collectionError, fetchCollectionById, updateCollection, clearCurrentCollection}) {
 
     const [egeosform, setEgeosForm] = React.useState(null)
     const [scihubform, setScihubForm] = React.useState(null)
@@ -50,6 +50,7 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
           fetchCollectionById({ collection_id })
           setReload(!reload)
         }
+        return () => clearCurrentCollection()
       }, [collection_id, fetchCollectionById])
 
 
@@ -142,12 +143,13 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
         Object.keys(form).forEach((label) => validateInput(label, form[label]))
 
         setHasSubmitted(true)
-//        const res = await dispatch(collectionsActions.updateCollection({ new_collection: { ...form } }))
-//
-//        if (res?.success) {
-//              navigate(`/profile`)
-//              // redirect user to his profile page
-//            }
+        const res = await updateCollection({ new_collection: { ...form } })
+
+        if (res?.success) {
+              clearCurrentCollection()
+              navigate(`/profile`)
+              // redirect user to his profile page
+            }
 
     }
     const getFormErrors = () => {
@@ -284,5 +286,6 @@ export default connect(state => ({
   collectionError: state.coll.error,
 }), {
   fetchCollectionById: collectionsActions.fetchCollectionById,
-  updateCollection: collectionsActions.updateCollection
+  updateCollection: collectionsActions.updateCollection,
+  clearCurrentCollection: collectionsActions.clearCurrentCollection
 })(CollectionForm)
