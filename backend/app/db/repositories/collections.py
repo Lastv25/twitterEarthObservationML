@@ -12,12 +12,12 @@ CREATE_COLLECTION_FOR_USER_QUERY = """
 GET_COLLECTION_BY_ID_QUERY = """
     SELECT id, full_name, disaster, notification,  ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
     FROM collections
-    WHERE id = :id;
+    WHERE deleted= false AND id = :id;
 """
 LIST_ALL_USER_COLLECTIONS_QUERY = """
     SELECT id, full_name, disaster, notification, ST_AsGeoJSON(aoi) as aoi, parameters, user_id, created_at, updated_at
     FROM collections
-    WHERE user_id = :user_id;
+    WHERE deleted= false AND user_id = :user_id;
 """
 UPDATE_COLLECTION_BY_ID_QUERY = """
     UPDATE collections
@@ -31,6 +31,12 @@ UPDATE_COLLECTION_BY_ID_QUERY = """
 """
 DELETE_COLLECTION_BY_ID_QUERY = """
     DELETE FROM collections
+    WHERE id = :id AND user_id = :user_id
+    RETURNING id;
+"""
+UPDATE_DELETED_COLLECTION_FIELD_BY_ID_QUERY = """
+    UPDATE collections
+    SET deleted = true
     WHERE id = :id AND user_id = :user_id
     RETURNING id;
 """
@@ -91,5 +97,19 @@ class CollectionsRepository(BaseRepository):
             )
         deleted_id = await self.db.execute(
             query=DELETE_COLLECTION_BY_ID_QUERY, values={"id": id, "user_id": requesting_user.id}
+        )
+        return deleted_id
+
+    async def update_delete_collection_field_by_id(self, *, id: int, requesting_user: UserInDB) -> int:
+        collection = await self.get_collection_by_id(id=id, requesting_user=requesting_user)
+        if not collection:
+            return None
+        if collection.user_id != requesting_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Users are only able to delete collections that they created.",
+            )
+        deleted_id = await self.db.execute(
+            query=UPDATE_DELETED_COLLECTION_FIELD_BY_ID_QUERY, values={"id": id, "user_id": requesting_user.id}
         )
         return deleted_id
