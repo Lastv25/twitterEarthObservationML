@@ -36,13 +36,9 @@ export default function CollectionForm () {
 
     const form = useSelector(state => state.coll.current_collection);
 
-//    const scihubform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.scihub);
-//
-//    const egeosform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.egeos);
+    const scihubform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.scihub);
 
-    console.log('isloading', isLoading)
-    console.log('error', collectionError)
-    console.log('form', form)
+    const egeosform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.egeos);
 
     const { collection_id } = useParams()
     const navigate = useNavigate()
@@ -53,7 +49,7 @@ export default function CollectionForm () {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
     const [isPopover2Open, setIsPopover2Open] = useState(false);
     const [isSwitchChecked, setIsSwitchChecked] = useState(false);
-    const [isSwitchChecked2, setIsSwitchChecked2] = useState(false);
+    const [isSwitchChecked2, setIsSwitchChecked2] = useState(form.notification);
 
     React.useEffect(() => {
         if (form == null) {
@@ -80,9 +76,13 @@ export default function CollectionForm () {
     setErrors((errors) => ({ ...errors, [label]: !isValid }))
     }
 
-    const onInputChange = (label, value) => {
+    const onInputChangeName = (label, value) => {
         validateInput(label, value)
         form.full_name = value
+      }
+    const onInputChangeDisaster = (label, value) => {
+        validateInput(label, value)
+        form.disaster = value
       }
 
     const handleChange = (date) => {
@@ -174,7 +174,7 @@ export default function CollectionForm () {
                 <EuiFieldText
                  name="full_name"
                  value = {form.full_name}
-                 onChange={(e) => onInputChange(e.target.name, e.target.value)}
+                 onChange={(e) => onInputChangeName(e.target.name, e.target.value)}
                  />
               </EuiFormRow>
 
@@ -184,7 +184,7 @@ export default function CollectionForm () {
                 <EuiSelect
                   name="disaster"
                   value = {form.disaster}
-                  onChange={(e) => onInputChange(e.target.name, e.target.value)}
+                  onChange={(e) => onInputChangeDisaster(e.target.name, e.target.value)}
                   options={[
                     { value: 'Wildfires', text: 'Wildfires' },
                     { value: 'Earthquakes', text: 'Earthquakes' },
@@ -206,7 +206,7 @@ export default function CollectionForm () {
                     isOpen={isPopoverOpen}
                     closePopover={closePopover}>
 
-                    <ScihubForm />
+                    <ScihubForm form={scihubform}/>
                   </EuiPopover>
               </EuiFormRow>
 
@@ -219,7 +219,7 @@ export default function CollectionForm () {
                 button={button2}
                 isOpen={isPopover2Open}
                 closePopover={closePopover2}>
-                <div><EgeosForm /></div>
+                <div><EgeosForm form={egeosform}/></div>
                </EuiPopover>
 
               <EuiSpacer />
