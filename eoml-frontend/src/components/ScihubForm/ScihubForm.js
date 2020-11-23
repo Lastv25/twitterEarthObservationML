@@ -14,6 +14,7 @@ import {
 } from '@elastic/eui';
 
 import { htmlIdGenerator } from '@elastic/eui/lib/services';
+import moment from 'moment';
 
 
 
@@ -45,10 +46,10 @@ export default function ScihubForm ({form})  {
         form.mission3[0] = !form.mission3[0]
     };
 
-    const [startingestionDate, setStartIngestionDate] = useState(form.ingestion_parameter[1]);
-    const [startsensingDate, setStartSensingDate] = useState(form.sensing_parameter[1]);
-    const [endingestionDate, setEndIngestionDate] = useState(form.ingestion_parameter[2]);
-    const [endsensingDate, setEndSensingDate] = useState(form.sensing_parameter[2]);
+    const [startingestionDate, setStartIngestionDate] = useState(moment(form.ingestion_parameter[1]));
+    const [startsensingDate, setStartSensingDate] = useState(moment(form.sensing_parameter[1]));
+    const [endingestionDate, setEndIngestionDate] = useState(moment(form.ingestion_parameter[2]));
+    const [endsensingDate, setEndSensingDate] = useState(moment(form.sensing_parameter[2]));
 
     const handleChangeIngestionStart = (date) => {
        setStartIngestionDate(date);
