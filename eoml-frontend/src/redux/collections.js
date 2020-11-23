@@ -204,8 +204,8 @@ Actions.fetchCollectionById = ({ collection_id }) => {
 
 Actions.deleteCollectionById = ({ collection_id }) => {
   return apiClient({
-    url: `/collections/me/${collection_id}`,
-    method: `DELETE`,
+    url: `/collections/me/${collection_id}/delete`,
+    method: `POST`,
     types: {
       REQUEST: DELETE_CURRENT_COLLECTION,
       SUCCESS: DELETE_CURRENT_COLLECTION_SUCCESS,
