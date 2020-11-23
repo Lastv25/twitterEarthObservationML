@@ -71,4 +71,7 @@ async def delete_collection_by_id(
     current_user: UserInDB = Depends(get_current_active_user),
     collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository)),
 ) -> int:
-    pass
+    deleted_id = await collection_repo.update_delete_collection_field_by_id(id=collection_id, requesting_user=current_user)
+    if not deleted_id:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No cleaning found with that id.")
+    return deleted_id

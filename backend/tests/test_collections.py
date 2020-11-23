@@ -231,3 +231,28 @@ class TestDeleteCollection:
     ) -> None:
         res = await authorized_client.delete(app.url_path_for("collections:delete-collection-for-user-by-id", collection_id=id))
         assert res.status_code == status_code
+
+
+class TestDeleteCollection:
+    async def test_can_update_delete_collection_field_successfully(
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB
+    ) -> None:
+        res = await authorized_client.post(
+            app.url_path_for("collections:post-delete-collection-for-user-by-id", collection_id=test_collection.id)
+        )
+        assert res.status_code == status.HTTP_200_OK
+    async def test_user_cant_update_other_users_collection(
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection_list: List[CollectionInDB],
+    ) -> None:
+        res = await authorized_client.post(
+            app.url_path_for("collections:post-delete-collection-for-user-by-id", collection_id=test_collection_list[0].id)
+        )
+        assert res.status_code == status.HTTP_403_FORBIDDEN
+    @pytest.mark.parametrize(
+        "id, status_code", ((5000000, 404), (0, 422), (-1, 422), (None, 422)),
+    )
+    async def test_wrong_id_throws_error(
+        self, app: FastAPI, authorized_client: AsyncClient, test_collection: CollectionInDB, id: int, status_code: int
+    ) -> None:
+        res = await authorized_client.post(app.url_path_for("collections:post-delete-collection-for-user-by-id", collection_id=id))
+        assert res.status_code == status_code
