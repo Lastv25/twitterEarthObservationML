@@ -28,18 +28,11 @@ import { Actions as currentcollectionActions } from "../../redux/current_collect
 
 
 function CollectionForm ({isLoading, form, user, collectionError, fetchCollectionById, updateCollection}) {
-//export default function CollectionForm () {
 
-    //const dispatch = useDispatch();
+    const [egeosform, setEgeosForm] = React.useState(null)
+    const [scihubform, setScihubForm] = React.useState(null)
 
-    //const isLoading = useSelector(state => state.coll.isLoading);
-    //const collectionError = useSelector(state => state.coll.error);
-
-    //const form = useSelector(state => state.coll.current_collection);
-
-    //const egeosform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.egeos);
-
-    //const scihubform = useSelector(state => JSON.parse(state.coll.current_collection.parameters).platform.scihub);
+    const [reload, setReload] = React.useState(false)
 
     const { collection_id } = useParams()
     const navigate = useNavigate()
@@ -55,13 +48,22 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
     React.useEffect(() => {
         if (collection_id) {
           fetchCollectionById({ collection_id })
+          setReload(!reload)
         }
       }, [collection_id, fetchCollectionById])
 
 
     if (isLoading) return <EuiLoadingSpinner size="xl" />
-    if (!form) return <EuiLoadingSpinner size="xl" />
-
+    if (!form){
+          return <EuiLoadingSpinner size="xl" />
+     }else if (form) {
+        if (reload){
+          setEgeosForm(JSON.parse(form.parameters).platform.egeos)
+          setScihubForm(JSON.parse(form.parameters).platform.scihub)
+          setIsSwitchChecked2(form.notification)
+          setReload(!reload)
+        }
+     }
 
     const collectionErrorList = extractErrorMessages(collectionError)
 
@@ -203,7 +205,7 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
                     isOpen={isPopoverOpen}
                     closePopover={closePopover}>
 
-                    <ScihubForm />
+                    <ScihubForm form={scihubform}/>
                   </EuiPopover>
               </EuiFormRow>
 
@@ -216,7 +218,7 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
                 button={button2}
                 isOpen={isPopover2Open}
                 closePopover={closePopover2}>
-                <div><EgeosForm/></div>
+                <div><EgeosForm form={egeosform}/></div>
                </EuiPopover>
 
               <EuiSpacer />
@@ -255,7 +257,7 @@ function CollectionForm ({isLoading, form, user, collectionError, fetchCollectio
                 <EuiSwitch
                   name="switch"
                   label="Should we do this?"
-                  checked={isSwitchChecked2}
+                  checked={form.notification}
                   onChange={onSwitchChange2}
                 />
               </EuiFormRow>
