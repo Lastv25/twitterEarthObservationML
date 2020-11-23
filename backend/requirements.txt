@@ -5,6 +5,7 @@ pydantic
 email-validator
 python-multipart
 shapely
+requests
 
 # db
 databases[postgresql]
