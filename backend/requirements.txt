@@ -24,3 +24,4 @@ pytest-xdist
 httpx
 asgi-lifespan
 docker
+psycopg2
