@@ -6,6 +6,7 @@ email-validator
 python-multipart
 shapely
 requests
+beautifulsoup4
 
 # db
 databases[postgresql]
