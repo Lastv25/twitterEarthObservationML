@@ -9,6 +9,7 @@ from typing import List
 import json
 import requests
 import bs4
+import re
 
 router = APIRouter()
 
@@ -40,6 +41,17 @@ def get_scihub_url(json_parameters):
     return res
 
 
+def scihub_html(html_response):
+    soup = bs4.BeautifulSoup(html_response, 'html.parser')
+    body = list(soup.children)[1]
+    text_prod_numbers = body.find_all('subtitle')[0].get_text()
+    products_html = body.find_all('entry')
+    products = []
+    for i in products_html:
+        products.append(str((i.find_all('title')[0].get_text(), i.find_all('link', href=True)[0]['href'])))
+    return [str(re.findall('\d+',text_prod_numbers)[2])]+products
+
+
 @router.get("/products/{collection_id}", response_model=List[str], name="collections:get-products-from-parameter")
 async def get_collections_by_id(
     collection_id: int = Path(..., ge=1),
@@ -49,13 +61,10 @@ async def get_collections_by_id(
     collection = await collection_repo.get_collection_by_id(id=collection_id)
 
     parameters = json.loads(collection.parameters)
-    scihub_parameters = parameters['platform']['scihub']
     egeos_parameters = parameters['platform']['egeos']
 
-    r = requests.get(get_scihub_url(scihub_parameters), auth=('Lastv', 'bonjour_moi'))
+    scihub_parameters = parameters['platform']['scihub']
+    scihub_request = requests.get(get_scihub_url(scihub_parameters), auth=('Lastv', 'bonjour_moi'))
+    scihub_products = scihub_html(scihub_request.content)
 
-    soup = bs4.BeautifulSoup(r.content, 'html.parser')
-    body = list(soup.children)[1]
-    text_prod_numbers = list(body.children)[1]
-
-    return [str(i) for i in body.find_all('entry')]
+    return scihub_products
