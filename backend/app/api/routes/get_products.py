@@ -8,6 +8,7 @@ from starlette.status import HTTP_201_CREATED
 from typing import List
 import json
 import requests
+import bs4
 
 router = APIRouter()
 
@@ -53,6 +54,8 @@ async def get_collections_by_id(
 
     r = requests.get(get_scihub_url(scihub_parameters), auth=('Lastv', 'bonjour_moi'))
 
+    soup = bs4.BeautifulSoup(r.content, 'html.parser')
+    body = list(soup.children)[1]
+    text_prod_numbers = list(body.children)[1]
 
-
-    return [r.text]
+    return [str(i) for i in body.find_all('entry')]
