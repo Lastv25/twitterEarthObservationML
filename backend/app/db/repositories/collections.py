@@ -48,7 +48,7 @@ class CollectionsRepository(BaseRepository):
         created_collection = await self.db.fetch_one(query=CREATE_COLLECTION_FOR_USER_QUERY, values={**collection_create.dict(), "user_id": requesting_user.id})
         return CollectionInDB(**created_collection)
 
-    async def get_collection_by_id(self, *, id: int) -> CollectionInDB:
+    async def get_collection_by_id(self, *, id: int, requesting_user: UserInDB) -> CollectionInDB:
         # the request user parameter is asked for consistency
         collection = await self.db.fetch_one(query=GET_COLLECTION_BY_ID_QUERY, values={"id": id})
         if not collection:
