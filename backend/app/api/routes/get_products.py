@@ -55,10 +55,10 @@ def scihub_html(html_response):
 @router.get("/products/{collection_id}", response_model=List[str], name="collections:get-products-from-parameter")
 async def get_collections_by_id(
     collection_id: int = Path(..., ge=1),
-
+    current_user: UserInDB = Depends(get_current_active_user),
     collection_repo: CollectionsRepository = Depends(get_repository(CollectionsRepository))) -> List[str]:
 
-    collection = await collection_repo.get_collection_by_id(id=collection_id)
+    collection = await collection_repo.get_collection_by_id(id=collection_id, requesting_user=current_user)
 
     parameters = json.loads(collection.parameters)
     egeos_parameters = parameters['platform']['egeos']
