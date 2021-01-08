@@ -8,11 +8,7 @@ export default {
     isLoading: false,
     error: null,
     data: {},
-    current_collection: null
-  },
-  products: {
-    isLoading: false,
-    error: null,
-    data: {}
+    current_collection: null,
+    products: {}
   }
 }
