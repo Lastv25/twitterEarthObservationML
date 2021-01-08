@@ -84,6 +84,8 @@ function CollectionView ({
     const onClickUpdate = () => {
         navigate(`/collection/${collection_id}/update`)
     }
+    const onClickDownloadAll = () => {
+    }
     const onClickDelete = async (e) => {
         console.log("collection_id value when calling Delete button:"+ collection_id)
         const res = await deleteCurrentCollection({ collection_id })
@@ -101,6 +103,15 @@ function CollectionView ({
             fill
             onClick={onClickUpdate}>
             Update
+        </EuiButton>
+      );
+
+    const buttonDownloadAll = (
+        <EuiButton
+            size="s"
+            fill
+            onClick={onClickDownloadAll}>
+            Download All
         </EuiButton>
       );
 
@@ -149,7 +160,7 @@ function CollectionView ({
                                     <li><u>Monitored Disaster:</u> {currentCollection.disaster}</li>
                                     <li><u>Area of Interest:</u> {currentCollection.aoi}</li>
                                     <li><u>Notifications:</u> {notification}</li>
-                                    <li><u>Number of Products:</u></li>
+                                    <li><u>Number of Products:</u> {prodList[0]}</li>
                                 </ul>
                             </EuiText>
                         </EuiPanel>
@@ -159,6 +170,11 @@ function CollectionView ({
                             <EuiFlexGroup>
                                 <EuiFlexItem>
                                     {buttonUpdate}
+                                </EuiFlexItem>
+                            </EuiFlexGroup>
+                            <EuiFlexGroup>
+                                <EuiFlexItem>
+                                    {buttonDownloadAll}
                                 </EuiFlexItem>
                             </EuiFlexGroup>
                             <EuiFlexGroup>
