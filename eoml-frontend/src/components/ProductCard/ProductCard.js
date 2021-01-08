@@ -15,26 +15,29 @@ import {
 import { useNavigate } from "react-router-dom"
 
 
-export default function CollectionCard({product_uuid, link}) {
+export default function CollectionCard({info}) {
 
-  const title = (() => {
-    if (product_uuid) {
-        return product_uuid;
-    } else {
-      return "No UUID Defined";
+  function fromTuple(str) {
+      return str
+        .replace(/\s/g, "")
+        .split("),(")
+        .map(el => [...el.replace(/[\[()\]]/g, '').split(',')]);
+  }
+
+  const openInNewTab = (url) => {
+      const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+      if (newWindow) newWindow.opener = null
     }
-    })();
 
+  const [title, link] =  fromTuple(info)[0];
 
   const navigate = useNavigate()
-  const onClick = () => {
-    }
+  const onClick = () => {openInNewTab(link)}
   return (
     <EuiCard
       display="panel"
       textAlign="left"
       title={title}
-      description='{description}'
       onClick={onClick}
       layout='horizontal'
     />

@@ -69,9 +69,9 @@ function CollectionView ({
     })();
 
     const prod_data = Array.from(prodList)
-    const products_array=prod_data.map((data,id)=>{
-    return <div>
-      <ProductCard product_uuid='data' />
+    const products_array=prod_data.slice(1).map((data,id)=>{
+    return <div key={id}>
+      <ProductCard info={data} />
     </div>
     })
 
