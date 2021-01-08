@@ -169,13 +169,6 @@ function CollectionView ({
                 <EuiFlexGroup>
                     <EuiFlexItem>
                         <EuiPanel>
-                        Download Buttons
-                        </EuiPanel>
-                    </EuiFlexItem>
-                </EuiFlexGroup>
-                <EuiFlexGroup>
-                    <EuiFlexItem>
-                        <EuiPanel>
                         Product List
                         </EuiPanel>
                     </EuiFlexItem>
