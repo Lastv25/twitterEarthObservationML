@@ -24,6 +24,10 @@ export const DELETE_CURRENT_COLLECTION = "@@collections/DELETE_CURRENT_COLLECTIO
 export const DELETE_CURRENT_COLLECTION_SUCCESS = "@@collections/DELETE_CURRENT_COLLECTION_SUCCESS"
 export const DELETE_CURRENT_COLLECTION_FAILURE = "@@collections/DELETE_CURRENT_COLLECTION_FAILURE"
 
+export const FETCH_PRODUCTS = "@@collections/FETCH_PRODUCTS"
+export const FETCH_PRODUCTS_SUCCESS = "@@collections/FETCH_PRODUCTS_SUCCESS"
+export const FETCH_PRODUCTS_FAILURE = "@@collections/FETCH_PRODUCTS_FAILURE"
+
 export default function collectionsReducer(state = initialState.collections, action = {}) {
   switch (action.type) {
     case CREATE_COLLECTION:

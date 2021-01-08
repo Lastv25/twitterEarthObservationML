@@ -21,6 +21,7 @@ import {
 import { connect } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom"
 import { Actions as collectionActions } from "../../redux/collections"
+import { Actions as productActions } from "../../redux/products"
 import { NotFoundPage } from "../../components"
 
 
@@ -28,9 +29,11 @@ function CollectionView ({
       isLoading,
       collectionError,
       currentCollection,
+      prodList,
       fetchCollectionById,
       clearCurrentCollection,
-      deleteCurrentCollection
+      deleteCurrentCollection,
+      fetchProducts
     }) {
 
     const { collection_id } = useParams()
@@ -39,9 +42,9 @@ function CollectionView ({
     React.useEffect(() => {
         if (collection_id) {
           fetchCollectionById({ collection_id })
+          fetchProducts({ collection_id })
         }
-      }, [collection_id, fetchCollectionById, clearCurrentCollection])
-
+      }, [collection_id, fetchCollectionById, fetchProducts, clearCurrentCollection])
 
     if (isLoading) return <EuiLoadingSpinner size="xl" />
     if (!currentCollection) return <EuiLoadingSpinner size="xl" />
@@ -183,11 +186,13 @@ export default connect(
   (state) => ({
     isLoading: state.coll.isLoading,
     collectionError: state.coll.collectionError,
-    currentCollection: state.coll.current_collection
+    currentCollection: state.coll.current_collection,
+    prodList: state.prods.data,
   }),
   {
     fetchCollectionById: collectionActions.fetchCollectionById,
     clearCurrentCollection: collectionActions.clearCurrentCollection,
-    deleteCurrentCollection: collectionActions.deleteCollectionById
+    deleteCurrentCollection: collectionActions.deleteCollectionById,
+    fetchProducts: productActions.fetchProducts
   }
 )(CollectionView)

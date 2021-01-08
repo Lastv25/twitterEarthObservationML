@@ -9,6 +9,10 @@ export default {
     error: null,
     data: {},
     current_collection: null,
-    products: {}
+  },
+  prods: {
+    isLoading: false,
+    error: false,
+    user: {}
   }
 }

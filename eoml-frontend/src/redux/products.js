@@ -6,7 +6,7 @@ export const FETCH_PRODUCTS = "@@collections/FETCH_PRODUCTS"
 export const FETCH_PRODUCTS_SUCCESS = "@@collections/FETCH_PRODUCTS_SUCCESS"
 export const FETCH_PRODUCTS_FAILURE = "@@collections/FETCH_PRODUCTS_FAILURE"
 
-export default function productsReducer(state = initialState.collections, action = {}) {
+export default function productsReducer(state = initialState.prods, action = {}) {
     switch (action.type) {
         case FETCH_PRODUCTS:
           return {
@@ -27,6 +27,8 @@ export default function productsReducer(state = initialState.collections, action
             error: action.error,
             data: {}
           }
+        default:
+            return state
     }
 }
 export const Actions = {}
