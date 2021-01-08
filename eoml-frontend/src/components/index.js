@@ -20,6 +20,7 @@ export { default as CollectionCard } from "./CollectionCard/CollectionCard"
 export { default as CollectionView } from "./CollectionView/CollectionView"
 export { default as UpdateCollectionPage } from "./NewCollectionPage/UpdateCollectionPage"
 export { default as UpdateCollectionForm } from "./CollectionForm/UpdateCollectionForm"
+export { default as ProductCard } from "./ProductCard/ProductCard"
 
 export { default as NewCollectionPage } from "./NewCollectionPage/NewCollectionPage"
 export { default as CollectionForm } from "./CollectionForm/CollectionForm"

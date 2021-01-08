@@ -22,7 +22,7 @@ import { connect } from "react-redux"
 import { useParams, useNavigate } from "react-router-dom"
 import { Actions as collectionActions } from "../../redux/collections"
 import { Actions as productActions } from "../../redux/products"
-import { NotFoundPage } from "../../components"
+import { ProductCard, NotFoundPage } from "../../components"
 
 
 function CollectionView ({
@@ -49,6 +49,7 @@ function CollectionView ({
     if (isLoading) return <EuiLoadingSpinner size="xl" />
     if (!currentCollection) return <EuiLoadingSpinner size="xl" />
 
+    if (!prodList) return <EuiLoadingSpinner size="xl" />
 
 
     const title = (() => {
@@ -66,6 +67,13 @@ function CollectionView ({
               return "Deactivated";
             }
     })();
+
+    const prod_data = Array.from(prodList)
+    const products_array=prod_data.map((data,id)=>{
+    return <div>
+      <ProductCard product_uuid='data' />
+    </div>
+    })
 
     const onClickBack = () => {
         clearCurrentCollection()
@@ -189,6 +197,7 @@ function CollectionView ({
                     <EuiFlexItem>
                         <EuiPanel>
                         Product List
+                            {products_array}
                         </EuiPanel>
                     </EuiFlexItem>
                 </EuiFlexGroup>
