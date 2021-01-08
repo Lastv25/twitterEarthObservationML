@@ -13,8 +13,23 @@ import re
 
 router = APIRouter()
 
+def is_scihub_used(scihub_json):
+    used = False
+    if scihub_json['ingestion_parameter'][0]:
+        used = True
+    elif scihub_json['sensing_parameter'][0]:
+        used = True
+    elif scihub_json['mission1'][0]:
+        used = True
+    elif scihub_json['mission2'][0]:
+        used = True
+    elif scihub_json['mission3'][0]:
+        used = True
+    return used
+
 def get_scihub_url(json_parameters):
     base_url = 'https://scihub.copernicus.eu/dhus/search?q='
+    res = ''
 
     if json_parameters['ingestion_parameter'][0]:
         ingestion_query = 'ingestiondate: [' + str(json_parameters['ingestion_parameter'][1]) + ' TO ' +\
@@ -38,7 +53,10 @@ def get_scihub_url(json_parameters):
             sentinel1_query += ' AND relativeorbitnumber:'+json_parameters['mission1'][5]
         res = base_url + '(' + sentinel1_query + ')'
 
-    return res
+    if len(res) == 0:
+        return base_url
+    else:
+        return res
 
 
 def scihub_html(html_response):
@@ -62,9 +80,11 @@ async def get_collections_by_id(
 
     parameters = json.loads(collection.parameters)
     egeos_parameters = parameters['platform']['egeos']
-
     scihub_parameters = parameters['platform']['scihub']
-    scihub_request = requests.get(get_scihub_url(scihub_parameters), auth=('Lastv', 'bonjour_moi'))
-    scihub_products = scihub_html(scihub_request.content)
 
-    return scihub_products
+    if is_scihub_used(scihub_parameters):
+        scihub_request = requests.get(get_scihub_url(scihub_parameters), auth=('Lastv', 'bonjour_moi'))
+        scihub_products = scihub_html(scihub_request.content)
+        return scihub_products
+    else:
+        return ['(hello, No products were found )']
