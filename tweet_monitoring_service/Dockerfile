@@ -1,6 +1,6 @@
 FROM python:3.8.1-alpine
 
-WORKDIR /backend
+WORKDIR /tweet_monitoring_service
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONBUFFERED 1
