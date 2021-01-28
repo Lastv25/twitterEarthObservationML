@@ -16,4 +16,4 @@ RUN set -eux \
   && pip install -r /tweet_monitoring_service/requirements.txt \
   && rm -rf /root/.cache/pip
 
-COPY . /backend
+COPY . /tweet_monitoring_service
