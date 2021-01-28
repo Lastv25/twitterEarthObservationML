@@ -46,16 +46,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm" />
+      <recent name="$PROJECT_DIR$/eoml-frontend/src/components/NewCollectionPage" />
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/eoml-frontend/src/assets/img" />
       <recent name="$PROJECT_DIR$/eoml-frontend/src/components/App" />
       <recent name="$PROJECT_DIR$/ml_notebooks/disaster_tweet_recognition" />
       <recent name="$PROJECT_DIR$/ml_notebooks/resources" />
-      <recent name="$PROJECT_DIR$/backend" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/eoml-frontend/src/components/CollectionForm" />
-      <recent name="$PROJECT_DIR$/eoml-frontend/src/components/NewCollectionPage" />
       <recent name="$PROJECT_DIR$/backend" />
     </key>
   </component>

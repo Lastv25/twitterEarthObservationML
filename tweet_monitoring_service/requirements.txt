@@ -9,3 +9,8 @@ beautifulsoup4
 # auth
 pyjwt
 passlib[bcrypt]
+
+# db
+databases[postgresql]
+SQLAlchemy
+alembic
