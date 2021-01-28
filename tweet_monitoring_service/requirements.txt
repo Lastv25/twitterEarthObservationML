@@ -1,0 +1,11 @@
+# app
+fastapi
+uvicorn
+pydantic
+python-multipart
+requests
+beautifulsoup4
+
+# auth
+pyjwt
+passlib[bcrypt]

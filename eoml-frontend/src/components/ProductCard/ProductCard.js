@@ -25,6 +25,7 @@ export default function CollectionCard({info}) {
   }
 
   const openInNewTab = (url) => {
+      console.log(url)
       const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
       if (newWindow) newWindow.opener = null
     }
