@@ -14,3 +14,6 @@ passlib[bcrypt]
 databases[postgresql]
 SQLAlchemy
 alembic
+
+#test
+psycopg2
